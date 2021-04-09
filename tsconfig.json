@@ -7,10 +7,13 @@
       "ESNext"
     ],
     "paths": {
-      "~/*": ["./src/*"]
+      "@src/*": [
+        "./src/*"
+      ]
     },
     "types": [
-      "vite/client"
+      "vite/client",
+      "node",
     ],
     "allowJs": false,
     "skipLibCheck": false,
@@ -24,7 +27,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react",
-    "suppressImplicitAnyIndexErrors":true,
+    "suppressImplicitAnyIndexErrors": true,
   },
   "include": [
     "./src",
