@@ -43,7 +43,7 @@ const RegisterForm: React.FC<IProps> = memo(({ toggleState }) => {
             <Form.Item
               name='username'
               rules={UserNameRule}>
-                <Input prefix={<UserOutlined />} placeholder='用户名' />
+                <Input prefix={<UserOutlined />} placeholder='用户名' autoComplete='on' />
             </Form.Item>
             <Form.Item
               name='password'
@@ -51,7 +51,8 @@ const RegisterForm: React.FC<IProps> = memo(({ toggleState }) => {
                 <Input
                   prefix={<LockOutlined />}
                   type='password'
-                  placeholder='密码' />
+                  placeholder='密码'
+                  autoComplete='on' />
             </Form.Item>
             <Form.Item
               name='cpassword'
@@ -60,7 +61,8 @@ const RegisterForm: React.FC<IProps> = memo(({ toggleState }) => {
                 <Input
                   prefix={<LockOutlined />}
                   type='password'
-                  placeholder='重复密码' />
+                  placeholder='重复密码'
+                  autoComplete='on' />
             </Form.Item>
             <Form.Item
               name='code'

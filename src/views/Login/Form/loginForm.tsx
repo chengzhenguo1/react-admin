@@ -27,7 +27,8 @@ const LoginForm: React.FC = memo(() => {
           name='normal_login'
           initialValues={{ remember: true }}
           onFinish={onFinish}
-          onValuesChange={onValuesChange}>
+          onValuesChange={onValuesChange}
+          autoComplete='on'>
             <Form.Item
               name='username'
               rules={UserNameRule}
@@ -40,7 +41,8 @@ const LoginForm: React.FC = memo(() => {
                 <Input
                   prefix={<LockOutlined />}
                   type='password'
-                  placeholder='密码' />
+                  placeholder='密码'
+                  autoComplete='on' />
             </Form.Item>
             <Form.Item
               name='code'

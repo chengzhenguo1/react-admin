@@ -1,4 +1,6 @@
-import React, { memo, useState, useEffect } from 'react'
+import React, {
+ memo, useState, useEffect, useRef, 
+} from 'react'
 import { IDictionary } from '@src/typings/global'
 import { Button, message } from 'antd'
 import authApi from '@src/api/auth'
@@ -36,15 +38,16 @@ const currentState: IDictionary<BtnState> = {
 
 const Captcha: React.FC<IProps> = memo(({ module, username }) => {
     let count = 60
-    let timer: any = null
 
+    const timer = useRef<null | number>(null)
+    
     const [state, setState] = useState(currentState.init)
 
     const [, getSmsFn] = useAsyncFn(authApi.getSms)
 
     /* 清理定时器 */
     useEffect(() => () => {
-        if (timer)clearInterval(timer)
+        if (timer.current)clearInterval(timer.current)
     }, [])
 
     /* 按钮状态 */
@@ -53,7 +56,7 @@ const Captcha: React.FC<IProps> = memo(({ module, username }) => {
             setState(currentState.sending)
             getSmsFn({ username, module }).then((code) => {
                 message.success(code)
-                timer = setInterval(() => {
+                timer.current = window.setInterval(() => {
                     count -= 1
                     setState({
                         info: `${count}${currentState.countDown.info}`,
@@ -61,7 +64,7 @@ const Captcha: React.FC<IProps> = memo(({ module, username }) => {
                     })
 
                     if (count <= 0) {
-                        clearInterval(timer)
+                        clearInterval(Number(timer.current))
                         setState(currentState.Error)
                     }
                 }, 1000)
