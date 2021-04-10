@@ -21,8 +21,9 @@ export default defineConfig({
   },
   /* 跨域转发 */
   server: {
+    open: true,
     proxy: {
-      BASE: {
+      '/api': {
         target: 'http://www.web-jshtml.cn/api/react',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
@@ -31,7 +32,7 @@ export default defineConfig({
   },
   plugins: [
     reactRefresh(),
-     vitePluginImp({
+     /* vitePluginImp({
       // 按需引入
       libList: [
         {
@@ -39,7 +40,7 @@ export default defineConfig({
           style: (name) => `antd/lib/${name}/style/index.less`,
         },
       ],
-    }),
+    }), */
   ],
   css: {
     preprocessorOptions: {

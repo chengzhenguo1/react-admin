@@ -17,20 +17,21 @@ const createInstance = () => {
         responseType: MIME_TYPE.JSON,
     })
 
-    instance.interceptors.response.use(handleResponse, handleError)
+    /*  instance.interceptors.response.use(handleResponse, handleError) */
 
     return instance
 }
 
-const handleResponse = (response: any) => response.data
+/* const handleResponse = (response: any) => response.data
 
 const handleError = (error: any) => {
     const { response, message } = error
     return Promise.reject(response ? new Error(response.data.message || message) : error)
-}
+} */
 
 const toastError = (error: any) => {
     const { response, message } = error
+
     Message.error(response?.data?.message || message)
 
     return Promise.reject(error)
@@ -46,10 +47,10 @@ const request: Instance = createInstance()
 
 /* 响应拦截器 */
 request.interceptors.response.use((res:any):any => {
-    if (res.resCode !== 200) {
-        Message.error(res?.data?.message || '请求错误')
+    if (res?.data?.resCode !== 0) {
+        return Message.error(res?.data?.message || '请求错误')
     }
-    return res
+    return res.data
 }, toastError)
 
 export default request

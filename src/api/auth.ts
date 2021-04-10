@@ -1,15 +1,9 @@
-/*
- * @Author: your name
- * @Date: 2021-04-09 22:46:27
- * @LastEditTime: 2021-04-09 23:54:28
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \react-jira\src\api\auth.ts
- */
 import axios from '@src/utils/request'
-import { User } from './types/auth'
+import { IUser, ICode, IParam } from './types/auth'
 
-type LoginFn = (data: {username: string, password: string, code: string}) => Promise<User>
+type LoginFn = (data: IParam) => Promise<IUser>
+type GetSmsFn = (data: {username: string, module: 'login' | 'register'}) => Promise<ICode>
+type RegisterFn = (data: IParam) => Promise<string>
 
 const login: LoginFn = async (data) => {
     const res = await axios({
@@ -20,6 +14,26 @@ const login: LoginFn = async (data) => {
     return res.data
 }
 
+const register: RegisterFn = async (data) => {
+    const res = await axios({
+        url: '/register/',
+        method: 'POST',
+        data,
+    })
+    return res.message
+}
+
+const getSms: GetSmsFn = async (data) => {
+    const res = await axios({
+        url: '/getSms/',
+        method: 'POST',
+        data,
+    })
+    return res.message
+}
+
 export default {
     login,
+    register,
+    getSms,
 }
