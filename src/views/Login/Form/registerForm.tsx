@@ -48,19 +48,18 @@ const RegisterForm: React.FC<IProps> = memo(({ toggleState }) => {
             <Form.Item
               name='password'
               rules={PassWordRule}>
-                <Input
-                  prefix={<LockOutlined />}
-                  type='password'
-                  placeholder='密码'
-                  autoComplete='on' />
+                  <Input.Password  
+                    prefix={<LockOutlined />}
+                    placeholder='密码'
+                    autoComplete='on' 
+                  />
             </Form.Item>
             <Form.Item
               name='cpassword'
               rules={ConfirmRule}
               dependencies={['password']}>
-                <Input
+                <Input.Password
                   prefix={<LockOutlined />}
-                  type='password'
                   placeholder='重复密码'
                   autoComplete='on' />
             </Form.Item>

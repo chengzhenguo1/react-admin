@@ -38,9 +38,8 @@ const LoginForm: React.FC = memo(() => {
             <Form.Item
               name='password'
               rules={PassWordRule}>
-                <Input
+                <Input.Password
                   prefix={<LockOutlined />}
-                  type='password'
                   placeholder='密码'
                   autoComplete='on' />
             </Form.Item>
