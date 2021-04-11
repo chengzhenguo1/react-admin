@@ -1,12 +1,16 @@
 import React, { memo, useState } from 'react'
 import sha256 from 'crypto-js/sha256'
-import { useAsyncFn } from 'react-use'
+import { useAsyncFn, useKey } from 'react-use'
 
 import { IParam } from '@src/api/types/auth'
 import authApi from '@src/api/auth'
-import { CaptchaRule, ConfirmRule, PassWordRule, UserNameRule } from '@src/constants/validate'
+import {
+ CaptchaRule, ConfirmRule, PassWordRule, UserNameRule, 
+} from '@src/constants/validate'
 
-import { Form, Input, Button, Row, Col, message } from 'antd'
+import {
+ Form, Input, Button, Row, Col, message, 
+} from 'antd'
 import { UserOutlined, LockOutlined, CreditCardOutlined } from '@ant-design/icons'
 import Captcha from '@src/components/Captcha'
 
@@ -23,16 +27,18 @@ const RegisterForm: React.FC<IProps> = memo(({ toggleState }) => {
 
     const [{ loading }, registerFn] = useAsyncFn(authApi.register)
 
-    const onRegister = async(values: IValues) => {
+    const onRegister = async (values: IValues) => {
         const { cpassword, ...user } = { ...values }
 
-        const res = await registerFn({username: user.username,password: sha256(user.password).toString(), code: user.code})
+        const res = await registerFn({ username: user.username, password: sha256(user.password).toString(), code: user.code })
 
-         if(res){
+         if (res) {
           message.success(res.message)
           toggleState()
         }
     }
+
+    useKey('Enter', onRegister as any)
 
     const onValuesChange = (values: any) => {
       if (values?.username) setuserName(values.username)
@@ -52,11 +58,10 @@ const RegisterForm: React.FC<IProps> = memo(({ toggleState }) => {
             <Form.Item
               name='password'
               rules={PassWordRule}>
-                  <Input.Password  
-                    prefix={<LockOutlined />}
-                    placeholder='密码'
-                    autoComplete='on' 
-                  />
+                <Input.Password  
+                  prefix={<LockOutlined />}
+                  placeholder='密码'
+                  autoComplete='on' />
             </Form.Item>
             <Form.Item
               name='cpassword'

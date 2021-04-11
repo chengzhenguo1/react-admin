@@ -1,5 +1,5 @@
 import React, { memo, useState } from 'react'
-import { useAsyncFn } from 'react-use'
+import { useAsyncFn, useKey } from 'react-use'
 import { useHistory } from 'react-router-dom'
 import sha256 from 'crypto-js/sha256'
 
@@ -27,7 +27,9 @@ const LoginForm: React.FC = memo(() => {
       } 
     }
 
-    const onValuesChange = (values:any) => {
+    useKey('Enter', onLogin)
+
+    const onValuesChange = (values: any) => {
       if (values?.username) setuserName(values.username)
     }
     
