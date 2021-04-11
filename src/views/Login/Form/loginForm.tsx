@@ -1,20 +1,20 @@
 import React, { memo, useState } from 'react'
 import { useAsyncFn } from 'react-use'
+import sha256 from 'crypto-js/sha256'
 
-import {
- Form, Input, Button, Row, Col, 
-} from 'antd'
-import { UserOutlined, LockOutlined, CreditCardOutlined } from '@ant-design/icons'
 import { CaptchaRule, PassWordRule, UserNameRule } from '@src/constants/validate'
-import Captcha from '@src/components/Captcha'
 import authApi from '@src/api/auth'
+
+import { Form, Input, Button, Row, Col } from 'antd'
+import { UserOutlined, LockOutlined, CreditCardOutlined } from '@ant-design/icons'
+import Captcha from '@src/components/Captcha'
 
 const LoginForm: React.FC = memo(() => {
     const [userName, setuserName] = useState('')
     const [{ loading }, loginFn] = useAsyncFn(authApi.login)
 
     const onLogin = async(values: any) => {
-       await loginFn({username: values.username,password: values.password,code: values.code})
+       await loginFn({username: values.username,password: sha256(values.password).toString(),code: values.code})
     }
 
     const onValuesChange = (values:any) => {

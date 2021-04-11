@@ -350,6 +350,11 @@
     "@nodelib/fs.scandir" "2.1.4"
     fastq "^1.6.0"
 
+"@types/crypto-js@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.npm.taobao.org/@types/crypto-js/download/@types/crypto-js-4.0.1.tgz?cache=0&sync_timestamp=1613378371421&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fcrypto-js%2Fdownload%2F%40types%2Fcrypto-js-4.0.1.tgz#3a4bd24518b0e6c5940da4e2659eeb2ef0806963"
+  integrity sha1-OkvSRRiw5sWUDaTiZZ7rLvCAaWM=
+
 "@types/history@*":
   version "4.7.8"
   resolved "https://registry.npm.taobao.org/@types/history/download/@types/history-4.7.8.tgz#49348387983075705fe8f4e02fb67f7daaec4934"

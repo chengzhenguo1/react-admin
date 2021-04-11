@@ -1,16 +1,14 @@
 import React, { memo, useState } from 'react'
-
-import {
- Form, Input, Button, Row, Col, message, 
-} from 'antd'
-import { UserOutlined, LockOutlined, CreditCardOutlined } from '@ant-design/icons'
-import {
- CaptchaRule, ConfirmRule, PassWordRule, UserNameRule, 
-} from '@src/constants/validate'
+import sha256 from 'crypto-js/sha256'
 import { useAsyncFn } from 'react-use'
-import authApi from '@src/api/auth'
-import Captcha from '@src/components/Captcha'
+
 import { IParam } from '@src/api/types/auth'
+import authApi from '@src/api/auth'
+import { CaptchaRule, ConfirmRule, PassWordRule, UserNameRule } from '@src/constants/validate'
+
+import { Form, Input, Button, Row, Col, message } from 'antd'
+import { UserOutlined, LockOutlined, CreditCardOutlined } from '@ant-design/icons'
+import Captcha from '@src/components/Captcha'
 
 interface IProps {
   toggleState: ()=> void
@@ -26,9 +24,9 @@ const RegisterForm: React.FC<IProps> = memo(({ toggleState }) => {
     const [{ loading }, registerFn] = useAsyncFn(authApi.register)
 
     const onRegister = async(values: IValues) => {
-        const { cpassword, ...data } = { ...values }
+        const { cpassword, ...user } = { ...values }
 
-        const res = await registerFn({username: data.username,password: data.password, code: data.code})
+        const res = await registerFn({username: user.username,password: sha256(user.password).toString(), code: user.code})
 
          if(res){
           message.success(res.message)
