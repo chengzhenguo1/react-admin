@@ -23,7 +23,7 @@ const LoginForm: React.FC = memo(() => {
       if (data) {
         message.success(mes)
         setToken(data.token)
-        push('/home')
+        push('/dashboard')
       } 
     }
 

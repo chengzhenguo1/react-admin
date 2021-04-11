@@ -2,6 +2,7 @@ import React from 'react'
 import { Switch, Route, HashRouter } from 'react-router-dom'
 
 import LayOut from '@src/components/Layout'
+import NotFount from '@src/components/NotFount'
 import Login from './Login/index'
 import Page from './Page'
 
@@ -12,9 +13,7 @@ function App() {
       <HashRouter>
           <Switch>
               <Route path='/' component={Login} exact />
-              <LayOut>
-                  <Page />
-              </LayOut>
+              <Page />
           </Switch>
       </HashRouter>
   )
