@@ -1,9 +1,9 @@
 import React from 'react'
 import { Switch, Route, HashRouter } from 'react-router-dom'
 
-import Login from './Login/index'
 import LayOut from '@src/components/Layout'
-import Home from './Home'
+import Login from './Login/index'
+import Page from './Page'
 
 import 'antd/dist/antd.css'
 
@@ -13,7 +13,7 @@ function App() {
           <Switch>
               <Route path='/' component={Login} exact />
               <LayOut>
-                 <Route path='/home' component={Home} />
+                  <Page />
               </LayOut>
           </Switch>
       </HashRouter>

@@ -1,7 +1,11 @@
 /* 登录返回数据 */
 export interface IUser{ 
-    username: string
-    token: string
+    message: string
+    data: {
+        username: string
+        token: string
+        role: string
+    }
 }
 
 /* 登录/注册参数列表 */

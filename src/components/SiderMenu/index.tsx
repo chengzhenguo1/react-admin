@@ -1,40 +1,36 @@
 import React, { memo } from 'react'
+import { Link } from 'react-router-dom'
 
 import { Menu } from 'antd'
-import {
-    DesktopOutlined,
-    PieChartOutlined,
-    FileOutlined,
-    TeamOutlined,
-    UserOutlined,
-} from '@ant-design/icons'
 import routes from '@src/router'
 import { RouterConfig } from '@src/router/type'
 
 const { SubMenu } = Menu
 
-const SiderMenu: React.FC = memo(() => {
-  const renderMenu = (route: RouterConfig) => (
-      <Menu.Item key={route.path as React.Key}>
-          {route.title}
-      </Menu.Item>
-  )
+  /* 无极菜单 */
+const renderMenu = ({ path, title }: RouterConfig) => (
+    <Menu.Item key={path as React.Key}>
+        <Link to={path as string}>
+            {title}
+        </Link>
+    </Menu.Item>
+)
 
-  const renderSubMenu = ({ children, path, title }: RouterConfig) => (
-      <SubMenu key={path as React.Key} title={title}>
-          {children?.map((item) => (
-          item.children && item.children.length > 0 ? renderSubMenu(item) : renderMenu(item)
-          ))}
-      </SubMenu>  
-  )
+/* 子级菜单处理 */
+const renderSubMenu = ({ children, path, title }: RouterConfig) => (
+    <SubMenu key={path as React.Key} title={title}>
+        {children?.map((item) => (
+        item.children && item.children.length > 0 ? renderSubMenu(item) : renderMenu(item)
+        ))}
+    </SubMenu>  
+)
 
-  return (
-      <Menu theme='dark' defaultSelectedKeys={['0']} mode='inline'>
-          {routes.map((route) => (
+const SiderMenu: React.FC = memo(() => (
+    <Menu theme='dark' defaultSelectedKeys={['0']} mode='inline'>
+        {routes.map((route) => (
             route.children && route.children.length > 0 ? renderSubMenu(route) : renderMenu(route)
           ))}
-      </Menu>
-)
- })
+    </Menu>
+))
 
 export default SiderMenu

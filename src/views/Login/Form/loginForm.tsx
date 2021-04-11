@@ -5,8 +5,11 @@ import sha256 from 'crypto-js/sha256'
 
 import { CaptchaRule, PassWordRule, UserNameRule } from '@src/constants/validate'
 import authApi from '@src/api/auth'
+import { setToken } from '@src/utils/auth'
 
-import { Form, Input, Button, Row, Col, message } from 'antd'
+import {
+ Form, Input, Button, Row, Col, message, 
+} from 'antd'
 import { UserOutlined, LockOutlined, CreditCardOutlined } from '@ant-design/icons'
 import Captcha from '@src/components/Captcha'
 
@@ -15,10 +18,11 @@ const LoginForm: React.FC = memo(() => {
     const { push } = useHistory()
     const [{ loading }, loginFn] = useAsyncFn(authApi.login)
 
-    const onLogin = async(values: any) => {
-      const res = await loginFn({username: values.username,password: sha256(values.password).toString(),code: values.code})
-      if(res){
-        message.success('登录成功')
+    const onLogin = async (values: any) => {
+      const { data, message: mes } = await loginFn({ username: values.username, password: sha256(values.password).toString(), code: values.code })
+      if (data) {
+        message.success(mes)
+        setToken(data.token)
         push('/home')
       } 
     }

@@ -1,7 +1,9 @@
-import React, { memo, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 
 import './index.less'
 import { IDictionary } from '@src/typings/global'
+import { getToken } from '@src/utils/auth'
+import { useHistory } from 'react-router'
 import LoginForm from './Form/loginForm'
 import RegisterForm from './Form/registerForm'
 
@@ -23,6 +25,15 @@ const FormType: IDictionary<State> = {
 
 const Login: React.FC = memo(() => {
    const [state, setState] = useState(FormType.LOGIN)
+   const { replace } = useHistory()
+
+   useEffect(() => {
+       /* 登录后直接跳转到主页 */
+    const token = getToken()
+    if (token) {
+    replace('/dashboard')
+    }
+   }, [])
 
    const handleToggleState = () => {
     if (state === FormType.LOGIN) {
