@@ -38,7 +38,7 @@ const currentState: IDictionary<BtnState> = {
 
 const Captcha: React.FC<IProps> = memo(({ module, username }) => {
     let count = 60
-
+    
     const timer = useRef<null | number>(null)
     
     const [state, setState] = useState(currentState.init)
@@ -57,6 +57,7 @@ const Captcha: React.FC<IProps> = memo(({ module, username }) => {
             setState(currentState.sending)
             const res =  await getSmsFn({ username, module })
             
+            /* 校验通过，开始倒计时 */
             if(res){
                 message.success(res.message)
                 timer.current = window.setInterval(() => {
@@ -72,6 +73,7 @@ const Captcha: React.FC<IProps> = memo(({ module, username }) => {
                     }
                 }, 1000)
             } else {
+                /* 校验失败，需重新获取验证码 */
                 setState(currentState.Error)
             }
         } else {
