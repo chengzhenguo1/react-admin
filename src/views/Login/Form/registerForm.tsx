@@ -10,24 +10,30 @@ import {
 import { useAsyncFn } from 'react-use'
 import authApi from '@src/api/auth'
 import Captcha from '@src/components/Captcha'
+import { IParam } from '@src/api/types/auth'
 
 interface IProps {
   toggleState: ()=> void
 }
 
+interface IValues extends IParam{
+  cpassword: string
+}
+
 const RegisterForm: React.FC<IProps> = memo(({ toggleState }) => {
-  const [userName, setuserName] = useState('')
+    const [userName, setuserName] = useState('')
 
-  const [, registerFn] = useAsyncFn(authApi.register)
+    const [{ loading }, registerFn] = useAsyncFn(authApi.register)
 
-    const onFinish = (values: any) => {
-        const { cpassword = 0, ...data } = { ...values }
-        registerFn(data).then((mes) => {
-          if (mes) {
-            message.success(mes)
-             toggleState()
-          }
-        })
+    const onRegister = async(values: IValues) => {
+        const { cpassword, ...data } = { ...values }
+
+        const res = await registerFn({username: data.username,password: data.password, code: data.code})
+
+         if(res){
+          message.success(res.message)
+          toggleState()
+        }
     }
 
     const onValuesChange = (values: any) => {
@@ -38,7 +44,7 @@ const RegisterForm: React.FC<IProps> = memo(({ toggleState }) => {
         <Form
           name='normal_login'
           initialValues={{ remember: true }}
-          onFinish={onFinish}
+          onFinish={onRegister}
           onValuesChange={onValuesChange}>
             <Form.Item
               name='username'
@@ -79,7 +85,7 @@ const RegisterForm: React.FC<IProps> = memo(({ toggleState }) => {
                 </Row>
             </Form.Item>
             <Form.Item>
-                <Button type='primary' htmlType='submit' block>
+                <Button type='primary' htmlType='submit' block loading={loading}>
                     注册
                 </Button>
             </Form.Item>

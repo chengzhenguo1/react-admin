@@ -1,35 +1,32 @@
 import axios from '@src/utils/request'
-import { IUser, ICode, IParam } from './types/auth'
+import { IUser, IParam } from './types/auth'
 
 type LoginFn = (data: IParam) => Promise<IUser>
-type GetSmsFn = (data: {username: string, module: 'login' | 'register'}) => Promise<ICode>
-type RegisterFn = (data: IParam) => Promise<string>
+type GetSmsFn = (data: {username: string, module: 'login' | 'register'}) => Promise<{message: string}>
+type RegisterFn = (data: IParam) => Promise<{message: string}>
 
-const login: LoginFn = async (data) => {
-    const res = await axios({
+const login: LoginFn =  (data) => {
+    return axios({
         url: '/login/',
         method: 'POST',
         data,
     })
-    return res.data
 }
 
-const register: RegisterFn = async (data) => {
-    const res = await axios({
+const register: RegisterFn = (data) => {
+    return axios({
         url: '/register/',
         method: 'POST',
         data,
     })
-    return res.message
 }
 
-const getSms: GetSmsFn = async (data) => {
-    const res = await axios({
+const getSms: GetSmsFn =  (data) => {
+    return axios({
         url: '/getSms/',
         method: 'POST',
         data,
     })
-    return res.message
 }
 
 export default {

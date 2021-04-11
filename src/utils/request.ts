@@ -16,18 +16,8 @@ const createInstance = () => {
         timeout: TIMEOUT,
         responseType: MIME_TYPE.JSON,
     })
-
-    /*  instance.interceptors.response.use(handleResponse, handleError) */
-
     return instance
 }
-
-/* const handleResponse = (response: any) => response.data
-
-const handleError = (error: any) => {
-    const { response, message } = error
-    return Promise.reject(response ? new Error(response.data.message || message) : error)
-} */
 
 const toastError = (error: any) => {
     const { response, message } = error
@@ -48,8 +38,10 @@ const request: Instance = createInstance()
 /* 响应拦截器 */
 request.interceptors.response.use((res:any):any => {
     if (res?.data?.resCode !== 0) {
-        return Message.error(res?.data?.message || '请求错误')
+        Message.error(res?.data?.message || '网络错误')
+        return Promise.reject()
     }
+    
     return res.data
 }, toastError)
 

@@ -867,6 +867,11 @@ cross-spawn@^7.0.2:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
+crypto-js@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.npm.taobao.org/crypto-js/download/crypto-js-4.0.0.tgz#2904ab2677a9d042856a2ea2ef80de92e4a36dcc"
+  integrity sha1-KQSrJnep0EKFai6i74DekuSjbcw=
+
 css-in-js-utils@^2.0.0:
   version "2.0.1"
   resolved "https://registry.npm.taobao.org/css-in-js-utils/download/css-in-js-utils-2.0.1.tgz"

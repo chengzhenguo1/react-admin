@@ -11,11 +11,10 @@ import authApi from '@src/api/auth'
 
 const LoginForm: React.FC = memo(() => {
     const [userName, setuserName] = useState('')
-    const [, loginFn] = useAsyncFn(authApi.login)
+    const [{ loading }, loginFn] = useAsyncFn(authApi.login)
 
-    const onFinish = (values: any) => {
-        console.log('Received values of form: ', values)
-        loginFn(values)
+    const onLogin = async(values: any) => {
+       await loginFn({username: values.username,password: values.password,code: values.code})
     }
 
     const onValuesChange = (values:any) => {
@@ -26,7 +25,7 @@ const LoginForm: React.FC = memo(() => {
         <Form
           name='normal_login'
           initialValues={{ remember: true }}
-          onFinish={onFinish}
+          onFinish={onLogin}
           onValuesChange={onValuesChange}
           autoComplete='on'>
             <Form.Item
@@ -59,7 +58,7 @@ const LoginForm: React.FC = memo(() => {
                 </Row>
             </Form.Item>
             <Form.Item>
-                <Button type='primary' htmlType='submit' block>
+                <Button type='primary' htmlType='submit' block loading={loading}>
                     登录
                 </Button>
             </Form.Item>

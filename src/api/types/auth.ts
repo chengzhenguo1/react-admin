@@ -3,10 +3,6 @@ export interface IUser{
     token: string
 }
 
-export interface ICode {
-    code: number
-}
-
 export interface IParam {
     username: string
     password: string

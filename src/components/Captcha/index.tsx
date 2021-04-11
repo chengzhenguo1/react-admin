@@ -51,11 +51,14 @@ const Captcha: React.FC<IProps> = memo(({ module, username }) => {
     }, [])
 
     /* 按钮状态 */
-    const handleGetCaptcha = () => {
+    const handleGetCaptcha = async () => {
         if (username && EMAILREG.test(username)) {
+
             setState(currentState.sending)
-            getSmsFn({ username, module }).then((code) => {
-                message.success(code)
+            const res =  await getSmsFn({ username, module })
+            
+            if(res){
+                message.success(res.message)
                 timer.current = window.setInterval(() => {
                     count -= 1
                     setState({
@@ -68,7 +71,9 @@ const Captcha: React.FC<IProps> = memo(({ module, username }) => {
                         setState(currentState.Error)
                     }
                 }, 1000)
-           })
+            } else {
+                setState(currentState.Error)
+            }
         } else {
             message.error('请输入合法的用户名!')
         }
