@@ -49,16 +49,15 @@ const Captcha: React.FC<IProps> = memo(({ module, username }) => {
     useEffect(() => () => {
         if (timer.current)clearInterval(timer.current)
     }, [])
-
+    
     /* 按钮状态 */
     const handleGetCaptcha = async () => {
         if (username && EMAILREG.test(username)) {
-
             setState(currentState.sending)
-            const res =  await getSmsFn({ username, module })
+            const res = await getSmsFn({ username, module })
             
             /* 校验通过，开始倒计时 */
-            if(res){
+            if (res) {
                 message.success(res.message)
                 timer.current = window.setInterval(() => {
                     count -= 1
