@@ -1,5 +1,7 @@
 import { FC } from 'react'
-import { filterRoutes } from '@src/constants/config'
+
+/* 不需要批量引入的路由 */
+const filterRoutes: string[] = ['Login', 'App']
 
 /* 动态批量引入路由 */
 const renderDynamicImport = (modules : Record<string, {[key: string]: any}>) => 

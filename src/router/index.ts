@@ -1,5 +1,9 @@
 import { RouterConfig } from './type'
 
+/* 
+    roles: ['admin', 'user']   权限校验 将控制页面角色（允许设置多个角色）
+*/
+
 const menuRouters: RouterConfig[] = [
     {
         path: '/dashboard',
@@ -105,6 +109,7 @@ const menuRouters: RouterConfig[] = [
     {
         path: '/askforleave',
         title: '请假',
+        roles: ['admin', 'user'],
         exact: true,
     },
     {
