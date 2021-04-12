@@ -67,7 +67,7 @@ const menuRouters: RouterConfig[] = [
                 title: '公告列表',
             },
             {
-                path: 'announcement/add',
+                path: '/announcement/add',
                 title: '新增公告',
             },
         ],
