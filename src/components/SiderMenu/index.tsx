@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react'
+import React, { memo } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 import { Menu } from 'antd'
@@ -9,17 +9,17 @@ import { filterPath } from '@src/utils/filter'
 const { SubMenu } = Menu
 
   /* 无极菜单 */
-const renderMenu = ({ path, title }: RouterConfig) => (
+const renderMenu = ({ path, meta }: RouterConfig) => (
     <Menu.Item key={path as React.Key}>
         <Link to={path as string}>
-            {title}
+            {meta.title}
         </Link>
     </Menu.Item>
 )
 
 /* 子级菜单处理 */
-const renderSubMenu = ({ children, path, title }: RouterConfig) => (
-    <SubMenu key={path as React.Key} title={title}>
+const renderSubMenu = ({ children, path, meta }: RouterConfig) => (
+    <SubMenu key={path as React.Key} title={meta.title}>
         {children?.map((item) => (
         item.children && item.children.length > 0 ? renderSubMenu(item) : renderMenu(item)
         ))}
