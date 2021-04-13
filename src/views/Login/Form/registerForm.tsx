@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react'
+import React, { memo, useCallback } from 'react'
 import sha256 from 'crypto-js/sha256'
 import { useAsyncFn, useKey } from 'react-use'
 
@@ -18,38 +18,34 @@ interface IProps {
   toggleState: ()=> void
 }
 
-interface IValues extends IParam{
+interface FormProp extends IParam{
   cpassword: string
 }
 
 const RegisterForm: React.FC<IProps> = memo(({ toggleState }) => {
-    const [userName, setuserName] = useState('')
-
     const [{ loading }, registerFn] = useAsyncFn(authApi.register)
+    const [form] = Form.useForm()
 
-    const onRegister = async (values: IValues) => {
-        const { cpassword, ...user } = { ...values }
+    const onRegister = useCallback(
+      () => {
+        form.validateFields().then((res) => {
+          const values = res as FormProp
+          const { cpassword, ...user } = { ...values }
+          registerFn({ username: user.username, password: sha256(user.password).toString(), code: user.code }).then((data) => {
+            message.success(data.message)
+            toggleState()
+          })
+        })
+      },
+      [],
+    )
 
-        const res = await registerFn({ username: user.username, password: sha256(user.password).toString(), code: user.code })
-
-         if (res) {
-          message.success(res.message)
-          toggleState()
-        }
-    }
-
-    useKey('Enter', onRegister as any)
-
-    const onValuesChange = (values: any) => {
-      if (values?.username) setuserName(values.username)
-    }
+    useKey('Enter', onRegister)
 
     return (
         <Form
-          name='normal_login'
-          initialValues={{ remember: true }}
-          onFinish={onRegister}
-          onValuesChange={onValuesChange}>
+          form={form}
+          onFinish={onRegister}>
             <Form.Item
               name='username'
               rules={UserNameRule}>
@@ -60,8 +56,7 @@ const RegisterForm: React.FC<IProps> = memo(({ toggleState }) => {
               rules={PassWordRule}>
                 <Input.Password  
                   prefix={<LockOutlined />}
-                  placeholder='密码'
-                  autoComplete='on' />
+                  placeholder='密码' />
             </Form.Item>
             <Form.Item
               name='cpassword'
@@ -69,8 +64,7 @@ const RegisterForm: React.FC<IProps> = memo(({ toggleState }) => {
               dependencies={['password']}>
                 <Input.Password
                   prefix={<LockOutlined />}
-                  placeholder='重复密码'
-                  autoComplete='on' />
+                  placeholder='重复密码' />
             </Form.Item>
             <Form.Item
               name='code'
@@ -83,7 +77,7 @@ const RegisterForm: React.FC<IProps> = memo(({ toggleState }) => {
                           placeholder='验证码' />
                     </Col>
                     <Col span='9'>
-                        <Captcha module='register' username={userName} />
+                        <Captcha module='register' form={form} />
                     </Col>
                 </Row>
             </Form.Item>

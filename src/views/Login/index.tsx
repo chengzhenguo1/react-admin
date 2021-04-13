@@ -1,11 +1,10 @@
 import React, { memo, useEffect, useState } from 'react'
-
-import './index.less'
+import { useHistory } from 'react-router'
 import { IDictionary } from '@src/typings/global'
 import { getToken } from '@src/utils/auth'
-import { useHistory } from 'react-router'
 import LoginForm from './Form/loginForm'
 import RegisterForm from './Form/registerForm'
+import './index.less'
 
 interface State {
     title: string
@@ -29,10 +28,10 @@ const Login: React.FC = memo(() => {
 
    useEffect(() => {
        /* 登录后直接跳转到主页 */
-    const token = getToken()
-    if (token) {
-    replace('/dashboard')
-    }
+        const token = getToken()
+        if (token) {
+            replace('/dashboard')
+        }
    }, [])
 
    const handleToggleState = () => {

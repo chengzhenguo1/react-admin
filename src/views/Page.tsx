@@ -1,6 +1,5 @@
 import React, { memo } from 'react'
 import { Switch } from 'react-router-dom'
-
 import PrivateRoute from '@src/components/PrivateRoute'
 import LayOut from '@src/components/Layout'
 import NotFount from '@src/components/NotFount'

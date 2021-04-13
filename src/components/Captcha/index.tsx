@@ -2,14 +2,14 @@ import React, {
  memo, useState, useEffect, useRef, 
 } from 'react'
 import { IDictionary } from '@src/typings/global'
-import { Button, message } from 'antd'
+import { Button, FormInstance, message } from 'antd'
 import authApi from '@src/api/auth'
-import { useAsyncFn } from 'react-use'
-import { EMAILREG } from '@src/constants/validate'
+import { useAsyncFn, useCounter } from 'react-use'
 
+const COUNT_STATIC = 60
 interface IProps {
     module: 'login' | 'register'
-    username: string
+    form: FormInstance
 }
 
 interface BtnState {
@@ -36,13 +36,10 @@ const currentState: IDictionary<BtnState> = {
     },
 }
 
-const Captcha: React.FC<IProps> = memo(({ module, username }) => {
-    let count = 60
-    
-    const timer = useRef<null | number>(null)
-    
+const Captcha: React.FC<IProps> = memo(({ module, form }) => {
     const [state, setState] = useState(currentState.init)
-
+    const [, { get, set, reset }] = useCounter(COUNT_STATIC)
+    const timer = useRef<null | number>(null)
     const [, getSmsFn] = useAsyncFn(authApi.getSms)
 
     /* 清理定时器 */
@@ -52,32 +49,30 @@ const Captcha: React.FC<IProps> = memo(({ module, username }) => {
     
     /* 按钮状态 */
     const handleGetCaptcha = async () => {
-        if (username && EMAILREG.test(username)) {
-            setState(currentState.sending)
-            const res = await getSmsFn({ username, module })
-            
-            /* 校验通过，开始倒计时 */
-            if (res) {
-                message.success(res.message)
-                timer.current = window.setInterval(() => {
-                    count -= 1
-                    setState({
-                        info: `${count}${currentState.countDown.info}`,
-                        state: currentState.countDown.state,
-                    })
-
-                    if (count <= 0) {
-                        clearInterval(Number(timer.current))
-                        setState(currentState.Error)
-                    }
-                }, 1000)
-            } else {
-                /* 校验失败，需重新获取验证码 */
-                setState(currentState.Error)
-            }
-        } else {
-            message.error('请输入合法的用户名!')
-        }
+        form.validateFields(['username']).then((res) => {
+                setState(currentState.sending)
+                getSmsFn({ username: res.username, module }).then((data) => {
+                    /* 校验通过，开始倒计时 */
+                    message.success(data.message)
+                    timer.current = window.setInterval(() => {
+                        set((value) => value - 1)
+                        setState({
+                            info: `${get()}${currentState.countDown.info}`,
+                            state: currentState.countDown.state,
+                        })
+    
+                        if (get() <= 0) {
+                            clearInterval(Number(timer.current))
+                            setState(currentState.Error)
+                            reset()
+                        }
+                    }, 1000)
+                }).catch(() => {
+                    /* 校验失败，需重新获取验证码 */
+                    setState(currentState.Error)
+                    reset()
+                })
+        })
     }
 
     return (

@@ -5,7 +5,7 @@ import { Roles } from '@src/router/type'
 import { getToken } from '@src/utils/auth'
 
 interface IProps extends RouteProps{
-    component: any
+    component: React.FC<any>
 }
 
 const checkAuth = (roles?: Roles[], auth?: Roles) => {
