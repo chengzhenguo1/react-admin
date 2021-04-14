@@ -4,6 +4,7 @@ import PrivateRoute from '@src/components/PrivateRoute'
 import LayOut from '@src/components/Layout'
 import NotFount from '@src/components/NotFount'
 import prase from '@src/utils/prase'
+import '@src/styles/global.less'
 
 const modules = import.meta.globEager('./**/*.tsx')
 

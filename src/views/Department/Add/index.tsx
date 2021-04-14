@@ -1,6 +1,6 @@
-import React, { memo, useCallback } from 'react'
+import React, { memo, useCallback, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import { useAsyncFn } from 'react-use'
-import { AddDepartmentProps } from '@src/api/types/department'
 import departmentApi from '@src/api/department'
 import {
     Button,
@@ -12,14 +12,27 @@ import {
 } from 'antd'
 
 const DepartmentAdd: React.FC = memo(() => {
+    const [{ loading }, addOrEditDepartmentFn] = useAsyncFn(departmentApi.addOrEditDepartment)
+    const [, getDepartmentDetailedFn] = useAsyncFn(departmentApi.getDepartmentDetailed)
+    const { state } = useLocation<{id: string}>()
     const [form] = Form.useForm()
-    const [{ loading }, addDepartmentFn] = useAsyncFn(departmentApi.addDepartment)
-    
-    const onHandleAddDartmentAdd = useCallback(
+
+    /* 部门列表跳转判断是否有id */
+    useEffect(() => {
+        if (state?.id) {
+            getDepartmentDetailedFn(state.id).then((res) => {
+                form.setFieldsValue(res)
+            })
+        }
+    }, [])
+
+    /* 编辑或者删除 */
+    const onHandleDartmentAddOrEdit = useCallback(
         () => {
           form.validateFields().then((res) => {
-              const values = res as AddDepartmentProps
-              addDepartmentFn(values).then((data) => {
+              const id = state?.id ? state.id : undefined
+              const values = { id, ...res }
+              addOrEditDepartmentFn(values).then((data) => {
                   message.success(data.message)
               })
           })
@@ -30,7 +43,7 @@ const DepartmentAdd: React.FC = memo(() => {
     return (
         <Form
           form={form}
-          onFinish={onHandleAddDartmentAdd}
+          onFinish={onHandleDartmentAddOrEdit}
           labelCol={{ span: 2 }}
           wrapperCol={{ span: 20 }}
           labelAlign='left'

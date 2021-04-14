@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
-import { PaginationProps, Table } from 'antd'
+import { PaginationProps, Table, TableProps } from 'antd'
  
-interface IProps<T> {
+interface IProps<T> extends TableProps<T>{
     // eslint-disable-next-line react/require-default-props
     data?: T[]
     // eslint-disable-next-line react/require-default-props
     total?: number
-    loading: boolean
     children: React.ReactNode
-    onChange: (value: PaginationProps)=>void
+    onChange: (pageParams: PaginationProps)=>void
 }
 
 function BasisTable<T extends {id: string | number}>(props: IProps<T>) {
@@ -21,8 +20,9 @@ function BasisTable<T extends {id: string | number}>(props: IProps<T>) {
         showSizeChanger: true,
     })
 
-    const onTableChange = (page: PaginationProps) => {
-        console.log(page)
+    const onTableChange = (pageParams: PaginationProps) => {
+        setPagination(pageParams)
+        onChange(pageParams)
     }
 
     return (
