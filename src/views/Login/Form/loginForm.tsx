@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import sha256 from 'crypto-js/sha256'
 import { CaptchaRule, PassWordRule, UserNameRule } from '@src/constants/validate'
 import authApi from '@src/api/auth'
-import { setToken } from '@src/utils/auth'
+import { setToken, setUser } from '@src/utils/auth'
 import {
  Form, Input, Button, Row, Col, message, 
 } from 'antd'
@@ -21,14 +21,14 @@ const LoginForm: React.FC = memo(() => {
 
     const onLogin = useCallback(
       () => {
-        form.validateFields().then(async (res) => {
+        form.validateFields().then((res) => {
           const values = res as FormProp
-          const { data, message: mes } = await loginFn({ username: values.username, password: sha256(values.password).toString(), code: values.code })
-          if (data) {
+          loginFn({ username: values.username, password: sha256(values.password).toString(), code: values.code }).then(({ data, message: mes }) => {
             message.success(mes)
             setToken(data.token)
+            setUser(data.username)
             push('/dashboard')
-          } 
+          })
         })
       },
       [],

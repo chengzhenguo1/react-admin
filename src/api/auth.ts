@@ -1,5 +1,5 @@
 import axios from '@src/utils/request'
-import { IUser, IParam } from './types/auth'
+import type { IUser, IParam } from './types/auth'
 
 type LoginFn = (data: IParam) => Promise<IUser>
 type GetSmsFn = (data: {username: string, module: 'login' | 'register'}) => Promise<{message: string}>

@@ -1,9 +1,11 @@
+import React from 'react'
 import { RouterConfig } from './type'
 
 const menuRouters: RouterConfig[] = [
     {
         path: '/dashboard',
         exact: true,
+        component: React.lazy(() => import('../views/Dashboard')),
         meta: {
             title: '控制台',
         },
@@ -13,15 +15,18 @@ const menuRouters: RouterConfig[] = [
         meta: {
             title: '用户管理',
         },
+        redirect: '/user/add',
         children: [
             {
                 path: '/user/add',
+                component: React.lazy(() => import('../views/User/Add')),
                 meta: {
                     title: '用户添加',
                 },
             },
             {
                 path: '/user/delete',
+                component: React.lazy(() => import('../views/User/Delete')),
                 meta: {
                     title: '用户删除',
                 },
@@ -30,6 +35,7 @@ const menuRouters: RouterConfig[] = [
     },
     {
         path: '/department',
+        redirect: '/department/list',
         meta: {
             title: '部门管理',
         },
@@ -39,17 +45,20 @@ const menuRouters: RouterConfig[] = [
                 meta: {
                     title: '部门列表',
                 },
+                component: React.lazy(() => import('../views/Department/List')),
             },
             {
-                path: '/department/delete',
+                path: '/department/add',
                 meta: {
                     title: '添加部门',
                 },
+                component: React.lazy(() => import('../views/Department/Add')),
             },
         ],
     },
     {
         path: '/job',
+        redirect: '/job/list',
         meta: {
             title: '职位管理',
         },
@@ -70,6 +79,7 @@ const menuRouters: RouterConfig[] = [
     },
     {
         path: '/worker',
+        redirect: '/worker/list',
         meta: {
             title: '员工管理',
         },
@@ -84,6 +94,7 @@ const menuRouters: RouterConfig[] = [
     },
     {
         path: '/announcement',
+        redirect: '/announcement/list',
         meta: {
             title: '公告管理',
         },
@@ -107,6 +118,7 @@ const menuRouters: RouterConfig[] = [
         meta: {
             title: '嵌套路由A',
         },
+        redirect: '/a/a',
         children: [
             {
                 path: '/a/a',

@@ -4,6 +4,7 @@ import React, { memo } from 'react'
 interface IProps {
     roles?: Roles[]
     component: any
+    noMatch?: React.ReactNode | null // 不匹配后的结果
 }
 
 const checkAuth = (roles?: Roles[], auth?: Roles) => {
@@ -14,10 +15,10 @@ const checkAuth = (roles?: Roles[], auth?: Roles) => {
     return !!roles.includes(auth as never)
 }
 
-const AuthWrapper: React.FC<IProps> = memo(({ roles, component: Component }) => {
+const AuthWrapper: React.FC<IProps> = memo(({ roles, component: Component, noMatch = null }) => {
    const user = 'admin'
    return (
-         checkAuth(roles, user) ? Component : null
+         checkAuth(roles, user) ? Component : noMatch
     )
  })
 
