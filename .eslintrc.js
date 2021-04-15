@@ -3,7 +3,7 @@ module.exports = {
     browser: true,
     es2020: true,
   },
-  extends: ['eslint:recommended', 'plugin:react/recommended', 'plugin:@typescript-eslint/recommended', 'airbnb'],
+  extends: ['eslint:recommended', 'plugin:react/recommended', 'plugin:@typescript-eslint/recommended', 'airbnb', 'plugin:react-hooks/recommended'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
@@ -12,7 +12,7 @@ module.exports = {
     ecmaVersion: 11,
     sourceType: 'module',
   },
-  plugins: ['react', '@typescript-eslint'],
+  plugins: ['react', 'react-hooks', '@typescript-eslint'],
   rules: {
     'max-len': ['error', 150, 2], // 一行的字符不能超过100
 
@@ -68,6 +68,11 @@ module.exports = {
     'import/no-unresolved': 0,
 
     'react/prop-types': 'off',
+
+    /* 配置hooks的eslint */
+    /* 'react-hooks/rule-of-hooks': 'error',
+
+    'react-hooks/exhaustive-deps': 'warn', */
 
     'react/jsx-indent': ['error', 4],
     // jsx > 紧跟着属性

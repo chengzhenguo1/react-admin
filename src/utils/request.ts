@@ -2,6 +2,7 @@ import axios, { AxiosRequestConfig, ResponseType, AxiosInstance } from 'axios'
 import { message as Message } from 'antd'
 import { IDictionary } from '@src/typings/global'
 import { BASE } from '@src/constants/server'
+import { getToken, getUser } from './auth'
 
 const TIMEOUT = 40000
 
@@ -16,18 +17,8 @@ const createInstance = () => {
         timeout: TIMEOUT,
         responseType: MIME_TYPE.JSON,
     })
-
-    /*  instance.interceptors.response.use(handleResponse, handleError) */
-
     return instance
 }
-
-/* const handleResponse = (response: any) => response.data
-
-const handleError = (error: any) => {
-    const { response, message } = error
-    return Promise.reject(response ? new Error(response.data.message || message) : error)
-} */
 
 const toastError = (error: any) => {
     const { response, message } = error
@@ -45,11 +36,20 @@ export const requestWithoutErrorToast: Instance = createInstance()
 
 const request: Instance = createInstance()
 
+/* 请求拦截器 */
+request.interceptors.request.use((config) => {
+    config.headers.Token = getToken()
+    config.headers.Username = getUser()
+    return config
+}, toastError)
+
 /* 响应拦截器 */
 request.interceptors.response.use((res:any):any => {
     if (res?.data?.resCode !== 0) {
-        return Message.error(res?.data?.message || '请求错误')
+        Message.error(res?.data?.message || '网络错误')
+        return Promise.reject()
     }
+    
     return res.data
 }, toastError)
 

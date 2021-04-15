@@ -1,65 +1,69 @@
-import React, { memo, useState } from 'react'
+import React, { memo, useCallback } from 'react'
+import sha256 from 'crypto-js/sha256'
+import { useAsyncFn, useKey } from 'react-use'
+
+import { IParam } from '@src/api/types/auth'
+import authApi from '@src/api/auth'
+import {
+ CaptchaRule, ConfirmRule, PassWordRule, UserNameRule, 
+} from '@src/constants/validate'
 
 import {
  Form, Input, Button, Row, Col, message, 
 } from 'antd'
 import { UserOutlined, LockOutlined, CreditCardOutlined } from '@ant-design/icons'
-import {
- CaptchaRule, ConfirmRule, PassWordRule, UserNameRule, 
-} from '@src/constants/validate'
-import { useAsyncFn } from 'react-use'
-import authApi from '@src/api/auth'
 import Captcha from '@src/components/Captcha'
 
 interface IProps {
   toggleState: ()=> void
 }
 
+interface FormProp extends IParam{
+  cpassword: string
+}
+
 const RegisterForm: React.FC<IProps> = memo(({ toggleState }) => {
-  const [userName, setuserName] = useState('')
+    const [{ loading }, registerFn] = useAsyncFn(authApi.register)
+    const [form] = Form.useForm()
 
-  const [, registerFn] = useAsyncFn(authApi.register)
-
-    const onFinish = (values: any) => {
-        const { cpassword = 0, ...data } = { ...values }
-        registerFn(data).then((mes) => {
-          if (mes) {
-            message.success(mes)
-             toggleState()
-          }
+    const onRegister = useCallback(
+      () => {
+        form.validateFields().then((res) => {
+          const values = res as FormProp
+          const { cpassword, ...user } = { ...values }
+          registerFn({ username: user.username, password: sha256(user.password).toString(), code: user.code }).then((data) => {
+            message.success(data.message)
+            toggleState()
+          })
         })
-    }
+      },
+      [],
+    )
 
-    const onValuesChange = (values: any) => {
-      if (values?.username) setuserName(values.username)
-    }
+    useKey('Enter', onRegister)
 
     return (
         <Form
-          name='normal_login'
-          initialValues={{ remember: true }}
-          onFinish={onFinish}
-          onValuesChange={onValuesChange}>
+          form={form}
+          onFinish={onRegister}>
             <Form.Item
               name='username'
               rules={UserNameRule}>
-                <Input prefix={<UserOutlined />} placeholder='用户名' />
+                <Input prefix={<UserOutlined />} placeholder='用户名' autoComplete='on' />
             </Form.Item>
             <Form.Item
               name='password'
               rules={PassWordRule}>
-                <Input
+                <Input.Password  
                   prefix={<LockOutlined />}
-                  type='password'
                   placeholder='密码' />
             </Form.Item>
             <Form.Item
               name='cpassword'
               rules={ConfirmRule}
               dependencies={['password']}>
-                <Input
+                <Input.Password
                   prefix={<LockOutlined />}
-                  type='password'
                   placeholder='重复密码' />
             </Form.Item>
             <Form.Item
@@ -73,12 +77,12 @@ const RegisterForm: React.FC<IProps> = memo(({ toggleState }) => {
                           placeholder='验证码' />
                     </Col>
                     <Col span='9'>
-                        <Captcha module='register' username={userName} />
+                        <Captcha module='register' form={form} />
                     </Col>
                 </Row>
             </Form.Item>
             <Form.Item>
-                <Button type='primary' htmlType='submit' block>
+                <Button type='primary' htmlType='submit' block loading={loading}>
                     注册
                 </Button>
             </Form.Item>

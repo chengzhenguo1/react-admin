@@ -1,12 +1,14 @@
+/* 登录返回数据 */
 export interface IUser{ 
-    username: string
-    token: string
+    message: string
+    data: {
+        username: string
+        token: string
+        role: string
+    }
 }
 
-export interface ICode {
-    code: number
-}
-
+/* 登录/注册参数列表 */
 export interface IParam {
     username: string
     password: string

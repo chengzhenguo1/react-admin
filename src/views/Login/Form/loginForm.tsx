@@ -1,45 +1,56 @@
-import React, { memo, useState } from 'react'
-import { useAsyncFn } from 'react-use'
-
+import React, { memo, useCallback } from 'react'
+import { useAsyncFn, useKey } from 'react-use'
+import { useHistory } from 'react-router-dom'
+import sha256 from 'crypto-js/sha256'
+import { CaptchaRule, PassWordRule, UserNameRule } from '@src/constants/validate'
+import authApi from '@src/api/auth'
+import { setToken, setUser } from '@src/utils/auth'
 import {
- Form, Input, Button, Row, Col, 
+ Form, Input, Button, Row, Col, message, 
 } from 'antd'
 import { UserOutlined, LockOutlined, CreditCardOutlined } from '@ant-design/icons'
-import { CaptchaRule, PassWordRule, UserNameRule } from '@src/constants/validate'
 import Captcha from '@src/components/Captcha'
-import authApi from '@src/api/auth'
+import { IParam } from '@src/api/types/auth'
+
+type FormProp = IParam
 
 const LoginForm: React.FC = memo(() => {
-    const [userName, setuserName] = useState('')
-    const [, loginFn] = useAsyncFn(authApi.login)
+    const { push } = useHistory()
+    const [{ loading }, loginFn] = useAsyncFn(authApi.login)
+    const [form] = Form.useForm()
 
-    const onFinish = (values: any) => {
-        console.log('Received values of form: ', values)
-        loginFn(values)
-    }
-
-    const onValuesChange = (values:any) => {
-      if (values?.username) setuserName(values.username)
-    }
+    const onLogin = useCallback(
+      () => {
+        form.validateFields().then((res) => {
+          const values = res as FormProp
+          loginFn({ username: values.username, password: sha256(values.password).toString(), code: values.code }).then(({ data, message: mes }) => {
+            message.success(mes)
+            setToken(data.token)
+            setUser(data.username)
+            push('/dashboard')
+          })
+        })
+      },
+      [],
+    )
+    
+    /* 回车登录 */
+    useKey('Enter', onLogin)
     
     return (
         <Form
-          name='normal_login'
-          initialValues={{ remember: true }}
-          onFinish={onFinish}
-          onValuesChange={onValuesChange}>
+          form={form}
+          onFinish={onLogin}>
             <Form.Item
               name='username'
-              rules={UserNameRule}
-              initialValue={userName}>
+              rules={UserNameRule}>
                 <Input prefix={<UserOutlined />} placeholder='用户名' />
             </Form.Item>
             <Form.Item
               name='password'
               rules={PassWordRule}>
-                <Input
+                <Input.Password
                   prefix={<LockOutlined />}
-                  type='password'
                   placeholder='密码' />
             </Form.Item>
             <Form.Item
@@ -53,12 +64,12 @@ const LoginForm: React.FC = memo(() => {
                           placeholder='验证码' />
                     </Col>
                     <Col span='9'>
-                        <Captcha module='login' username={userName} />
+                        <Captcha module='login' form={form} />
                     </Col>
                 </Row>
             </Form.Item>
             <Form.Item>
-                <Button type='primary' htmlType='submit' block>
+                <Button type='primary' htmlType='submit' block loading={loading}>
                     登录
                 </Button>
             </Form.Item>
