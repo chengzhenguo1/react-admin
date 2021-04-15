@@ -1,7 +1,9 @@
 /* 列表反参 */
 export interface IDepartment {
-    data: IDepartmentData[]
-    total: number
+    data: {
+        data: IDepartmentData[]
+        total: number
+    }
     message: string
 }
 

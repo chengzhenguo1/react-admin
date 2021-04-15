@@ -62,6 +62,9 @@ module.exports = {
     // 类成员之间空行问题
     'lines-between-class-members': 0,
 
+    // 变量名可以使用下划线
+    camelcase: [0, { properties: 'never' }],
+
     // 不区分是否在 despendencies
     'import/no-extraneous-dependencies': 0,
     // 引用时候根据根目录基础

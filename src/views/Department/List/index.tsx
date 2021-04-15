@@ -115,8 +115,8 @@ const DepartList: React.FC = memo(() => {
             </Form>
             <BasisTable<IDepartmentData> 
               loading={departmentList.loading} 
-              data={departmentList.value?.data}
-              total={departmentList.value?.total}
+              data={departmentList.value?.data.data}
+              total={departmentList.value?.data.total}
               rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
               onChange={onPageChange}
               footer={() => <Button onClick={onHandleDelete}>批量删除</Button>}>

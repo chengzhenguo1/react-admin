@@ -70,7 +70,7 @@ const menuRouters: RouterConfig[] = [
                 },
             },
             {
-                path: '/job/delete',
+                path: '/job/add',
                 meta: {
                     title: '添加职位',
                 },
