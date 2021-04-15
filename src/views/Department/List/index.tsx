@@ -48,7 +48,10 @@ const DepartList: React.FC = memo(() => {
     const onHandleChangeStatus = useCallback(
         (id, status) => {
             setDepartmentStatusFn(id, status)
-            getDepartmentListCb()
+            /* 立马修改后，服务器反应慢 */
+            setTimeout(() => {
+                getDepartmentListCb()
+            }, 10)
         },
         [],
     )

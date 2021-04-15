@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { Menu } from 'antd'
 import routes from '@src/router'
 import { RouterConfig } from '@src/router/type'
-import { filterPath } from '@src/utils/filter'
+import { pathToList } from '@src/utils/filter'
 
 const { SubMenu } = Menu
 
@@ -34,7 +34,7 @@ const SiderMenu: React.FC = memo(() => {
           theme='dark' 
           mode='inline' 
           selectedKeys={[pathname]}
-          defaultOpenKeys={filterPath(pathname)}>
+          defaultOpenKeys={pathToList(pathname)}>
             {routes.map((route) => (
             route.children && route.children.length > 0 ? renderSubMenu(route) : renderMenu(route)
           ))}
