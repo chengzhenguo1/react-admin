@@ -329,6 +329,13 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@lottiefiles/lottie-interactivity@^0.1.4":
+  version "0.1.4"
+  resolved "https://registry.npm.taobao.org/@lottiefiles/lottie-interactivity/download/@lottiefiles/lottie-interactivity-0.1.4.tgz#6a39eb6bf4050dd22c90901ca204e5c01fd5de86"
+  integrity sha1-ajnra/QFDdIskJAcogTlwB/V3oY=
+  dependencies:
+    core-js "3"
+
 "@nodelib/fs.scandir@2.1.4":
   version "2.1.4"
   resolved "https://registry.npm.taobao.org/@nodelib/fs.scandir/download/@nodelib/fs.scandir-2.1.4.tgz?cache=0&sync_timestamp=1609074440839&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40nodelib%2Ffs.scandir%2Fdownload%2F%40nodelib%2Ffs.scandir-2.1.4.tgz"
@@ -867,6 +874,11 @@ core-js-pure@^3.0.0:
   version "3.10.0"
   resolved "https://registry.npm.taobao.org/core-js-pure/download/core-js-pure-3.10.0.tgz?cache=0&sync_timestamp=1617192467217&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcore-js-pure%2Fdownload%2Fcore-js-pure-3.10.0.tgz"
   integrity sha1-2rnWsUF3m2IrQFZ+elNtInZkbBU=
+
+core-js@3:
+  version "3.10.1"
+  resolved "https://registry.npm.taobao.org/core-js/download/core-js-3.10.1.tgz?cache=0&sync_timestamp=1617822387922&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcore-js%2Fdownload%2Fcore-js-3.10.1.tgz#e683963978b6806dcc6c0a4a8bd4ab0bdaf3f21a"
+  integrity sha1-5oOWOXi2gG3MbApKi9SrC9rz8ho=
 
 cross-spawn@^7.0.2:
   version "7.0.3"

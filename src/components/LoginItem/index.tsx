@@ -18,7 +18,7 @@ interface LoginItemType {
 interface LoginItemConfig {
     name: string
     rules: any[]
-    inputProps: InputProps & { visibilityToggle?: boolean }
+    inputProps: InputProps
 }
 
 const config: {[key in keyof LoginItemType]: LoginItemConfig} = {
@@ -38,7 +38,7 @@ const config: {[key in keyof LoginItemType]: LoginItemConfig} = {
             prefix: <LockOutlined />,
             placeholder: '密码',
             type: 'password',
-            visibilityToggle: true,
+            /* visibilityToggle: true, */
         },
     },
     Confirm: {
@@ -48,7 +48,7 @@ const config: {[key in keyof LoginItemType]: LoginItemConfig} = {
             prefix: <LockOutlined />,
             placeholder: '重复密码',
             type: 'password',
-            visibilityToggle: true,
+           /*  visibilityToggle: true, */
         },
     },
     Code: {
@@ -105,7 +105,7 @@ function Confirm(props: LoginItemProps) {
 function Code(props: LoginItemProps) {
   return (
       <FormInput
-        formProps={formProps}
+        formProps={{ children: null }}
         {...config.Code}
         {...props} />
 )

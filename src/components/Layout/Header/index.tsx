@@ -1,10 +1,8 @@
 import React, { memo } from 'react'
-
 import { Layout } from 'antd'
-import { MenuFoldOutlined, MenuUnfoldOutlined  } from '@ant-design/icons'
-
-import './index.less'
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
 import UserInfo from './UserInfo'
+import './index.less'
 
 interface IProps {
     toggleCollapsed: (flag: boolean)=>void
@@ -12,21 +10,19 @@ interface IProps {
 }
 
 const Header: React.FC<IProps> = memo(({ toggleCollapsed, collapsed }) => {
-    
-    const handleToggle = ()=>{
+    const handleToggle = () => {
         toggleCollapsed(!collapsed)
     }
 
-    return(
-    <Layout.Header className='header'>
-        {/* 左侧切换 */}
-        {collapsed ?
-        <MenuUnfoldOutlined onClick={handleToggle} /> :
-        <MenuFoldOutlined onClick={handleToggle} />
-        }
-        {/* 右侧 */}
-        <UserInfo />
-    </Layout.Header>
+    return (
+        <Layout.Header className='header'>
+            {/* 左侧切换 */}
+            {collapsed
+        ? <MenuUnfoldOutlined onClick={handleToggle} />
+        : <MenuFoldOutlined onClick={handleToggle} />}
+            {/* 右侧 */}
+            <UserInfo />
+        </Layout.Header>
     )
 })
 
