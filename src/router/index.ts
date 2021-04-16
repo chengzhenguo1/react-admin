@@ -8,12 +8,14 @@ const menuRouters: RouterConfig[] = [
         component: React.lazy(() => import('../views/Dashboard')),
         meta: {
             title: '控制台',
+            icon: 'AppstoreOutlined',
         },
     },
     {
         path: '/user',
         meta: {
             title: '用户管理',
+            icon: 'UserOutlined',
         },
         redirect: '/user/add',
         children: [
@@ -38,6 +40,7 @@ const menuRouters: RouterConfig[] = [
         redirect: '/department/list',
         meta: {
             title: '部门管理',
+            icon: 'WechatOutlined',
         },
         children: [
             {
@@ -61,6 +64,7 @@ const menuRouters: RouterConfig[] = [
         redirect: '/job/list',
         meta: {
             title: '职位管理',
+            icon: 'AuditOutlined',
         },
         children: [
             {
@@ -82,6 +86,7 @@ const menuRouters: RouterConfig[] = [
         redirect: '/worker/list',
         meta: {
             title: '员工管理',
+            icon: 'UsergroupAddOutlined',
         },
         children: [
             {
@@ -97,6 +102,7 @@ const menuRouters: RouterConfig[] = [
         redirect: '/announcement/list',
         meta: {
             title: '公告管理',
+            icon: 'MailOutlined',
         },
         children: [
             {
@@ -162,6 +168,7 @@ const menuRouters: RouterConfig[] = [
         exact: true,
         meta: {
             title: '请假',
+            icon: 'MehOutlined',
         },
     },
     {
@@ -169,6 +176,7 @@ const menuRouters: RouterConfig[] = [
         exact: true,
         meta: {
             title: '加班',
+            icon: 'FrownOutlined',
         },
     },
 ]
