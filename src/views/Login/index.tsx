@@ -1,6 +1,5 @@
 import React, { memo, useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
-import { IDictionary } from '@src/typings/global'
 import { getToken } from '@src/utils/auth'
 import LoginForm from './Form/loginForm'
 import RegisterForm from './Form/registerForm'
@@ -11,7 +10,12 @@ interface State {
     toggleText: string
 }
 
-const FormType: IDictionary<State> = {
+interface FormTabType {
+    LOGIN: State
+    REGISTER: State
+}
+
+const FormTab: { [key in keyof FormTabType]: State } = {
     LOGIN: {
         title: '登录',
         toggleText: '去注册',
@@ -23,7 +27,7 @@ const FormType: IDictionary<State> = {
 }
 
 const Login: React.FC = memo(() => {
-   const [state, setState] = useState(FormType.LOGIN)
+   const [state, setState] = useState(FormTab.LOGIN)
    const { replace } = useHistory()
 
    useEffect(() => {
@@ -35,10 +39,10 @@ const Login: React.FC = memo(() => {
    }, [])
 
    const handleToggleState = () => {
-    if (state === FormType.LOGIN) {
-        setState(FormType.REGISTER)
+    if (state === FormTab.LOGIN) {
+        setState(FormTab.REGISTER)
     } else {
-        setState(FormType.LOGIN)
+        setState(FormTab.LOGIN)
     }
    }
 
@@ -53,7 +57,7 @@ const Login: React.FC = memo(() => {
                        {state.toggleText}
                    </div>
                </div>
-               {state === FormType.LOGIN ? <LoginForm /> : <RegisterForm toggleState={handleToggleState} />}
+               {state === FormTab.LOGIN ? <LoginForm /> : <RegisterForm toggleState={handleToggleState} />}
            </div>
        </div>
     )

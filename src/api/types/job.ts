@@ -2,17 +2,17 @@ export interface IJob {
     data: {
         data: Jobs[]
         total: number
-    } | DataDeatil
+    } 
     message: string
     resCode: number
 }
 
-/* export interface IJobDeatil{
+export interface IJobDeatil{
     data: DataDeatil[]
     resCode: number
     total: number
     message: string
-} */
+}
 
 interface Job {
     jobId: string

@@ -1,10 +1,10 @@
 import axios from '@src/utils/request'
-import type { IJob, DataDeatil } from '../api/types/job'
+import type { IJob, DataDeatil, IJobDeatil } from '../api/types/job'
 
 type JobAddFn = (data: {jobName: string, parentId: number, status: boolean, content: string})=> Promise<{message: string}>
 type GetJobListFn = (data?: {name: string, status: boolean, pageNumber: number, pageSize: number})=> Promise<IJob>
 /* type JobListAllFn = ()=> Promise<IJobList> */
-type JobDetailFn = (id: number)=> Promise<IJob>
+type JobDetailFn = (id: number)=> Promise<IJobDeatil>
 type JobEaitFn = (data: DataDeatil)=> Promise<{message: string}>
 type SetJobStatusFn = (id: number, status: boolean)=> Promise<{message: string}>
 type JobDeleteFn = (id:string)=> Promise<{message: string}>

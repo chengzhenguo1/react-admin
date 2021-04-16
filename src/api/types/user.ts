@@ -2,7 +2,7 @@ export interface IUserList {
     data: {
         data: User[]
         total: number
-    } | IUserDeatil
+    }
     message: string
 }
 
