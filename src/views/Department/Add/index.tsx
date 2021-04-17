@@ -2,14 +2,8 @@ import React, { memo, useCallback, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useAsyncFn } from 'react-use'
 import departmentApi from '@src/api/department'
-import {
-    Button,
-    Form,
-    Input, 
-    InputNumber,
-    message,
-    Radio, 
-} from 'antd'
+import DepartmentItem from '@src/components/FormItem/DepartmentItem'
+import { Button, Form, message } from 'antd'
 
 const DepartmentAdd: React.FC = memo(() => {
     const [{ loading }, addOrEditDepartmentFn] = useAsyncFn(departmentApi.addOrEditDepartment)
@@ -34,6 +28,7 @@ const DepartmentAdd: React.FC = memo(() => {
               const values = { id, ...res }
               addOrEditDepartmentFn(values).then((data) => {
                   message.success(data.message)
+                  form.resetFields()
               })
           })
         },
@@ -49,28 +44,12 @@ const DepartmentAdd: React.FC = memo(() => {
           labelAlign='left'
           initialValues={{
             status: false,
+            number: 1,
           }}>
-            <Form.Item 
-              label='部门名称'
-              name='name' 
-              rules={[{ required: true, message: '请输入部门名称！' }]}>
-                <Input />
-            </Form.Item>
-            <Form.Item 
-              label='人员数量' 
-              name='number' 
-              rules={[{ required: true, message: '请选择人员数量！' }]}>
-                <InputNumber min={1} max={100} />
-            </Form.Item>
-            <Form.Item label='禁启用' name='status'>
-                <Radio.Group>
-                    <Radio value={false}>禁用</Radio>
-                    <Radio value>启动</Radio>
-                </Radio.Group>
-            </Form.Item>
-            <Form.Item label='描述' name='content'>
-                <Input.TextArea rows={10} />
-            </Form.Item>
+            <DepartmentItem.Name form={form} />
+            <DepartmentItem.Number form={form} />
+            <DepartmentItem.Status form={form} />
+            <DepartmentItem.Content form={form} />
             <Form.Item>
                 <Button type='primary' htmlType='submit' loading={loading}>确定</Button>
             </Form.Item>

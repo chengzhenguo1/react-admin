@@ -17,7 +17,7 @@ function BasisTable<T extends {id: string | number}>(props: IProps<T>) {
     const [pagination, setPagination] = useState<PaginationProps>({
         defaultCurrent: 1,
         defaultPageSize: 10,
-        showSizeChanger: true,
+        showQuickJumper: true,
     })
 
     const onTableChange = (pageParams: PaginationProps) => {
@@ -35,6 +35,7 @@ function BasisTable<T extends {id: string | number}>(props: IProps<T>) {
           pagination={{
             ...pagination,
             total: total && total,
+            showTotal: (total) => `总共${total}条`,
           }}
           onChange={onTableChange}>
             {children}

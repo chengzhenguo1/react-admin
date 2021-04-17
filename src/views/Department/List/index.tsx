@@ -25,7 +25,7 @@ const DepartList: React.FC = memo(() => {
     const [, setDepartmentStatusFn] = useAsyncFn(departmentApi.setDepartmentStatus)
 
     useEffect(() => {
-        getDepartmentListCb()
+        getDepartmentData()
     }, [page, name])
 
     /* 页码改变 */
@@ -50,7 +50,7 @@ const DepartList: React.FC = memo(() => {
             setDepartmentStatusFn(id, status)
             /* 立马修改后，服务器反应慢 */
             setTimeout(() => {
-                getDepartmentListCb()
+                getDepartmentData()
             }, 10)
         },
         [],
@@ -67,7 +67,7 @@ const DepartList: React.FC = memo(() => {
                 okText: '确定',
                 cancelText: '取消',
                 onOk() {
-                    onDeleteModal(selectedRowKeys.join(','))
+                    onDeleteModal(selectedRowKeys.join())
                     setSelectedRowKeys([])
                 },
             })
@@ -80,7 +80,7 @@ const DepartList: React.FC = memo(() => {
         (id:string) => {
             deleteDepartmentFn(id).then((res) => {
                 message.success(res.message)
-                getDepartmentListCb()
+                getDepartmentData()
             })
         },
         [],
@@ -95,8 +95,8 @@ const DepartList: React.FC = memo(() => {
        [],
    )
 
-    const getDepartmentListCb = () => {
-        getDepartmentListFn({ name, pageNumber: page.current!, pageSize: page.pageSize! })
+    const getDepartmentData = () => {
+        getDepartmentListFn({ name, pageNumber: page.current || 1, pageSize: page.pageSize || 10 })
     }
 
     return (
@@ -115,8 +115,8 @@ const DepartList: React.FC = memo(() => {
             </Form>
             <BasisTable<IDepartmentData> 
               loading={departmentList.loading} 
-              data={departmentList.value?.data}
-              total={departmentList.value?.total}
+              data={departmentList.value?.data.data}
+              total={departmentList.value?.data.total}
               rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
               onChange={onPageChange}
               footer={() => <Button onClick={onHandleDelete}>批量删除</Button>}>

@@ -1,7 +1,8 @@
 import React, { memo, useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
-import { IDictionary } from '@src/typings/global'
 import { getToken } from '@src/utils/auth'
+import { Player } from '@lottiefiles/react-lottie-player'
+import { LoginPath } from '@src/constants/lottiePath'
 import LoginForm from './Form/loginForm'
 import RegisterForm from './Form/registerForm'
 import './index.less'
@@ -11,7 +12,12 @@ interface State {
     toggleText: string
 }
 
-const FormType: IDictionary<State> = {
+interface FormTabType {
+    LOGIN: State
+    REGISTER: State
+}
+
+const FormTab: { [key in keyof FormTabType]: State } = {
     LOGIN: {
         title: '登录',
         toggleText: '去注册',
@@ -23,7 +29,7 @@ const FormType: IDictionary<State> = {
 }
 
 const Login: React.FC = memo(() => {
-   const [state, setState] = useState(FormType.LOGIN)
+   const [state, setState] = useState(FormTab.LOGIN)
    const { replace } = useHistory()
 
    useEffect(() => {
@@ -35,15 +41,21 @@ const Login: React.FC = memo(() => {
    }, [])
 
    const handleToggleState = () => {
-    if (state === FormType.LOGIN) {
-        setState(FormType.REGISTER)
+    if (state === FormTab.LOGIN) {
+        setState(FormTab.REGISTER)
     } else {
-        setState(FormType.LOGIN)
+        setState(FormTab.LOGIN)
     }
    }
 
    return (
-       <div className='login'>
+       <div className='login-wrap'>
+           <Player
+             autoplay
+             loop
+             hover
+             src={LoginPath}
+             style={{ height: '300px', width: '300px' }} />
            <div className='login-card'>
                <div className='login-header'>
                    <div className='login-title'>
@@ -53,7 +65,7 @@ const Login: React.FC = memo(() => {
                        {state.toggleText}
                    </div>
                </div>
-               {state === FormType.LOGIN ? <LoginForm /> : <RegisterForm toggleState={handleToggleState} />}
+               {state === FormTab.LOGIN ? <LoginForm /> : <RegisterForm toggleState={handleToggleState} />}
            </div>
        </div>
     )
