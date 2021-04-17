@@ -1,9 +1,10 @@
 import axios from '@src/utils/request'
+import { PageParam } from './types'
 import {
  IUserList, AddFormParam, EditFormParam, IUserDeatil, 
 } from './types/user'
 
-type GetUserListFn = (page: {pageNumber: number, pageSize: number})=>Promise<IUserList>
+type GetUserListFn = (page: PageParam)=>Promise<IUserList>
 type UserAddFn = (data: AddFormParam)=> Promise<{message: string}>
 type UserEditFn = (data: EditFormParam)=> Promise<{message: string}>
 type SetUserStatusFn = (id: string, status: boolean)=> Promise<{message: string}>

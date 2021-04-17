@@ -96,7 +96,7 @@ const DepartList: React.FC = memo(() => {
    )
 
     const getDepartmentData = () => {
-        getDepartmentListFn({ name, pageNumber: page.current!, pageSize: page.pageSize! })
+        getDepartmentListFn({ name, pageNumber: page.current || 1, pageSize: page.pageSize || 10 })
     }
 
     return (

@@ -1,8 +1,14 @@
 import axios from '@src/utils/request'
 import type { IJob, DataDeatil, IJobDeatil } from '../api/types/job'
+import { PageParam } from './types'
+
+interface ListPageParam extends PageParam{
+    name: string
+    status: boolean
+}
 
 type JobAddFn = (data: {jobName: string, parentId: number, status: boolean, content: string})=> Promise<{message: string}>
-type GetJobListFn = (data?: {name: string, status: boolean, pageNumber: number, pageSize: number})=> Promise<IJob>
+type GetJobListFn = (data?: ListPageParam)=> Promise<IJob>
 /* type JobListAllFn = ()=> Promise<IJobList> */
 type JobDetailFn = (id: number)=> Promise<IJobDeatil>
 type JobEaitFn = (data: DataDeatil)=> Promise<{message: string}>

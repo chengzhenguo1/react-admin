@@ -2,6 +2,7 @@ import React, { memo, useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
 import { getToken } from '@src/utils/auth'
 import { Player } from '@lottiefiles/react-lottie-player'
+import { LoginPath } from '@src/constants/lottiePath'
 import LoginForm from './Form/loginForm'
 import RegisterForm from './Form/registerForm'
 import './index.less'
@@ -53,20 +54,18 @@ const Login: React.FC = memo(() => {
              autoplay
              loop
              hover
-             src='https://assets3.lottiefiles.com/private_files/lf30_irb2v6ie.json'
+             src={LoginPath}
              style={{ height: '300px', width: '300px' }} />
-           <div>
-               <div className='login-card'>
-                   <div className='login-header'>
-                       <div className='login-title'>
-                           {state.title}
-                       </div>
-                       <div className='login-toggle' onClick={handleToggleState}>
-                           {state.toggleText}
-                       </div>
+           <div className='login-card'>
+               <div className='login-header'>
+                   <div className='login-title'>
+                       {state.title}
                    </div>
-                   {state === FormTab.LOGIN ? <LoginForm /> : <RegisterForm toggleState={handleToggleState} />}
+                   <div className='login-toggle' onClick={handleToggleState}>
+                       {state.toggleText}
+                   </div>
                </div>
+               {state === FormTab.LOGIN ? <LoginForm /> : <RegisterForm toggleState={handleToggleState} />}
            </div>
        </div>
     )

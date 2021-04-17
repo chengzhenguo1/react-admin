@@ -1,19 +1,10 @@
 import React, { memo, useCallback } from 'react'
 import sha256 from 'crypto-js/sha256'
 import { useAsyncFn, useKey } from 'react-use'
-
 import { IParam } from '@src/api/types/auth'
 import authApi from '@src/api/auth'
-import {
- CaptchaRule, ConfirmRule, PassWordRule, UserNameRule, 
-} from '@src/constants/validate'
-
-import {
- Form, Input, Button, Row, Col, message, 
-} from 'antd'
-import { UserOutlined, LockOutlined, CreditCardOutlined } from '@ant-design/icons'
-import Captcha from '@src/components/Captcha'
-import LoginItem from '@src/components/LoginItem'
+import { Form, Button, message } from 'antd'
+import LoginItem from '@src/components/FormItem/LoginItem'
 
 interface IProps {
   toggleState: ()=> void

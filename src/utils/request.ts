@@ -47,7 +47,7 @@ request.interceptors.request.use((config) => {
 request.interceptors.response.use((res:any):any => {
     if (res?.data?.resCode !== 0) {
         Message.error(res?.data?.message || '网络错误')
-        return Promise.reject()
+        return Promise.reject(res?.data)
     }
     
     return res.data

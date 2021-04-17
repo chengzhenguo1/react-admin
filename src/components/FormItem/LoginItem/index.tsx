@@ -1,12 +1,11 @@
 import {
  CaptchaRule, ConfirmRule, PassWordRule, UserNameRule, 
 } from '@src/constants/validate'
-import {
- Form, FormInstance, FormItemProps, Input, InputProps, 
-} from 'antd'
+import { FormInstance, FormItemProps } from 'antd'
 import React, { memo } from 'react'
 import { UserOutlined, LockOutlined, CreditCardOutlined } from '@ant-design/icons'
-import FormInput from '../FromInput/input'
+import FormInput from '../../FromInput/input'
+import { ItemConfig, ItemProps } from '../type'
 
 interface LoginItemType {
     UserName: React.FC<LoginItemProps>
@@ -15,13 +14,7 @@ interface LoginItemType {
     Code: React.FC<LoginItemProps>
 }
 
-interface LoginItemConfig {
-    name: string
-    rules: any[]
-    inputProps: InputProps
-}
-
-const config: {[key in keyof LoginItemType]: LoginItemConfig} = {
+const config: {[key in keyof LoginItemType]: ItemConfig} = {
     UserName: {
         name: 'username',
         rules: UserNameRule,
@@ -62,15 +55,12 @@ const config: {[key in keyof LoginItemType]: LoginItemConfig} = {
     },
 }
 
-const formProps: FormItemProps = {
+export const formProps: FormItemProps = {
     hasFeedback: true,
     children: null,
 }
 
-interface LoginItemProps {
-/*     countStatic?: number
-    onGetMobileCode?: (cb: () => void) => void; */
-    form: FormInstance
+interface LoginItemProps extends ItemProps {
     // eslint-disable-next-line react/require-default-props
     module?: 'register' | 'login'
 }
