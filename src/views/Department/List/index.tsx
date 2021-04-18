@@ -104,7 +104,7 @@ const DepartList: React.FC = memo(() => {
             <Form 
               form={form} 
               layout='inline' 
-              style={{ marginBottom: '20px' }}
+              className='mb-20'
               onFinish={onSearchDepartment}>
                 <Form.Item label='部门名称' name='name'>
                     <Input />

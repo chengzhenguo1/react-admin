@@ -1,7 +1,7 @@
 import React from 'react'
 import { RouterConfig } from './type'
 
-const menuRouters: RouterConfig[] = [
+export const menuRouters: RouterConfig[] = [
     {
         path: '/dashboard',
         exact: true,

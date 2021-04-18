@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { Menu } from 'antd'
 import routes from '@src/router'
 import { RouterConfig } from '@src/router/type'
-import { pathToList } from '@src/utils/filter'
+import { pathToList } from '@src/router/utils'
 import { IDictionary } from '@src/typings/global'
 import {
  UserOutlined, AppstoreOutlined, WechatOutlined, UsergroupAddOutlined, AuditOutlined, MailOutlined, MehOutlined, FrownOutlined,
