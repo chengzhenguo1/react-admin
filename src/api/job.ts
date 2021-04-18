@@ -2,15 +2,15 @@ import axios from '@src/utils/request'
 import type { IJob, DataDeatil, IJobDeatil } from '../api/types/job'
 import { PageParam } from './types'
 
-interface ListPageParam extends PageParam{
-    name: string
-    status: boolean
+export interface ListPageParam extends PageParam{
+    name?: string
+    status?: boolean
 }
 
 type JobAddFn = (data: {jobName: string, parentId: number, status: boolean, content: string})=> Promise<{message: string}>
 type GetJobListFn = (data?: ListPageParam)=> Promise<IJob>
 /* type JobListAllFn = ()=> Promise<IJobList> */
-type JobDetailFn = (id: number)=> Promise<IJobDeatil>
+type JobDetailFn = (id: number | string)=> Promise<IJobDeatil>
 type JobEaitFn = (data: DataDeatil)=> Promise<{message: string}>
 type SetJobStatusFn = (id: number, status: boolean)=> Promise<{message: string}>
 type JobDeleteFn = (id:string)=> Promise<{message: string}>
@@ -34,14 +34,14 @@ const getJobList: GetJobListFn = async (data) => {
 
 /* 职位详情 */
 const jobDetail: JobDetailFn = async (id) => {
-    const res = axios({
+    const res = await axios({
         url: '/job/detailed/',
         method: 'POST',
         data: {
             id,
         },
     })
-    return res
+    return res.data
 }
 
 /* 职位修改 */

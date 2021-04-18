@@ -4,7 +4,7 @@ import type {
 } from './types/department'
 
 type AddOrEditDepartmentFn = (data: IEditDepartmentParams)=> Promise<{message: string}>
-type GetDepartmentListFn = (data?: {name:string, pageNumber: number, pageSize: number})=> Promise<IDepartment>
+type GetDepartmentListFn = (data?: {name?:string, pageNumber: number, pageSize: number})=> Promise<IDepartment>
 /* type GetDepartmentListAllFn = ()=> Promise<IDepartmentData[]> */
 type GetDepartmentDetailedFn = (id: string)=> Promise<IDepartmentProps>
 type SetDepartmentStatusFn = (id: string, status: boolean)=> Promise<{message: string}>
@@ -21,7 +21,7 @@ const addOrEditDepartment: AddOrEditDepartmentFn = (data) => {
 }
 
 /* 获取部门列表 / 获取全部部门 */
-const getDepartmentList: GetDepartmentListFn = async (data) => {
+const getDepartmentList: GetDepartmentListFn = async (data = { pageNumber: 1, pageSize: 10 }) => {
     const res = await axios({
         url: '/department/list/',
         method: 'POST',

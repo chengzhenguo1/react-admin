@@ -18,13 +18,13 @@ interface Job {
     jobId: string
     jobName: string
     status: boolean
+    content: string
 }
 
-interface Jobs extends Job{
+export interface Jobs extends Job{
     name: string
 }
 
 export interface DataDeatil extends Job {
     parentId: string
-    content: string
 }

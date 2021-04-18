@@ -1,24 +1,28 @@
-import React, { memo } from 'react'
+import React, { memo, useCallback } from 'react'
 import {
- Col, Input, InputProps, Row, Form, Radio, InputNumber,
+ Col, Input, InputProps, Row, Form, Radio, InputNumber, Select,
 } from 'antd'
-import { FormInstance, FormItemProps, Rule } from 'antd/lib/form'
+import { FormInstance, FormItemProps } from 'antd/lib/form'
+import { SelectValue } from 'antd/lib/select'
 import Captcha from '../Captcha'
-import { radioItem, TextAreaProps } from '../FormItem/type'
+import { ItemConfig } from '../FormItem/type'
 
-interface FormInputProps {
-    name: string
-    rules?: Rule[]
-    label?: string
+export interface FormInputProps extends ItemConfig {
     formProps: FormItemProps
-    inputProps: InputProps | TextAreaProps
+    inputProps: InputProps
     form: FormInstance
-    radioItem?: radioItem // 单选框
-    module?: 'register' | 'login'
+    onSelect?: (value: SelectValue)=> void
 }
 
 const FormInput: React.FC<FormInputProps> = memo((props) => {
     console.log(props)
+
+    const onHandleSelect = useCallback((value: SelectValue) => {
+        if (props.onSelect) {
+            props?.onSelect(value)
+        }
+    }, [])
+
     return (
         <Form.Item {...props.formProps} name={props.name} rules={props.rules} label={props.label}>
             {(() => {
@@ -38,7 +42,7 @@ const FormInput: React.FC<FormInputProps> = memo((props) => {
                     )
                 case 'area': 
                     return (
-                        <Input.TextArea rows={('rows' in props.inputProps && props.inputProps.rows) || 10} />
+                        <Input.TextArea rows={props?.rows || 10} />
                     )
                 case 'radio': 
                     return (
@@ -49,6 +53,14 @@ const FormInput: React.FC<FormInputProps> = memo((props) => {
                 case 'number':
                     return (
                         <InputNumber min={props.inputProps.min} max={props.inputProps.max} />
+                    )
+                case 'select': 
+                    return (
+                        <Select onChange={onHandleSelect} style={{ width: 80 }}>
+                            {props.optionItem?.map((item) => (
+                                <Select.Option value={item.id} key={item.id}>{item.name}</Select.Option>
+                            ))}
+                        </Select>
                     )
                 default:
                     return <Input {...props.inputProps} />
