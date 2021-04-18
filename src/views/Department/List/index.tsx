@@ -88,7 +88,7 @@ const DepartList: React.FC = memo(() => {
     
     /* 点击搜索 */
    const onSearchDepartment = useCallback(
-       () => {
+       (value) => {
            const name = form.getFieldValue('name')
            setName(name)
        },

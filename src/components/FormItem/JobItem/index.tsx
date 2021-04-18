@@ -8,6 +8,7 @@ interface JobItemType {
     JobName: React.FC<ItemProps>
     Status: React.FC<ItemProps>
     SearchStatus: React.FC<ItemProps>
+    SearchJobName: React.FC<ItemProps>
     Content: React.FC<ItemProps>
 }
 
@@ -47,12 +48,21 @@ const config: {[key in keyof JobItemType]: ItemConfig} = {
             },
         ],
     },
+    SearchJobName: {
+        name: 'jobName',
+        label: '职位名称',
+        inputProps: {
+            placeholder: '职位名称',
+            type: 'text',
+        },
+    }, 
     SearchStatus: {
         name: 'status',
         label: '禁启用',
         inputProps: {
             type: 'select',
         },
+        width: 100,
         optionItem: [
             {
                 id: false,
@@ -110,6 +120,15 @@ function Content(props: ItemProps) {
 )
 }
 
+function SearchJobName(props: ItemProps) {
+    return (
+        <FormInput
+          formProps={{ children: null }}
+          {...config.SearchJobName}
+          {...props} />
+)
+}
+
 function SearchStatus(props: ItemProps) {
     return (
         <FormInput
@@ -125,6 +144,7 @@ const JobItem: JobItemType = {
     Status: memo(Status),
     Content: memo(Content),
     SearchStatus: memo(SearchStatus),
+    SearchJobName: memo(SearchJobName),
 }
 
 export default JobItem

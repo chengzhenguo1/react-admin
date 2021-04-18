@@ -15,8 +15,6 @@ export interface FormInputProps extends ItemConfig {
 }
 
 const FormInput: React.FC<FormInputProps> = memo((props) => {
-    console.log(props)
-
     const onHandleSelect = useCallback((value: SelectValue) => {
         if (props.onSelect) {
             props?.onSelect(value)
@@ -56,7 +54,7 @@ const FormInput: React.FC<FormInputProps> = memo((props) => {
                     )
                 case 'select': 
                     return (
-                        <Select onChange={onHandleSelect} style={{ width: 80 }}>
+                        <Select onChange={onHandleSelect} style={{ width: props.width || 80 }}>
                             {props.optionItem?.map((item) => (
                                 <Select.Option value={item.id} key={item.id}>{item.name}</Select.Option>
                             ))}

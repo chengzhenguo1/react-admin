@@ -111,7 +111,7 @@ const JobList: React.FC = memo(() => {
               layout='inline' 
               className='mb-20'
               onFinish={onSearchJob}>
-                <JobItem.JobName form={form} />
+                <JobItem.SearchJobName form={form} />
                 <JobItem.SearchStatus form={form} />
                 <Form.Item>
                     <Button type='primary' htmlType='submit'>搜索</Button>

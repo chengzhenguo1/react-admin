@@ -10,6 +10,8 @@ export interface ItemConfig {
     cols?: number
     radioItem?: radioItemType // 单选框列表
     optionItem? : optionItemType
+    width?: number
+    height?: number
     module?: 'register' | 'login'
 }
 
