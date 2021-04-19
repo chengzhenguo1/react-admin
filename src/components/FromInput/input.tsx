@@ -1,6 +1,6 @@
 import React, { memo, useCallback } from 'react'
 import {
- Col, Input, InputProps, Row, Form, Radio, InputNumber, Select,
+ Col, Input, Row, Form, Radio, InputNumber, Select,
 } from 'antd'
 import { FormInstance, FormItemProps } from 'antd/lib/form'
 import { SelectValue } from 'antd/lib/select'
@@ -9,7 +9,6 @@ import { ItemConfig } from '../FormItem/type'
 
 export interface FormInputProps extends ItemConfig {
     formProps: FormItemProps
-    inputProps: InputProps
     form: FormInstance
     onSelect?: (value: SelectValue)=> void
 }
@@ -38,7 +37,7 @@ const FormInput: React.FC<FormInputProps> = memo((props) => {
                             </Col>
                         </Row>
                     )
-                case 'area': 
+                case 'textArea': 
                     return (
                         <Input.TextArea rows={props?.rows || 10} />
                     )
@@ -50,13 +49,17 @@ const FormInput: React.FC<FormInputProps> = memo((props) => {
                     )
                 case 'number':
                     return (
-                        <InputNumber min={props.inputProps.min} max={props.inputProps.max} />
+                        <InputNumber min={props.inputProps.type} max={props.inputProps.max} />
                     )
-                case 'select': 
+                case 'select':
                     return (
-                        <Select onChange={onHandleSelect} style={{ width: props.width || 80 }}>
+                        <Select
+                          placeholder={props.inputProps?.placeholder || '请选择'}
+                          onChange={onHandleSelect} 
+                          style={{ width: props.width || 90 }}
+                          loading={props?.loading}>
                             {props.optionItem?.map((item) => (
-                                <Select.Option value={item.id} key={item.id}>{item.name}</Select.Option>
+                                <Select.Option value={item.value} key={item.value}>{item.text}</Select.Option>
                             ))}
                         </Select>
                     )

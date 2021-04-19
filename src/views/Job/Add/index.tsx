@@ -59,8 +59,11 @@ const JobAdd: React.FC = memo(() => {
             status: false,
             number: 1,
           }}>
-            <JobItem.Name form={form} optionItem={departmentList?.value?.data.data} />
-            <JobItem.JobName form={form} />
+            <JobItem.Name
+              form={form} 
+              optionItem={departmentList?.value?.data.data.map((item) => ({ value: item.id, text: item.name }))} 
+              loading={departmentList?.loading} />
+            <JobItem.JobName form={form} isRule />
             <JobItem.Status form={form} />
             <JobItem.Content form={form} />
             <Form.Item>

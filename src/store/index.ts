@@ -5,9 +5,11 @@ import reduxThunk from 'redux-thunk'
 import reduxLogger from 'redux-logger'
 import { IAction, IStoreState } from './type'
 import userReducer from './module/user'
+import appReducer from './module/app'
 
 const reducers: Reducer<IStoreState, IAction<any>> = combineReducers<IStoreState>({
     user: userReducer,
+    app: appReducer,
 })
 
 const middleware: Middleware[] = [reduxThunk]

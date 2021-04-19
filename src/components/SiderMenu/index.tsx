@@ -49,7 +49,7 @@ const SiderMenu: React.FC = memo(() => {
           mode='inline' 
           selectedKeys={[pathname]}
           defaultOpenKeys={pathToList(pathname)}>
-            {routes.map((route) => (
+            {routes[1]?.children.map((route) => (
             route.children && route.children.length > 0 ? renderSubMenu(route) : renderMenu(route)
           ))}
         </Menu>

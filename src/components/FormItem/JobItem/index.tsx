@@ -5,10 +5,10 @@ import { ItemConfig, ItemProps } from '../type'
 
 interface JobItemType {
     Name: React.FC<ItemProps>
-    JobName: React.FC<ItemProps>
+    JobName: React.FC<IJobNameProps>
     Status: React.FC<ItemProps>
     SearchStatus: React.FC<ItemProps>
-    SearchJobName: React.FC<ItemProps>
+   /*  SearchJobName: React.FC<ItemProps> */
     Content: React.FC<ItemProps>
 }
 
@@ -18,7 +18,7 @@ const config: {[key in keyof JobItemType]: ItemConfig} = {
         label: '部门',
         rules: [{ required: true, message: '请选择部门名称！' }],
         inputProps: {
-            placeholder: '部门名称',
+            placeholder: '请选择',
             type: 'select',
         },
     },
@@ -48,14 +48,14 @@ const config: {[key in keyof JobItemType]: ItemConfig} = {
             },
         ],
     },
-    SearchJobName: {
+   /*  SearchJobName: {
         name: 'jobName',
         label: '职位名称',
         inputProps: {
             placeholder: '职位名称',
             type: 'text',
         },
-    }, 
+    },  */
     SearchStatus: {
         name: 'status',
         label: '禁启用',
@@ -65,12 +65,12 @@ const config: {[key in keyof JobItemType]: ItemConfig} = {
         width: 100,
         optionItem: [
             {
-                id: false,
-                name: '禁用',
+                value: false,
+                text: '禁用',
             },
             {
-                id: true,
-                name: '启用',
+                value: true,
+                text: '启用',
             },
         ],
     },
@@ -78,26 +78,34 @@ const config: {[key in keyof JobItemType]: ItemConfig} = {
         name: 'content',
         label: '描述',
         inputProps: {
-            type: 'area',
+            type: 'textArea',
         },
         rows: 10,
     },
 }
 
+interface IJobNameProps extends ItemProps{
+    // eslint-disable-next-line react/require-default-props
+    isRule?: boolean
+}
+
 function Name(props: ItemProps) {
+    console.log(props)
     return (
         <FormInput
-          formProps={formProps}
+          formProps={{ children: null }}
           {...config.Name}
           {...props} />
 )
 }
 
-function JobName(props: ItemProps) {
+function JobName(props: IJobNameProps) {
+    const { isRule = false } = props
     return (
         <FormInput
           formProps={formProps}
           {...config.JobName}
+          rules={isRule ? config.JobName.rules : undefined}
           {...props} />
 )
 }
@@ -120,14 +128,14 @@ function Content(props: ItemProps) {
 )
 }
 
-function SearchJobName(props: ItemProps) {
+/* function SearchJobName(props: ItemProps) {
     return (
         <FormInput
           formProps={{ children: null }}
           {...config.SearchJobName}
           {...props} />
 )
-}
+} */
 
 function SearchStatus(props: ItemProps) {
     return (
@@ -144,7 +152,7 @@ const JobItem: JobItemType = {
     Status: memo(Status),
     Content: memo(Content),
     SearchStatus: memo(SearchStatus),
-    SearchJobName: memo(SearchJobName),
+   /*  SearchJobName: memo(SearchJobName), */
 }
 
 export default JobItem

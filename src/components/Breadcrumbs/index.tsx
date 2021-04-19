@@ -20,9 +20,10 @@ const Breadcrumbs: React.FC = memo(() => {
                     index === breadcrumbs.length - 1 ? <Breadcrumb.Item key={item.meta.title}>{item.meta.title}</Breadcrumb.Item>
            : (
                <Breadcrumb.Item key={item.meta.title}>
-                   <Link to={item.path as string}>
+                   {item.meta.title}
+                   {/*  <Link to={item.path as string}>
                        {item.meta.title}
-                   </Link>
+                   </Link> */}
                </Breadcrumb.Item>
             )))}
             </Breadcrumb>

@@ -54,7 +54,7 @@ const config: {[key in keyof JobItemType]: ItemConfig} = {
         label: '描述',
         rows: 10,
         inputProps: {
-            type: 'area',
+            type: 'textArea',
         },
     },
 }

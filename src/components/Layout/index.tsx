@@ -4,8 +4,9 @@ import Sider from './Sider'
 import Header from './Header'
 import Main from './Main'
 import './index.less'
+import MainRoutes from './MainRoutes'
 
-const LayOut: React.FC = memo(({ children }) => {
+const LayOut: React.FC = memo(() => {
   const [collapsed, setCollapsed] = useState(false)
   return (
       <Layout style={{ minHeight: '100vh' }}>
@@ -15,7 +16,9 @@ const LayOut: React.FC = memo(({ children }) => {
               {/* 顶部 */}
               <Header toggleCollapsed={setCollapsed} collapsed={collapsed} />
               {/* 中心区域 */}
-              <Main>{children}</Main>
+              <Main>
+                  <MainRoutes />
+              </Main>
           </Layout>
       </Layout>
   ) 

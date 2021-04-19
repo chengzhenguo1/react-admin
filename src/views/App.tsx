@@ -1,17 +1,25 @@
-import React from 'react'
-import { Switch, Route, HashRouter } from 'react-router-dom'
-import Login from './Login/index'
-import Page from './Page'
+import React, { Suspense } from 'react'
+import { Switch, HashRouter, Route } from 'react-router-dom'
 import 'antd/dist/antd.css'
+import '@src/styles/global.less'
+import { layoutRouteList } from '@src/router/utils'
+import { RouterConfig } from '@src/router/type'
 
 const App = function () {
   return (
-      <HashRouter>
-          <Switch>
-              <Route path='/' component={Login} exact />
-              <Page />
-          </Switch>
-      </HashRouter>
+      <Suspense fallback={null}>
+          <HashRouter>
+              <Switch>
+                  {layoutRouteList.map((route: RouterConfig) => (
+                      <Route
+                        key={`${route.path}`}
+                        path={route.path}
+                        exact={route.exact}
+                        component={route.component} />
+                    ))}
+              </Switch>
+          </HashRouter>
+      </Suspense>
   )
 }
 
