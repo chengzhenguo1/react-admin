@@ -1,5 +1,5 @@
 import { Reducer } from 'redux'
-import { RouterConfig } from '@src/router/type'
+import { IRoute } from '@src/router/type'
 import store from 'store'
 import { IAction } from '../type'
 import { flattenRoute } from '../../router/utils'
@@ -8,9 +8,9 @@ export interface AppState {
   sidebar: {
     opened: boolean
   }
-  routes: RouterConfig[]
+  routes: IRoute[]
 
-  flattenRoutes: RouterConfig[]
+  flattenRoutes: IRoute[]
 
   init: boolean
 }
@@ -37,7 +37,7 @@ export const updateSideBar = (sidebar: AppState['sidebar']) => ({
   payload: sidebar,
 })
 
-export const setSideBarRoutes = (routes: RouterConfig[]) => ({
+export const setSideBarRoutes = (routes: IRoute[]) => ({
   type: SET_SIDE_BAR_ROUTES,
   payload: routes,
 })

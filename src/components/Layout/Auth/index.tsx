@@ -4,10 +4,10 @@ import store from '@src/store/index'
 import { businessRouteList } from '@src/router/utils'
 /* import config from '../config/index' */
 import { getToken } from '@src/utils/auth'
-import { Roles, RouterConfig } from '@src/router/type'
+import { Roles, IRoute } from '@src/router/type'
 
 interface AuthProps extends RouteComponentProps {
-  route: RouterConfig
+  route: IRoute
   children: React.ReactNode
 }
 
@@ -57,20 +57,14 @@ function Auth(props: AuthProps) {
   }
 
   // 检查授权
-  // eslint-disable-next-line react/destructuring-assignment
   if (!checkAuth(props.location)) {
     return <Redirect to='/error/403' push />
   }
 
-  // eslint-disable-next-line react/destructuring-assignment
-  console.log(props.route)
-
-  // eslint-disable-next-line react/destructuring-assignment
   if (props.route.redirect) {
     return <Redirect to={props.route.redirect!} push />
   }
 
-  // eslint-disable-next-line react/destructuring-assignment
   return <>{props.children}</>
 }
 

@@ -1,11 +1,12 @@
 import React, { memo, useMemo } from 'react'
 import { useTitle } from 'react-use'
-import { RouterConfig } from '@src/router/type'
+import { IRoute } from '@src/router/type'
 import { businessRouteList, getPageTitle } from '@src/router/utils'
 import { Route } from 'react-router-dom'
 import Auth from '../Auth'
+import AsyncRoutes from '../AsyncRoutes/AsyncRoutes'
 
-function renderRoute(route: RouterConfig) {
+function renderRoute(route: IRoute) {
     const title = getPageTitle(businessRouteList)
 
     /* useTitle(title) */
@@ -28,7 +29,7 @@ function renderRoute(route: RouterConfig) {
 function renderRouteList(): React.ReactNode[] {
     const result: React.ReactNode[] = []
   
-    businessRouteList.forEach((child: RouterConfig) => {
+    businessRouteList.forEach((child: IRoute) => {
       result.push(renderRoute(child))
     })
   
@@ -39,7 +40,7 @@ const MainRoutes: React.FC = memo(() => {
     const routeList = useMemo(() => renderRouteList(), [])
 
     return (
-        <Route>{routeList}</Route>
+        <AsyncRoutes>{routeList}</AsyncRoutes>
     )
  })
 

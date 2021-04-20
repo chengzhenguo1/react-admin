@@ -90,7 +90,6 @@ interface IJobNameProps extends ItemProps{
 }
 
 function Name(props: ItemProps) {
-    console.log(props)
     return (
         <FormInput
           formProps={{ children: null }}

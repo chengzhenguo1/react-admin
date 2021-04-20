@@ -2,9 +2,9 @@ import { RouteProps } from 'react-router-dom'
 
 export type Roles = ('admin'| 'user')
 
-export interface RouterConfig extends RouteProps{
+export interface IRoute extends RouteProps{
     // 子路由
-    children?: RouterConfig[]
+    children?: IRoute[]
     // 路由组件
     component?: any
     // 跳转路由

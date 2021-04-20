@@ -1,12 +1,12 @@
 import React, { memo, useEffect, useState } from 'react'
 import { Breadcrumb } from 'antd'
 import { getBreadcrumbs } from '@src/router/utils'
-import { RouterConfig } from '@src/router/type'
+import { IRoute } from '@src/router/type'
 import { Link, useLocation } from 'react-router-dom'
 import './index.less'
 
 const Breadcrumbs: React.FC = memo(() => {
-    const [breadcrumbs, setBreadcrumbs] = useState<RouterConfig []>([])
+    const [breadcrumbs, setBreadcrumbs] = useState<IRoute []>([])
     const { pathname } = useLocation()
 
     useEffect(() => {

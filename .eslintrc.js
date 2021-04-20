@@ -79,6 +79,9 @@ module.exports = {
 
     'react-hooks/exhaustive-deps': 'warn', */
 
+    // 允许不使用默认值
+    'react/destructuring-assignment': 0,
+
     'react/jsx-indent': ['error', 4],
     // jsx > 紧跟着属性
     'react/jsx-closing-bracket-location': [1, 'after-props'],

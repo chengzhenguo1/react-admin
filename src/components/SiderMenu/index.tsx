@@ -1,16 +1,21 @@
 import React, { memo } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-
+import { connect } from 'react-redux'
 import { Menu } from 'antd'
 import routes from '@src/router'
-import { RouterConfig } from '@src/router/type'
+import { IRoute } from '@src/router/type'
 import { pathToList } from '@src/router/utils'
 import { IDictionary } from '@src/typings/global'
 import {
  UserOutlined, AppstoreOutlined, WechatOutlined, UsergroupAddOutlined, AuditOutlined, MailOutlined, MehOutlined, FrownOutlined,
 } from '@ant-design/icons'
+import { IStoreState } from '@src/store/type'
 
 const { SubMenu } = Menu
+
+interface IProps {
+  routes?: IRoute[]
+}
 
 const IconMap: IDictionary<any> = {
   UserOutlined: <UserOutlined />,
@@ -24,7 +29,7 @@ const IconMap: IDictionary<any> = {
 }
 
   /* 无极菜单 */
-const renderMenu = ({ path, meta }: RouterConfig) => (
+const renderMenu = ({ path, meta }: IRoute) => (
     <Menu.Item key={path as React.Key} icon={meta?.icon && IconMap[meta.icon]}>
         <Link to={path as string}>
             {meta.title}
@@ -33,7 +38,7 @@ const renderMenu = ({ path, meta }: RouterConfig) => (
 )
 
 /* 子级菜单处理 */
-const renderSubMenu = ({ children, path, meta }: RouterConfig) => (
+const renderSubMenu = ({ children, path, meta }: IRoute) => (
     <SubMenu key={path as React.Key} title={meta.title} icon={meta?.icon && IconMap[meta.icon]}>
         {children?.map((item) => (
         item.children && item.children.length > 0 ? renderSubMenu(item) : renderMenu(item)
@@ -41,7 +46,7 @@ const renderSubMenu = ({ children, path, meta }: RouterConfig) => (
     </SubMenu>  
 )
 
-const SiderMenu: React.FC = memo(() => {
+const SiderMenu: React.FC<IProps> = memo((props) => {
     const { pathname } = useLocation()
     return (
         <Menu 
@@ -49,11 +54,11 @@ const SiderMenu: React.FC = memo(() => {
           mode='inline' 
           selectedKeys={[pathname]}
           defaultOpenKeys={pathToList(pathname)}>
-            {routes[1]?.children.map((route) => (
+            {props?.routes?.map((route) => (
             route.children && route.children.length > 0 ? renderSubMenu(route) : renderMenu(route)
           ))}
         </Menu>
 )
  })
 
-export default SiderMenu
+export default connect(({ app: { routes } }: IStoreState) => ({ routes }), null)(SiderMenu)

@@ -1,8 +1,8 @@
 import React from 'react'
-import { RouterConfig } from './type'
+import { IRoute } from './type'
 import Login from '../views/Login/index'
 
-export const routes: RouterConfig[] = [
+export const routes: IRoute[] = [
     {
         path: '/login',
         meta: {
@@ -35,7 +35,6 @@ export const routes: RouterConfig[] = [
                     title: '用户管理',
                     icon: 'UserOutlined',
                 },
-                roles: ['admin'],
                 redirect: '/user/add',
                 children: [
                     {
@@ -44,6 +43,7 @@ export const routes: RouterConfig[] = [
                         meta: {
                             title: '用户添加',
                         },
+                        roles: ['user'],
                     },
                     {
                         path: '/user/delete',

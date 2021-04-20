@@ -1,5 +1,5 @@
 import { routes } from './index'
-import { RouterConfig } from './type'
+import { IRoute } from './type'
 
 /* 解析当前path路径 */
 export const pathToList = (path: string): string[] => {
@@ -8,10 +8,10 @@ export const pathToList = (path: string): string[] => {
 }
 
 /* 解析当前path路径中的路由 */
-function findRoutesByPaths(pathList: string[], routes: RouterConfig[]):RouterConfig[] {
-    const res: RouterConfig[] = []  
+function findRoutesByPaths(pathList: string[], routes: IRoute[]):IRoute[] {
+    const res: IRoute[] = []  
     routes.forEach(
-        (child: RouterConfig) => {
+        (child: IRoute) => {
             if (pathList.indexOf(`${child.path}`) !== -1) {
                 res.push(child)
             }
@@ -23,8 +23,8 @@ function findRoutesByPaths(pathList: string[], routes: RouterConfig[]):RouterCon
     return res
 }
 
-export function flattenRoute(routeList: RouterConfig[], deep: boolean, auth: boolean): RouterConfig[] {
-    const result: RouterConfig[] = []
+export function flattenRoute(routeList: IRoute[], deep: boolean, auth: boolean): IRoute[] {
+    const result: IRoute[] = []
   
     for (let i = 0; i < routeList.length; i += 1) {
       const route = routeList[i]
@@ -42,12 +42,11 @@ export function flattenRoute(routeList: RouterConfig[], deep: boolean, auth: boo
     return result
 }
 
-function getLayoutRouteList(): RouterConfig[] {
-    console.log(flattenRoute(routes, false, false))
+function getLayoutRouteList(): IRoute[] {
     return flattenRoute(routes, false, false)
 }
 
-function getBusinessRouteList(): RouterConfig[] {
+function getBusinessRouteList(): IRoute[] {
     const routeList = routes.filter((route) => route.path === '/')
   
     if (routeList.length > 0) {
@@ -56,7 +55,7 @@ function getBusinessRouteList(): RouterConfig[] {
     return []
 }
   
-function getSystemRouteList(): RouterConfig[] {
+function getSystemRouteList(): IRoute[] {
     const routeList = routes.filter((route) => route.path === '/system')
 
     if (routeList.length > 0) {
@@ -70,13 +69,13 @@ export const businessRouteList = getBusinessRouteList()
 export const systemRouteList = getSystemRouteList()
 
 /* 页面标题 */
-export function getPageTitle(routeList: RouterConfig[]): string {
+export function getPageTitle(routeList: IRoute[]): string {
   const route = routeList.find((child) => child.path === window.location.pathname)
 
   return route ? route.meta.title : ''
 }
 
 /* 面包屑 */
-export function getBreadcrumbs(path: string): RouterConfig[] {
+export function getBreadcrumbs(path: string): IRoute[] {
     return findRoutesByPaths(pathToList(path), routes)
 }
