@@ -1,6 +1,5 @@
 import React from 'react'
 import { IRoute } from './type'
-import Login from '../views/Login/index'
 
 export const routes: IRoute[] = [
     {
@@ -9,7 +8,7 @@ export const routes: IRoute[] = [
             title: '系统',
         },
         redirect: '/system/login',
-        component: Login,  
+        component: React.lazy(() => import('../components/UserLayout')),  
         children: [
             {
                 path: '/system/login',
@@ -17,7 +16,7 @@ export const routes: IRoute[] = [
                     title: '登录',
                 },
                 exact: true,
-                component: Login,  
+                component: React.lazy(() => import('../views/Login')),  
             },
         ],
     },

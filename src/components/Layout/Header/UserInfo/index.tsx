@@ -1,11 +1,11 @@
-import React, { memo } from 'react'
+import React, { memo, useCallback } from 'react'
 import { connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { Avatar, Popconfirm } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import { Player } from '@lottiefiles/react-lottie-player'
 import { ClosePath } from '@src/constants/lottiePath'
-import { logout } from '@src/store/module/user'
+import { logout, UserState } from '@src/store/module/user'
 import { clearSideBarRoutes } from '@src/store/module/app'
 import { IStoreState } from '@src/store/type'
 import './index.less'
@@ -13,16 +13,18 @@ import './index.less'
 interface IProps {
     logout: () => void
     clearSideBarRoutes: () => void
-    username: string
+    username: UserState['username']
 }
 
 const UserInfo: React.FC<IProps> = memo((props) => {
     const { replace } = useHistory()
-    const logOut = () => {
+
+    const logOut = useCallback(() => {
         props.logout()
         props.clearSideBarRoutes()
         replace('/system/login')
-    }
+    }, [])
+    
     return (
         <div className='userinfo'>
             <Avatar size={36} icon={<UserOutlined />} />

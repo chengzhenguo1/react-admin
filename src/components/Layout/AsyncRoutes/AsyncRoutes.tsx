@@ -6,7 +6,7 @@ import { IStoreState } from '@src/store/type'
 import { setSideBarRoutes } from '@src/store/module/app'
 import TransitionMain from '@src/components/TransitionMain'
 import { checkAuth } from '@src/components/AuthWrapper'
-import { systemRouteList } from '@src/router/utils'
+import { dashboardRouteList } from '@src/router/utils'
 
 interface AsyncRoutesProps {
   children: React.ReactNode
@@ -48,7 +48,7 @@ const AsyncRoutes: React.FC<AsyncRoutesProps> = (props) => {
         })
         .catch(() => {})
     */
-   props.setSideBarRoutes(formatMenuToRoute(systemRouteList, props.role))
+   props.setSideBarRoutes(formatMenuToRoute(dashboardRouteList, props.role))
 
    return <Spin />
   }
