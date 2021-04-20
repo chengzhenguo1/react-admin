@@ -6,11 +6,13 @@ import { UserOutlined } from '@ant-design/icons'
 import { Player } from '@lottiefiles/react-lottie-player'
 import { ClosePath } from '@src/constants/lottiePath'
 import { logout } from '@src/store/module/user'
-import './index.less'
+import { clearSideBarRoutes } from '@src/store/module/app'
 import { IStoreState } from '@src/store/type'
+import './index.less'
 
 interface IProps {
-    logout: ()=>void
+    logout: () => void
+    clearSideBarRoutes: () => void
     username: string
 }
 
@@ -18,7 +20,8 @@ const UserInfo: React.FC<IProps> = memo((props) => {
     const { replace } = useHistory()
     const logOut = () => {
         props.logout()
-        replace('/')
+        props.clearSideBarRoutes()
+        replace('/system/login')
     }
     return (
         <div className='userinfo'>
@@ -43,5 +46,5 @@ const UserInfo: React.FC<IProps> = memo((props) => {
  })
 
 export default connect(({ user: { username } }: IStoreState) => ({ username }), {
-    logout,
+    logout, clearSideBarRoutes,
 })(UserInfo)

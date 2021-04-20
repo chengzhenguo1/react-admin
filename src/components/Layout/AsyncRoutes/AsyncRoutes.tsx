@@ -4,9 +4,9 @@ import { connect } from 'react-redux'
 import { IRoute, Roles } from '@src/router/type'
 import { IStoreState } from '@src/store/type'
 import { setSideBarRoutes } from '@src/store/module/app'
-import routes from '@src/router'
 import TransitionMain from '@src/components/TransitionMain'
 import { checkAuth } from '@src/components/AuthWrapper'
+import { systemRouteList } from '@src/router/utils'
 
 interface AsyncRoutesProps {
   children: React.ReactNode
@@ -17,8 +17,8 @@ interface AsyncRoutesProps {
 
 function formatMenuToRoute(menus: IRoute[], role: Roles): IRoute[] {
   const result: IRoute[] = []
-
   menus.forEach((menu) => {
+    /* 排除/error和/*渲染到侧边路由, 再查看当前路由表的是否有权限 */
     if ((menu?.path && !['/error', '/*'].includes(menu?.path as string)) && checkAuth(menu.roles, role)) {
       const route: IRoute = {
         path: menu.path,
@@ -38,7 +38,17 @@ function formatMenuToRoute(menus: IRoute[], role: Roles): IRoute[] {
 
 const AsyncRoutes: React.FC<AsyncRoutesProps> = (props) => {
   if (!props.init) {
-   props.setSideBarRoutes(formatMenuToRoute(routes[1].children || [], props.role))
+    /* 
+       进行侧边栏筛选渲染，查看当前路由是否有该权限
+       可以进行异步请求后端路由表，根据后端路由进行渲染侧边栏
+       如
+        apiGetMenuList()
+        .then(({ data }) => {
+          props.setSideBarRoutes(formatMenuToRoute(data.list));
+        })
+        .catch(() => {})
+    */
+   props.setSideBarRoutes(formatMenuToRoute(systemRouteList, props.role))
 
    return <Spin />
   }

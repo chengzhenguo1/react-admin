@@ -1,16 +1,12 @@
 import React, { memo, useMemo } from 'react'
 import { useTitle } from 'react-use'
 import { IRoute } from '@src/router/type'
-import { businessRouteList, getPageTitle } from '@src/router/utils'
+import { businessRouteList } from '@src/router/utils'
 import { Route } from 'react-router-dom'
 import Auth from '../Auth'
 import AsyncRoutes from '../AsyncRoutes/AsyncRoutes'
 
 function renderRoute(route: IRoute) {
-    const title = getPageTitle(businessRouteList)
-
-    /* useTitle(title) */
-
     const { component: Component } = route
   
     return (
@@ -26,9 +22,10 @@ function renderRoute(route: IRoute) {
     )
 }
 
+/* 条件渲染/下的路由列表 */
 function renderRouteList(): React.ReactNode[] {
     const result: React.ReactNode[] = []
-  
+
     businessRouteList.forEach((child: IRoute) => {
       result.push(renderRoute(child))
     })

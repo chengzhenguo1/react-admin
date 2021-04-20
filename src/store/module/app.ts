@@ -2,15 +2,12 @@ import { Reducer } from 'redux'
 import { IRoute } from '@src/router/type'
 import store from 'store'
 import { IAction } from '../type'
-import { flattenRoute } from '../../router/utils'
 
 export interface AppState {
   sidebar: {
     opened: boolean
   }
   routes: IRoute[]
-
-  flattenRoutes: IRoute[]
 
   init: boolean
 }
@@ -23,9 +20,8 @@ const defaultApp: AppState = {
   sidebar: {
     opened: typeof opened === 'boolean' ? opened : true,
   },
-  routes: [],
-  flattenRoutes: [],
-  init: false,
+  routes: [], // 过滤后的侧边栏
+  init: false, // 进行判断是否初始化
 }
 
 const SET_SIDE_BAR_OPENED = 'SET_SIDE_BAR_OPENED'
@@ -59,18 +55,18 @@ const appReducer: Reducer<AppState, IAction<any>> = (state = defaultApp, action:
         sidebar: payload,
       }
 
+      /* 侧边栏路由 */
     case SET_SIDE_BAR_ROUTES:
       return {
         ...state,
         routes: payload,
-        flattenRoutes: flattenRoute(payload, true, false),
         init: true,
       }
+      /* 移除侧边栏路由 */
     case RMOVE_SIDE_BAR_ROUTES:
       return {
         ...state,
         routes: [],
-        flattenRoutes: [],
         init: false,
       }
 
@@ -79,6 +75,6 @@ const appReducer: Reducer<AppState, IAction<any>> = (state = defaultApp, action:
         ...state,
       }
   }
-};
+}
 
 export default appReducer

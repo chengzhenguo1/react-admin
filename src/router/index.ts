@@ -4,12 +4,22 @@ import Login from '../views/Login/index'
 
 export const routes: IRoute[] = [
     {
-        path: '/login',
+        path: '/system',
         meta: {
-            title: '登录',
+            title: '系统',
         },
-        exact: true,
-        component: Login, 
+        redirect: '/system/login',
+        component: Login,  
+        children: [
+            {
+                path: '/system/login',
+                meta: {
+                    title: '登录',
+                },
+                exact: true,
+                component: Login,  
+            },
+        ],
     },
     {
         path: '/',
@@ -22,7 +32,6 @@ export const routes: IRoute[] = [
             {
                 path: '/dashboard',
                 exact: true,
-                roles: ['admin'],
                 component: React.lazy(() => import('../views/Dashboard')),
                 meta: {
                     title: '控制台',
@@ -43,7 +52,7 @@ export const routes: IRoute[] = [
                         meta: {
                             title: '用户添加',
                         },
-                        roles: ['user'],
+                        roles: ['user', 'admin'],
                     },
                     {
                         path: '/user/delete',

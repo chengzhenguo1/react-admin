@@ -17,7 +17,7 @@ const App = function () {
                         path={route.path}
                         exact={route.exact}
                         component={route.component} />
-                    ))}
+                  ))}
               </Switch>
           </HashRouter>
       </Suspense>

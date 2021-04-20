@@ -80,7 +80,7 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'warn', */
 
     // 允许不使用默认值
-    'react/destructuring-assignment': 0,
+    'react/destructuring-assignment': 1,
 
     'react/jsx-indent': ['error', 4],
     // jsx > 紧跟着属性
