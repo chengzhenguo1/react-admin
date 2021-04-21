@@ -2,18 +2,19 @@ import { Reducer } from 'redux'
 import {
  getRole, getToken, localSetUserInfo, localRemoveUserInfo, getUser, 
 } from '@src/utils/auth'
+import { Roles } from '@src/router/type'
 import { IAction } from '../type'
 
 export interface UserState {
     username: string
     token: string
-    role: string
+    role: Roles 
 }
 
 const defaultUser: UserState = {
     username: getUser(),
     token: getToken(),
-    role: getRole(),
+    role: getRole() as Roles,
 }
 
 const SET_USER_INFO = 'SET_USER_INFO'

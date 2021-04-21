@@ -1,25 +1,16 @@
-import { InputProps } from 'antd'
 import React, { memo } from 'react'
-import { formProps } from '../LoginItem'
+import { UserStatus } from '@src/assets/data'
 import FormInput from '../../FromInput/input'
-import {
- ItemConfig, ItemProps, radioItem, TextAreaProps, 
-} from '../type'
+import { formProps, ItemConfig, ItemProps } from '../type'
 
-interface LoginItemType {
+interface JobItemType {
     Name: React.FC<ItemProps>
     Number: React.FC<ItemProps>
     Status: React.FC<ItemProps>
     Content: React.FC<ItemProps>
 }
 
-interface DepartmentItemConfig extends ItemConfig{
-    label: string
-    inputProps: InputProps | TextAreaProps
-    radioItem?: radioItem // 单选框
-}
-
-const config: {[key in keyof LoginItemType]: DepartmentItemConfig} = {
+const config: {[key in keyof JobItemType]: ItemConfig} = {
     Name: {
         name: 'name',
         label: '部门名称',
@@ -46,23 +37,14 @@ const config: {[key in keyof LoginItemType]: DepartmentItemConfig} = {
         inputProps: {
             type: 'radio',
         },
-        radioItem: [
-            {
-                value: false,
-                text: '禁用',
-            },
-            {
-                value: true,
-                text: '启用',
-            },
-        ],
+        radioItem: UserStatus,
     },
     Content: {
         name: 'content',
         label: '描述',
+        rows: 10,
         inputProps: {
-            type: 'area',
-            rows: 10,
+            type: 'textArea',
         },
     },
 }
@@ -103,7 +85,7 @@ function Content(props: ItemProps) {
 )
 }
 
-const DepartmentItem: LoginItemType = {
+const DepartmentItem: JobItemType = {
     Name: memo(Name),
     Number: memo(Number),
     Status: memo(Status),

@@ -1,11 +1,12 @@
 import axios from '@src/utils/request'
+import { IGetParam, IList } from './types'
 import type {
- IDepartmentProps, IDepartment, IEditDepartmentParams, 
+ IDepartmentProps, IDepartmentData, 
 } from './types/department'
 
-type AddOrEditDepartmentFn = (data: IEditDepartmentParams)=> Promise<{message: string}>
-type GetDepartmentListFn = (data?: {name:string, pageNumber: number, pageSize: number})=> Promise<IDepartment>
-/* type GetDepartmentListAllFn = ()=> Promise<IDepartmentData[]> */
+type AddOrEditDepartmentFn = (data: IDepartmentProps & {id?: string})=> Promise<{message: string}>
+type GetDepartmentListFn = (data?: IGetParam)=> Promise<IList<IDepartmentData>>
+type GetDepartmentListAllFn = ()=> Promise<IDepartmentData[]>
 type GetDepartmentDetailedFn = (id: string)=> Promise<IDepartmentProps>
 type SetDepartmentStatusFn = (id: string, status: boolean)=> Promise<{message: string}>
 type DeleteDepartmentFn = (id: string)=> Promise<{message: string}>
@@ -20,8 +21,8 @@ const addOrEditDepartment: AddOrEditDepartmentFn = (data) => {
 })
 }
 
-/* 获取部门列表 / 获取全部部门 */
-const getDepartmentList: GetDepartmentListFn = async (data) => {
+/* 获取部门列表 */
+const getDepartmentList: GetDepartmentListFn = async (data = { pageNumber: 1, pageSize: 10 }) => {
     const res = await axios({
         url: '/department/list/',
         method: 'POST',
@@ -31,13 +32,13 @@ const getDepartmentList: GetDepartmentListFn = async (data) => {
 }
 
 /* 获取全部部门 */
-/* const getDepartmentListAll: GetDepartmentListAllFn = async () => {
+const getDepartmentListAll: GetDepartmentListAllFn = async () => {
     const res = await axios({
         url: '/department/listAll/',
         method: 'POST',
     })
     return res.data.data
-} */
+} 
 
 /* 获取部门详情 */
 const getDepartmentDetailed: GetDepartmentDetailedFn = async (id) => {
@@ -83,4 +84,5 @@ export default {
     getDepartmentDetailed,
     setDepartmentStatus,
     deleteDepartment,
+    getDepartmentListAll,
 }

@@ -1,17 +1,26 @@
-import React from 'react'
-import { Switch, Route, HashRouter } from 'react-router-dom'
-import Login from './Login/index'
-import Page from './Page'
+import React, { Suspense } from 'react'
+import { Switch, HashRouter, Route } from 'react-router-dom'
+import { layoutRouteList } from '@src/router/utils'
+import { Spin } from 'antd'
+import { IRoute } from '@src/router/type'
 import 'antd/dist/antd.css'
+import '@src/styles/global.less'
 
 const App = function () {
   return (
-      <HashRouter>
-          <Switch>
-              <Route path='/' component={Login} exact />
-              <Page />
-          </Switch>
-      </HashRouter>
+      <Suspense fallback={<Spin className='lazy_loading' />}>
+          <HashRouter>
+              <Switch>
+                  {layoutRouteList.map((route: IRoute) => (
+                      <Route
+                        key={`${route.path}`}
+                        path={route.path}
+                        exact={route.exact}
+                        component={route.component} />
+                  ))}
+              </Switch>
+          </HashRouter>
+      </Suspense>
   )
 }
 

@@ -1,11 +1,11 @@
 import {
  CaptchaRule, ConfirmRule, PassWordRule, UserNameRule, 
 } from '@src/constants/validate'
-import { FormInstance, FormItemProps } from 'antd'
+import { FormItemProps } from 'antd'
 import React, { memo } from 'react'
 import { UserOutlined, LockOutlined, CreditCardOutlined } from '@ant-design/icons'
 import FormInput from '../../FromInput/input'
-import { ItemConfig, ItemProps } from '../type'
+import { formProps, ItemConfig, ItemProps } from '../type'
 
 interface LoginItemType {
     UserName: React.FC<LoginItemProps>
@@ -53,11 +53,6 @@ const config: {[key in keyof LoginItemType]: ItemConfig} = {
             type: 'code',
         },
     },
-}
-
-export const formProps: FormItemProps = {
-    hasFeedback: true,
-    children: null,
 }
 
 interface LoginItemProps extends ItemProps {

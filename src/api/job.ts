@@ -1,30 +1,29 @@
 import axios from '@src/utils/request'
-import type { IJob, DataDeatil, IJobDeatil } from '../api/types/job'
-import { PageParam } from './types'
+import type { DataDeatil, IJobDeatil, IJob } from '../api/types/job'
+import { IGetParam, IList } from './types'
 
-interface ListPageParam extends PageParam{
-    name: string
-    status: boolean
-}
-
-type JobAddFn = (data: {jobName: string, parentId: number, status: boolean, content: string})=> Promise<{message: string}>
-type GetJobListFn = (data?: ListPageParam)=> Promise<IJob>
-/* type JobListAllFn = ()=> Promise<IJobList> */
-type JobDetailFn = (id: number)=> Promise<IJobDeatil>
+type JobAddOrEditFn = (data: IJob & {content: string, parentId?: string})=> Promise<{message: string}>
+type GetJobListFn = (data?: IGetParam)=> Promise<IList<IJob>>
+type JobListAllFn = ()=> Promise<IJob[]>
+type JobDetailFn = (id: number | string)=> Promise<IJobDeatil>
 type JobEaitFn = (data: DataDeatil)=> Promise<{message: string}>
 type SetJobStatusFn = (id: number, status: boolean)=> Promise<{message: string}>
 type JobDeleteFn = (id:string)=> Promise<{message: string}>
 
-/* 职位添加 */
-const jobAdd: JobAddFn = (data) => axios({
-        url: '/job/add/',
+/* 新增或者编辑添加 */
+const jobAddOrEdit: JobAddOrEditFn = async (data) => {
+   const path = data?.jobId ? 'edit' : 'add'
+   const res = await axios({
+        url: `/job/${path}/`,
         method: 'POST',
         data,
-})
+    })
+    return res
+}
 
-/* 职位列表 / 全部列表 */
+/* 职位列表 */
 const getJobList: GetJobListFn = async (data) => {
-   const res = axios({
+   const res = await axios({
         url: '/job/list/',
         method: 'POST',
         data,
@@ -32,24 +31,26 @@ const getJobList: GetJobListFn = async (data) => {
     return res
 }
 
+/* 职位列表 / 全部列表 */
+const getJobAllList: JobListAllFn = async () => {
+    const res = await axios({
+         url: '/job/listAll/',
+         method: 'POST',
+     })
+     return res.data.data
+ }
+
 /* 职位详情 */
 const jobDetail: JobDetailFn = async (id) => {
-    const res = axios({
+    const res = await axios({
         url: '/job/detailed/',
         method: 'POST',
         data: {
             id,
         },
     })
-    return res
+    return res.data
 }
-
-/* 职位修改 */
-const jobEdit: JobEaitFn = (data) => axios({
-        url: '/job/edit/',
-        method: 'POST',
-        data,
-})
 
 /* 职位禁启用 */
 const setJobStatus : SetJobStatusFn = (id, status) => axios({
@@ -71,10 +72,10 @@ const jobDelete: JobDeleteFn = (id) => axios({
 })
 
 export default {
-    jobAdd,
+    jobAddOrEdit,
     getJobList,
+    getJobAllList,
     jobDetail,
-    jobEdit,
     setJobStatus,
     jobDelete,
 }

@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import { useAsyncFn } from 'react-use'
 import departmentApi from '@src/api/department'
 import DepartmentItem from '@src/components/FormItem/DepartmentItem'
@@ -10,6 +10,7 @@ const DepartmentAdd: React.FC = memo(() => {
     const [, getDepartmentDetailedFn] = useAsyncFn(departmentApi.getDepartmentDetailed)
     const { state } = useLocation<{id: string}>()
     const [form] = Form.useForm()
+    const { goBack } = useHistory()
 
     /* 部门列表跳转判断是否有id */
     useEffect(() => {
@@ -29,6 +30,7 @@ const DepartmentAdd: React.FC = memo(() => {
               addOrEditDepartmentFn(values).then((data) => {
                   message.success(data.message)
                   form.resetFields()
+                  goBack()
               })
           })
         },

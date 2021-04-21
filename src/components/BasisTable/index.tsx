@@ -10,7 +10,7 @@ interface IProps<T> extends TableProps<T>{
     onChange: (pageParams: PaginationProps)=>void
 }
 
-function BasisTable<T extends {id: string | number}>(props: IProps<T>) {
+function BasisTable<T extends({id?: string, jobId?: string, staff_id?:string})>(props: IProps<T>) {
         const {
     data, total, loading, onChange, children, ...resetProps 
     } = props 
@@ -31,7 +31,7 @@ function BasisTable<T extends {id: string | number}>(props: IProps<T>) {
           loading={loading}
           dataSource={data && data}
           bordered
-          rowKey={(record) => `${record.id}`}
+          rowKey={(record) => (record?.id || record?.jobId || record?.staff_id || '')}
           pagination={{
             ...pagination,
             total: total && total,

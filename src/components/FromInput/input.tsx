@@ -1,24 +1,27 @@
-import React, { memo } from 'react'
+import React, { memo, useCallback } from 'react'
 import {
- Col, Input, InputProps, Row, Form, Radio, InputNumber,
+ Col, Input, Row, Form, Radio, InputNumber, Select, DatePicker, Upload,
 } from 'antd'
-import { FormInstance, FormItemProps, Rule } from 'antd/lib/form'
+import { FormInstance, FormItemProps } from 'antd/lib/form'
+import { SelectValue } from 'antd/lib/select'
 import Captcha from '../Captcha'
-import { radioItem, TextAreaProps } from '../FormItem/type'
+import { ItemConfig } from '../FormItem/type'
+import UpLoadPic from '../UploadPic'
+import MyEditor from '../Editor'
 
-interface FormInputProps {
-    name: string
-    rules?: Rule[]
-    label?: string
+export interface FormInputProps extends ItemConfig {
     formProps: FormItemProps
-    inputProps: InputProps | TextAreaProps
     form: FormInstance
-    radioItem?: radioItem // 单选框
-    module?: 'register' | 'login'
+    onSelect?: (value: SelectValue)=> void
 }
 
 const FormInput: React.FC<FormInputProps> = memo((props) => {
-    console.log(props)
+    const onHandleSelect = useCallback((value: SelectValue) => {
+        if (props.onSelect) {
+            props?.onSelect(value)
+        }
+    }, [])
+
     return (
         <Form.Item {...props.formProps} name={props.name} rules={props.rules} label={props.label}>
             {(() => {
@@ -36,9 +39,9 @@ const FormInput: React.FC<FormInputProps> = memo((props) => {
                             </Col>
                         </Row>
                     )
-                case 'area': 
+                case 'textArea': 
                     return (
-                        <Input.TextArea rows={('rows' in props.inputProps && props.inputProps.rows) || 10} />
+                        <Input.TextArea rows={props?.rows || 10} />
                     )
                 case 'radio': 
                     return (
@@ -48,7 +51,34 @@ const FormInput: React.FC<FormInputProps> = memo((props) => {
                     )
                 case 'number':
                     return (
-                        <InputNumber min={props.inputProps.min} max={props.inputProps.max} />
+                        <InputNumber min={props.inputProps.type} max={props.inputProps.max} />
+                    )
+                case 'select':
+                    return (
+                        <Select
+                          placeholder={props.inputProps?.placeholder || '请选择'}
+                          onChange={onHandleSelect} 
+                          style={{ width: props.width || 90 }}
+                          loading={props?.loading}>
+                            {props.optionItem?.map((item) => (
+                                <Select.Option value={item.value} key={item.value}>{item.text}</Select.Option>
+                            ))}
+                        </Select>
+                    )
+                case 'month': 
+                    return (
+                        <DatePicker 
+                          placeholder={props.inputProps.placeholder} 
+                          picker={props.picker || 'date'} 
+                          format={props.format || 'YYYY/MM/DD'} />
+                    )
+                case 'file': 
+                    return (
+                        <UpLoadPic />
+                    )
+                case 'editor': 
+                    return (
+                        <MyEditor value={props.inputProps.value} />
                     )
                 default:
                     return <Input {...props.inputProps} />

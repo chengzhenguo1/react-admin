@@ -1,5 +1,5 @@
 import { UserState } from '@src/store/module/user'
-import store, { remove } from 'store'
+import store from 'store'
 
 const authToken = 'admin_Token'
 const authUser = 'admin_User'

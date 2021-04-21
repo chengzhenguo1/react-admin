@@ -1,16 +1,12 @@
 import React, { memo } from 'react'
-
-import { Layout, Breadcrumb } from 'antd'
-
+import Breadcrumbs from '@src/components/Breadcrumbs'
+import { Layout } from 'antd'
 import './index.less'
 
-const Main: React.FC = memo(({children}) => (
+const Main: React.FC = memo(({ children }) => (
     <Layout.Content className='main'>
-        {/* <Breadcrumb>
-            <Breadcrumb.Item>User</Breadcrumb.Item>
-            <Breadcrumb.Item>Bill</Breadcrumb.Item>
-        </Breadcrumb> */}
-        <div className="main-cover">
+        <Breadcrumbs />
+        <div className='main-cover'>
             {children}
         </div>
     </Layout.Content>

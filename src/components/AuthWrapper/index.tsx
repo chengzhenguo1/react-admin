@@ -7,7 +7,7 @@ interface IProps {
     noMatch?: React.ReactNode | null // 不匹配后的结果
 }
 
-const checkAuth = (roles?: Roles[], auth?: Roles) => {
+export const checkAuth = (roles?: Roles[], auth?: Roles) => {
     if (!roles) {
         return true
     }

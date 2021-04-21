@@ -9,8 +9,10 @@
   },
   "dependencies": {
     "@lottiefiles/react-lottie-player": "^3.1.2",
+    "@tinymce/tinymce-react": "^3.12.2",
     "@types/crypto-js": "^4.0.1",
     "@types/react-router-dom": "^5.1.7",
+    "@types/react-transition-group": "^4.4.1",
     "@types/redux-logger": "^3.0.8",
     "@types/store": "^2.0.2",
     "antd": "^4.15.0",
@@ -22,6 +24,7 @@
     "react-dom": "^17.0.0",
     "react-redux": "^7.2.3",
     "react-router-dom": "^5.2.0",
+    "react-transition-group": "^4.4.1",
     "react-use": "^17.2.3",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",

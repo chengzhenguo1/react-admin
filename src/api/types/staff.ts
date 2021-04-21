@@ -51,3 +51,16 @@ export interface IStaffAdd {
     job_formal_date?: Date
     job_quit_date?: Date
 }
+
+export interface IStaff {
+    company_email: string
+    full_name: string
+    jobName: string
+    job_entry_date: string
+    job_formal_date: string
+    job_quit_date: string
+    name: string
+    phone: string
+    staff_id: string
+    status: boolean
+}

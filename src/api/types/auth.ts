@@ -1,11 +1,13 @@
 /* 登录返回数据 */
 export interface IUser{ 
     message: string
-    data: {
-        username: string
-        token: string
-        role: string
-    }
+    data: User
+}
+
+interface User {
+    username: string
+    token: string
+    role: string
 }
 
 /* 登录/注册参数列表 */
