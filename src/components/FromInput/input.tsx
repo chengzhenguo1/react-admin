@@ -1,11 +1,12 @@
 import React, { memo, useCallback } from 'react'
 import {
- Col, Input, Row, Form, Radio, InputNumber, Select,
+ Col, Input, Row, Form, Radio, InputNumber, Select, DatePicker, Upload,
 } from 'antd'
 import { FormInstance, FormItemProps } from 'antd/lib/form'
 import { SelectValue } from 'antd/lib/select'
 import Captcha from '../Captcha'
 import { ItemConfig } from '../FormItem/type'
+import UpLoadPic from '../UploadPic'
 
 export interface FormInputProps extends ItemConfig {
     formProps: FormItemProps
@@ -62,6 +63,17 @@ const FormInput: React.FC<FormInputProps> = memo((props) => {
                                 <Select.Option value={item.value} key={item.value}>{item.text}</Select.Option>
                             ))}
                         </Select>
+                    )
+                case 'month': 
+                    return (
+                        <DatePicker 
+                          placeholder={props.inputProps.placeholder} 
+                          picker={props.picker || 'date'} 
+                          format={props.format || 'YYYY/MM/DD'} />
+                    )
+                case 'file': 
+                    return (
+                        <UpLoadPic />
                     )
                 default:
                     return <Input {...props.inputProps} />

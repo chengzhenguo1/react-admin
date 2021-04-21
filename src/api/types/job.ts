@@ -14,7 +14,7 @@ export interface IJobDeatil{
     message: string
 }
 
-interface Job {
+export interface Job {
     jobId: string
     jobName: string
     status: boolean

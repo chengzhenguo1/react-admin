@@ -1,5 +1,6 @@
 import { InputProps } from 'antd'
 import React, { memo } from 'react'
+import { UserStatus } from '@src/assets/data'
 import { formProps } from '../LoginItem'
 import FormInput from '../../FromInput/input'
 import { ItemConfig, ItemProps } from '../type'
@@ -38,16 +39,7 @@ const config: {[key in keyof JobItemType]: ItemConfig} = {
         inputProps: {
             type: 'radio',
         },
-        radioItem: [
-            {
-                value: false,
-                text: '禁用',
-            },
-            {
-                value: true,
-                text: '启用',
-            },
-        ],
+        radioItem: UserStatus,
     },
     Content: {
         name: 'content',

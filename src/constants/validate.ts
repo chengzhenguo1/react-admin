@@ -1,6 +1,8 @@
 import { Rule } from 'antd/lib/form'
 
 const PASSWORDREG = /^[a-zA-Z]\w{5,17}$/
+export const CARDREG = /(^\d{8}(0\d|10|11|12)([0-2]\d|30|31)\d{3}$)|(^\d{6}(18|19|20)\d{2}(0\d|10|11|12)([0-2]\d|30|31)\d{3}(\d|X|x)$)/
+export const PHONEREG = /^(?:(?:\+|00)86)?1\d{10}$/
 
 /* 邮箱验证 */
 export const UserNameRule: Rule[] = [{ required: true, message: '请输入用户名！' }, { type: 'email', message: '请输入正确的邮箱格式！' }]

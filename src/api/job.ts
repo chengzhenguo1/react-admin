@@ -1,5 +1,7 @@
 import axios from '@src/utils/request'
-import type { IJob, DataDeatil, IJobDeatil } from '../api/types/job'
+import type {
+ IJob, DataDeatil, IJobDeatil, Job, 
+} from '../api/types/job'
 import { PageParam } from './types'
 
 export interface ListPageParam extends PageParam{
@@ -9,7 +11,7 @@ export interface ListPageParam extends PageParam{
 
 type JobAddFn = (data: {jobName: string, parentId: number, status: boolean, content: string})=> Promise<{message: string}>
 type GetJobListFn = (data?: ListPageParam)=> Promise<IJob>
-/* type JobListAllFn = ()=> Promise<IJobList> */
+type JobListAllFn = ()=> Promise<Job[]>
 type JobDetailFn = (id: number | string)=> Promise<IJobDeatil>
 type JobEaitFn = (data: DataDeatil)=> Promise<{message: string}>
 type SetJobStatusFn = (id: number, status: boolean)=> Promise<{message: string}>
@@ -22,15 +24,24 @@ const jobAdd: JobAddFn = (data) => axios({
         data,
 })
 
-/* 职位列表 / 全部列表 */
+/* 职位列表 */
 const getJobList: GetJobListFn = async (data) => {
-   const res = axios({
+   const res = await axios({
         url: '/job/list/',
         method: 'POST',
         data,
     })
     return res
 }
+
+/* 职位列表 / 全部列表 */
+const getJobAllList: JobListAllFn = async () => {
+    const res = await axios({
+         url: '/job/listAll/',
+         method: 'POST',
+     })
+     return res.data.data
+ }
 
 /* 职位详情 */
 const jobDetail: JobDetailFn = async (id) => {
@@ -73,6 +84,7 @@ const jobDelete: JobDeleteFn = (id) => axios({
 export default {
     jobAdd,
     getJobList,
+    getJobAllList,
     jobDetail,
     jobEdit,
     setJobStatus,

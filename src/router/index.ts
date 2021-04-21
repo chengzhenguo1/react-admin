@@ -14,6 +14,8 @@ const DepartmentList = lazyImport('../views/Department/List')
 const DepartmentAdd = lazyImport('../views/Department/Add')
 const JobList = lazyImport('../views/Job/List')
 const JobAdd = lazyImport('../views/Job/Add')
+const StaffList = lazyImport('../views/Staff/List')
+const StaffAdd = lazyImport('../views/Staff/Add')
 
 export const routes: IRoute[] = [
     {
@@ -124,22 +126,31 @@ export const routes: IRoute[] = [
                     },
                 ],
             },
-            /* {
-                path: '/worker',
-                redirect: '/worker/list',
+             {
+                path: '/staff',
+                redirect: '/staff/list',
                 meta: {
-                    title: '员工管理',
+                    title: '职员管理',
                     icon: 'UsergroupAddOutlined',
                 },
                 children: [
                     {
-                        path: '/worker/list',
+                        path: '/staff/list',
+                        component: StaffList,
                         meta: {
-                            title: '员工列表',
+                            title: '职员列表',
+                        },
+                    },
+                    {
+                        path: '/staff/add',
+                        component: StaffAdd,
+                        meta: {
+                            title: '职员添加',
                         },
                     },
                 ],
             },
+            /*
             {
                 path: '/announcement',
                 redirect: '/announcement/list',

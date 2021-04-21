@@ -8,7 +8,7 @@ import '@src/styles/global.less'
 
 const App = function () {
   return (
-      <Suspense fallback={<Spin />}>
+      <Suspense fallback={<Spin className='lazy_loading' />}>
           <HashRouter>
               <Switch>
                   {layoutRouteList.map((route: IRoute) => (

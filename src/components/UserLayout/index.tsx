@@ -50,7 +50,7 @@ class UserLayout extends React.PureComponent<any, UserLayoutState> {
                             </Link>
                         </Typography.Title>
                     </div>
-                    <Suspense fallback={<Spin className='layout__loading' />}>
+                    <Suspense fallback={<Spin className='lazy_loading' />}>
                         <Switch>
                             {systemRouteList.map((menu: IRoute) => (
                                 <Route exact key={menu.path as string} path={menu.path} component={menu.component} />
