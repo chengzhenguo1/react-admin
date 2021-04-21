@@ -1,9 +1,7 @@
-import { InputProps } from 'antd'
 import React, { memo } from 'react'
 import { UserStatus } from '@src/assets/data'
-import { formProps } from '../LoginItem'
 import FormInput from '../../FromInput/input'
-import { ItemConfig, ItemProps } from '../type'
+import { formProps, ItemConfig, ItemProps } from '../type'
 
 interface JobItemType {
     Name: React.FC<ItemProps>

@@ -1,10 +1,11 @@
 import axios from '@src/utils/request'
+import { IGetParam, IList } from './types'
 import type {
- IDepartmentProps, IDepartment, IEditDepartmentParams, IDepartmentData, 
+ IDepartmentProps, IDepartmentData, 
 } from './types/department'
 
-type AddOrEditDepartmentFn = (data: IEditDepartmentParams)=> Promise<{message: string}>
-type GetDepartmentListFn = (data?: {name?:string, pageNumber: number, pageSize: number})=> Promise<IDepartment>
+type AddOrEditDepartmentFn = (data: IDepartmentProps & {id?: string})=> Promise<{message: string}>
+type GetDepartmentListFn = (data?: IGetParam)=> Promise<IList<IDepartmentData>>
 type GetDepartmentListAllFn = ()=> Promise<IDepartmentData[]>
 type GetDepartmentDetailedFn = (id: string)=> Promise<IDepartmentProps>
 type SetDepartmentStatusFn = (id: string, status: boolean)=> Promise<{message: string}>

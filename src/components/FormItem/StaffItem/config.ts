@@ -239,7 +239,7 @@ export const config: {[key in keyof StaffItemType]: ItemConfig} = {
         name: 'introduce',
         label: '描述',
         inputProps: {
-            type: 'text',
+            type: 'editor',
         },
     },
 }

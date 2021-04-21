@@ -1,9 +1,15 @@
-.cc {
+.staff-form {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
     width: 100%;
     &>div {
         flex-basis: 50%;
+    }
+    .form-editor {
+        flex-basis: 100%;
+        .ant-col-10 {
+            max-width: 100%  !important;
+        }
     }
 }

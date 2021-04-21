@@ -1,14 +1,11 @@
 import React, { memo } from 'react'
-import { formProps } from '../LoginItem'
 import FormInput from '../../FromInput/input'
-import { ItemConfig, ItemProps } from '../type'
+import { formProps, ItemConfig, ItemProps } from '../type'
 
 interface JobItemType {
     Name: React.FC<ItemProps>
-    JobName: React.FC<IJobNameProps>
+    JobName: React.FC<ItemProps>
     Status: React.FC<ItemProps>
-    SearchStatus: React.FC<ItemProps>
-   /*  SearchJobName: React.FC<ItemProps> */
     Content: React.FC<ItemProps>
 }
 
@@ -48,32 +45,6 @@ const config: {[key in keyof JobItemType]: ItemConfig} = {
             },
         ],
     },
-   /*  SearchJobName: {
-        name: 'jobName',
-        label: '职位名称',
-        inputProps: {
-            placeholder: '职位名称',
-            type: 'text',
-        },
-    },  */
-    SearchStatus: {
-        name: 'status',
-        label: '禁启用',
-        inputProps: {
-            type: 'select',
-        },
-        width: 100,
-        optionItem: [
-            {
-                value: false,
-                text: '禁用',
-            },
-            {
-                value: true,
-                text: '启用',
-            },
-        ],
-    },
     Content: {
         name: 'content',
         label: '描述',
@@ -82,11 +53,6 @@ const config: {[key in keyof JobItemType]: ItemConfig} = {
         },
         rows: 10,
     },
-}
-
-interface IJobNameProps extends ItemProps{
-    // eslint-disable-next-line react/require-default-props
-    isRule?: boolean
 }
 
 function Name(props: ItemProps) {
@@ -98,13 +64,11 @@ function Name(props: ItemProps) {
 )
 }
 
-function JobName(props: IJobNameProps) {
-    const { isRule = false } = props
+function JobName(props: ItemProps) {
     return (
         <FormInput
           formProps={formProps}
           {...config.JobName}
-          rules={isRule ? config.JobName.rules : undefined}
           {...props} />
 )
 }
@@ -127,31 +91,11 @@ function Content(props: ItemProps) {
 )
 }
 
-/* function SearchJobName(props: ItemProps) {
-    return (
-        <FormInput
-          formProps={{ children: null }}
-          {...config.SearchJobName}
-          {...props} />
-)
-} */
-
-function SearchStatus(props: ItemProps) {
-    return (
-        <FormInput
-          formProps={{ children: null }}
-          {...config.SearchStatus}
-          {...props} />
-)
-}
-
 const JobItem: JobItemType = {
     Name: memo(Name),
     JobName: memo(JobName),
     Status: memo(Status),
     Content: memo(Content),
-    SearchStatus: memo(SearchStatus),
-   /*  SearchJobName: memo(SearchJobName), */
 }
 
 export default JobItem

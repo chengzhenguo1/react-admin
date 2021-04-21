@@ -1,13 +1,7 @@
 import React, { memo } from 'react'
-import { FormItemProps } from 'antd'
 import FormInput from '../../FromInput/input'
-import { ItemProps } from '../type'
+import { formProps, ItemProps } from '../type'
 import { config, StaffItemType } from './config'
-
-export const formProps: FormItemProps = {
-    hasFeedback: true,
-    children: null,
-}
 
 function Name(props: ItemProps) {
     return (

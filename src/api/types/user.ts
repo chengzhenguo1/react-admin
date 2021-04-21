@@ -1,11 +1,3 @@
-export interface IUserList {
-    data: {
-        data: User[]
-        total: number
-    }
-    message: string
-}
-
 export interface AddFormParam {
     username: string
     truename: string
@@ -19,7 +11,7 @@ export interface EditFormParam extends AddFormParam {
     id: string
 }
 
-interface User extends IUserDeatil{
+export interface User extends IUserDeatil{
     role_str: string
 }
 

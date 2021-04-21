@@ -25,14 +25,6 @@ job_entry_date	false	Date		入职日期
 job_formal_date	false	Date		转正日期
 job_quit_date	false	Date		离职日期 
 */
-
-export interface IStaffList {
-    data: {
-        data: IStaff[]
-        total: number
-    }
-    message: string
-}
 export interface IStaffAdd {
     name: string  
     sex: boolean 

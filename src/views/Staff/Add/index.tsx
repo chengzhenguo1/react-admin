@@ -68,7 +68,7 @@ const StaffAdd: React.FC = memo(() => {
 
     return (
         <Form 
-          className='cc'
+          className='staff-form'
           form={form}
           layout='vertical'
           onFinish={onFinish}
@@ -104,13 +104,13 @@ const StaffAdd: React.FC = memo(() => {
             <StaffItem.JobQuitDate form={form} />
             <StaffItem.JobStatus form={form} />
             <StaffItem.CompanyEmail form={form} />
-            <StaffItem.Introduce form={form} />
             <StaffItem.Status form={form} />
-            <div style={{ flexBasis: '100%' }}>
-                <Form.Item>
-                    <Button htmlType='submit'>提交</Button>
-                </Form.Item>
+            <div className='form-editor'>
+                <StaffItem.Introduce form={form} />
             </div>
+            <Form.Item>
+                <Button htmlType='submit'>提交</Button>
+            </Form.Item>
         </Form>
 )
  })

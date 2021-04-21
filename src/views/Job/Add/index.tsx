@@ -7,13 +7,11 @@ import JobItem from '@src/components/FormItem/JobItem'
 import { Button, Form, message } from 'antd'
 
 const JobAdd: React.FC = memo(() => {
-    const [{ loading }, addJobFn] = useAsyncFn(jobApi.jobAdd)
-    const [, editJobFn] = useAsyncFn(jobApi.jobEdit)
+    const [{ loading }, jobAddOrEditFn] = useAsyncFn(jobApi.jobAddOrEdit)
     const [, getJobDetailedFn] = useAsyncFn(jobApi.jobDetail)
     const [departmentList, getDepartmentListFn] = useAsyncFn(departmentApi.getDepartmentList)
     const { state } = useLocation<{jobId: string}>()
     const [form] = Form.useForm()
-    const { goBack } = useHistory()
 
     /* 职位列表跳转判断是否有id */
     useEffect(() => {
@@ -28,21 +26,16 @@ const JobAdd: React.FC = memo(() => {
     /* 编辑或者删除 */
     const onHandleDartmentAddOrEdit = useCallback(
         () => {
+          // 需要修复修改后id还存在的问题
           form.validateFields().then((res) => {
-              const jobId = state?.jobId ? state.jobId : undefined
-              const values = { jobId, ...res }
-
-              if (jobId) {
-                editJobFn(values).then((data) => {
-                    message.success(data.message)
-                })
-              } else {
-                addJobFn(values).then((data) => {
-                    message.success(data.message)
-                })
-              }
-              form.resetFields()
-              goBack()
+              let jobId = state?.jobId
+              const values = { ...res, jobId }
+              jobAddOrEditFn(values).then((data) => {
+                console.log(jobId)
+                jobId = ''
+                message.success(data.message)
+                form.resetFields()
+              })
           })
         },
         [],
@@ -63,7 +56,7 @@ const JobAdd: React.FC = memo(() => {
               form={form} 
               optionItem={departmentList?.value?.data.data.map((item) => ({ value: item.id, text: item.name }))} 
               loading={departmentList?.loading} />
-            <JobItem.JobName form={form} isRule />
+            <JobItem.JobName form={form} />
             <JobItem.Status form={form} />
             <JobItem.Content form={form} />
             <Form.Item>

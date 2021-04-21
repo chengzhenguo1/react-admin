@@ -1,6 +1,10 @@
 import { FormInstance, InputProps } from 'antd'
-import { Rule } from 'antd/lib/form'
+import { FormItemProps, Rule } from 'antd/lib/form'
 
+export const formProps: FormItemProps = {
+    hasFeedback: true,
+    children: null,
+}
 export interface ItemConfig {
     name: string
     rules?: Rule[]

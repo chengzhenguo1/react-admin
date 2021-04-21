@@ -3,13 +3,14 @@ import React, {
 } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useAsyncFn } from 'react-use'
-import jobApi, { ListPageParam } from '@src/api/job'
+import jobApi from '@src/api/job'
 import BasisTable from '@src/components/BasisTable'
-import { Jobs } from '@src/api/types/job'
+import { IJob } from '@src/api/types/job'
 import {
  Button, Table, Popconfirm, message, PaginationProps, Form, Switch, Modal,
 } from 'antd'
 import JobItem from '@src/components/FormItem/JobItem'
+import SearchItem from '@src/components/FormItem/searchItem'
 
 const JobList: React.FC = memo(() => {
     const [name, setName] = useState('')
@@ -88,9 +89,9 @@ const JobList: React.FC = memo(() => {
     )
     
     /* 点击搜索 */
-   const onSearchJob = useCallback(
+   const onSearch = useCallback(
        () => {
-           const name = form.getFieldValue('jobName')
+           const name = form.getFieldValue('name')
            const status = form.getFieldValue('status')
            setStatus(status)
            setName(name)
@@ -110,27 +111,27 @@ const JobList: React.FC = memo(() => {
               form={form} 
               layout='inline' 
               className='mb-20'
-              onFinish={onSearchJob}>
-                <JobItem.JobName form={form} />
-                <JobItem.SearchStatus form={form} />
+              onFinish={onSearch}>
+                <SearchItem.SearchName form={form} />
+                <SearchItem.SearchStatus form={form} />
                 <Form.Item>
                     <Button type='primary' htmlType='submit'>搜索</Button>
                 </Form.Item>
             </Form>
-            <BasisTable<Jobs> 
+            <BasisTable<IJob> 
               loading={jobList.loading} 
               data={jobList.value?.data.data}
               total={jobList.value?.data.total}
               rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
               onChange={onPageChange}
               footer={() => <Button onClick={onHandleDelete}>批量删除</Button>}>
-                <Table.Column<Jobs> 
+                <Table.Column<IJob> 
                   title='职位名称' 
                   dataIndex='name' />
-                <Table.Column<Jobs> 
+                <Table.Column<IJob> 
                   title='部门名称' 
                   dataIndex='jobName' />
-                <Table.Column<Jobs> 
+                <Table.Column<IJob> 
                   title='禁启用' 
                   dataIndex='status' 
                   align='center' 
@@ -142,7 +143,7 @@ const JobList: React.FC = memo(() => {
                         checked={record.status}
                         onChange={(checked) => onHandleChangeStatus(record.jobId, checked)} />
                 )} />
-                <Table.Column<Jobs> 
+                <Table.Column<IJob> 
                   title='操作' 
                   align='center'
                   width={200}

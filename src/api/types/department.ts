@@ -1,12 +1,3 @@
-/* 列表反参 */
-export interface IDepartment {
-    data: {
-        data: IDepartmentData[]
-        total: number
-    }
-    message: string
-}
-
 export interface IDepartmentData {
     id: string
     name: string
@@ -21,9 +12,4 @@ export interface IDepartmentProps {
     number: number
     status: true
     content: true
-}
-
-/* 编辑参数 */
-export interface IEditDepartmentParams extends IDepartmentProps{
-    id?: number
 }

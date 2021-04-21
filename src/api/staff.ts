@@ -1,14 +1,15 @@
 import axios from '@src/utils/request'
-import type { IStaffAdd, IStaffList } from './types/staff'
+import { IGetParam, IList } from './types'
+import type { IStaffAdd, IStaff } from './types/staff'
 
 type AddStaffFn = (data: IStaffAdd)=> Promise<{message: string}>
-type GetStaffFn = (data: any)=> Promise<IStaffList>
+type GetStaffListFn = (data: IGetParam)=> Promise<IList<IStaff>>
 type GetStaffDetailFn = (id: string)=> Promise<IStaffAdd>
-type SetStaffStatusFn = (id: string, status: boolean)=> Promise<IStaffList>
+type SetStaffStatusFn = (id: string, status: boolean)=> Promise<{message: string}>
 type EditStaffFn = (data:any)=> Promise<any>
 type DeleteStaffFn = (id: string)=> Promise<any>
 
-const getstaffList: GetStaffFn = async (data) => {
+const getstaffList: GetStaffListFn = async (data) => {
     const res = await axios({
         url: '/staff/list/',
         method: 'POST',

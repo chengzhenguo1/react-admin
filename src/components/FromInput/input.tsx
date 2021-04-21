@@ -7,6 +7,7 @@ import { SelectValue } from 'antd/lib/select'
 import Captcha from '../Captcha'
 import { ItemConfig } from '../FormItem/type'
 import UpLoadPic from '../UploadPic'
+import MyEditor from '../Editor'
 
 export interface FormInputProps extends ItemConfig {
     formProps: FormItemProps
@@ -74,6 +75,10 @@ const FormInput: React.FC<FormInputProps> = memo((props) => {
                 case 'file': 
                     return (
                         <UpLoadPic />
+                    )
+                case 'editor': 
+                    return (
+                        <MyEditor value={props.inputProps.value} />
                     )
                 default:
                     return <Input {...props.inputProps} />

@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@lottiefiles/react-lottie-player": "^3.1.2",
+    "@tinymce/tinymce-react": "^3.12.2",
     "@types/crypto-js": "^4.0.1",
     "@types/react-router-dom": "^5.1.7",
     "@types/react-transition-group": "^4.4.1",

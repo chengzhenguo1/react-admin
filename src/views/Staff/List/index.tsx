@@ -8,8 +8,8 @@ import BasisTable from '@src/components/BasisTable'
 import {
     Button, Table, Popconfirm, message, PaginationProps, Form, Switch, Modal,
 } from 'antd'
-import JobItem from '@src/components/FormItem/JobItem'
 import { IStaff } from '@src/api/types/staff'
+import SearchItem from '@src/components/FormItem/searchItem'
 
 const StaffList: React.FC = memo(() => {
     const [name, setName] = useState('')
@@ -23,7 +23,7 @@ const StaffList: React.FC = memo(() => {
     const { push } = useHistory()
     const [staffList, getStaffFn] = useAsyncFn(staffApi.getstaffList)
     const [, deleteStaffFn] = useAsyncFn(staffApi.deleteStaff)
-    const [, setJobStatusFn] = useAsyncFn(staffApi.setstaffStatus)
+    const [, setStatusFn] = useAsyncFn(staffApi.setstaffStatus)
 
     useEffect(() => {
         getStaffData()
@@ -48,7 +48,7 @@ const StaffList: React.FC = memo(() => {
     /* 切换状态 */
     const onHandleChangeStatus = useCallback(
         (id, status) => {
-            setJobStatusFn(id, status)
+            setStatusFn(id, status)
             /* 立马修改后，服务器反应慢 */
             setTimeout(() => {
                 getStaffData()
@@ -111,8 +111,8 @@ const StaffList: React.FC = memo(() => {
               layout='inline' 
               className='mb-20'
               onFinish={onSearch}>
-                <JobItem.JobName form={form} />
-                <JobItem.SearchStatus form={form} />
+                <SearchItem.SearchName form={form} />
+                <SearchItem.SearchStatus form={form} />
                 <Form.Item>
                     <Button type='primary' htmlType='submit'>搜索</Button>
                 </Form.Item>

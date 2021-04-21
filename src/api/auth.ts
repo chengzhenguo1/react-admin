@@ -9,19 +9,19 @@ const login: LoginFn = (data) => axios({
         url: '/login/',
         method: 'POST',
         data,
-    })
+})
 
 const register: RegisterFn = (data) => axios({
         url: '/register/',
         method: 'POST',
         data,
-    })
+})
 
 const getSms: GetSmsFn = (data) => axios({
         url: '/getSms/',
         method: 'POST',
         data,
-    })
+})
 
 export default {
     login,

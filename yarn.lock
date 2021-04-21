@@ -357,6 +357,14 @@
     "@nodelib/fs.scandir" "2.1.4"
     fastq "^1.6.0"
 
+"@tinymce/tinymce-react@^3.12.2":
+  version "3.12.2"
+  resolved "https://registry.nlark.com/@tinymce/tinymce-react/download/@tinymce/tinymce-react-3.12.2.tgz#1271d63e2071dc95f3b48dd20363309d19012c9f"
+  integrity sha1-EnHWPiBx3JXztI3SA2MwnRkBLJ8=
+  dependencies:
+    prop-types "^15.6.2"
+    tinymce "^5.7.1"
+
 "@types/crypto-js@^4.0.1":
   version "4.0.1"
   resolved "https://registry.npm.taobao.org/@types/crypto-js/download/@types/crypto-js-4.0.1.tgz?cache=0&sync_timestamp=1613378371421&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fcrypto-js%2Fdownload%2F%40types%2Fcrypto-js-4.0.1.tgz#3a4bd24518b0e6c5940da4e2659eeb2ef0806963"
@@ -3169,6 +3177,11 @@ tiny-warning@^1.0.0, tiny-warning@^1.0.3:
   version "1.0.3"
   resolved "https://registry.npm.taobao.org/tiny-warning/download/tiny-warning-1.0.3.tgz"
   integrity sha1-lKMNtFPfTGQ9D9VmBg1gqHXYR1Q=
+
+tinymce@^5.7.1:
+  version "5.7.1"
+  resolved "https://registry.npm.taobao.org/tinymce/download/tinymce-5.7.1.tgz?cache=0&sync_timestamp=1615946148495&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftinymce%2Fdownload%2Ftinymce-5.7.1.tgz#658a6fb4c7d53a8496cc00f8da33f4b8290da06d"
+  integrity sha1-ZYpvtMfVOoSWzAD42jP0uCkNoG0=
 
 to-fast-properties@^2.0.0:
   version "2.0.0"
