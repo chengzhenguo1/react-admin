@@ -23,13 +23,13 @@ import { IRoute } from './type'
       
 */
 
-/* 解析当前path路径 */
+/* 解析当前path路径, /a/a/a 解析成[/a],[/a/a],[/a/a/a] */
 export const pathToList = (path: string): string[] => {
     const pathList = path.split('/').filter((item) => item)
     return pathList.map((item, index) => `/${pathList.slice(0, index + 1).join('/')}`)
 }
 
-/* 解析当前path路径中的路由 */
+/* 递归查找当前path路径中的路由,[/a/a/a],将a,aa,aaa加入进去 */
 function findRoutesByPaths(pathList: string[], routes: IRoute[]): IRoute[] {
     const res: IRoute[] = []  
     routes.forEach(

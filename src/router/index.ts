@@ -1,5 +1,19 @@
-import React from 'react'
+import { lazyImport } from '@src/utils/lazyImport'
+import { lazy } from 'react'
 import { IRoute } from './type'
+
+const System = lazyImport('../components/UserLayout')
+const Layout = lazyImport('../components/Layout')
+
+const Login = lazyImport('../views/Login')
+
+const Dashboard = lazyImport('../views/Dashboard')
+const UserAdd = lazyImport('../views/User/Add')
+const UserDelete = lazyImport('../views/User/Delete')
+const DepartmentList = lazyImport('../views/Department/List')
+const DepartmentAdd = lazyImport('../views/Department/Add')
+const JobList = lazyImport('../views/Job/List')
+const JobAdd = lazyImport('../views/Job/Add')
 
 export const routes: IRoute[] = [
     {
@@ -8,7 +22,7 @@ export const routes: IRoute[] = [
             title: '系统',
         },
         redirect: '/system/login',
-        component: React.lazy(() => import('../components/UserLayout')),  
+        component: System,
         children: [
             {
                 path: '/system/login',
@@ -16,14 +30,14 @@ export const routes: IRoute[] = [
                     title: '登录',
                 },
                 exact: true,
-                component: React.lazy(() => import('../views/Login')),  
+                component: Login,  
             },
         ],
     },
     {
         path: '/',
         redirect: '/dashboard',
-        component: React.lazy(() => import('../components/Layout')),
+        component: Layout,
         meta: {
             title: '系统',
         },
@@ -31,7 +45,7 @@ export const routes: IRoute[] = [
             {
                 path: '/dashboard',
                 exact: true,
-                component: React.lazy(() => import('../views/Dashboard')),
+                component: Dashboard,
                 meta: {
                     title: '控制台',
                     icon: 'AppstoreOutlined',
@@ -47,7 +61,7 @@ export const routes: IRoute[] = [
                 children: [
                     {
                         path: '/user/add',
-                        component: React.lazy(() => import('../views/User/Add')),
+                        component: UserAdd,
                         meta: {
                             title: '用户添加',
                         },
@@ -55,7 +69,7 @@ export const routes: IRoute[] = [
                     },
                     {
                         path: '/user/delete',
-                        component: React.lazy(() => import('../views/User/Delete')),
+                        component: UserDelete,
                         meta: {
                             title: '用户删除',
                         },
@@ -75,14 +89,14 @@ export const routes: IRoute[] = [
                         meta: {
                             title: '部门列表',
                         },
-                        component: React.lazy(() => import('../views/Department/List')),
+                        component: DepartmentList,
                     },
                     {
                         path: '/department/add',
                         meta: {
                             title: '添加部门',
                         },
-                        component: React.lazy(() => import('../views/Department/Add')),
+                        component: DepartmentAdd,
                     },
                 ],
             },
@@ -99,14 +113,14 @@ export const routes: IRoute[] = [
                         meta: {
                             title: '职位列表',
                         },
-                        component: React.lazy(() => import('../views/Job/List')),
+                        component: JobList,
                     },
                     {
                         path: '/job/add',
                         meta: {
                             title: '添加职位',
                         },
-                        component: React.lazy(() => import('../views/Job/Add')),
+                        component: JobAdd,
                     },
                 ],
             },
@@ -218,14 +232,14 @@ export const routes: IRoute[] = [
         children: [
           {
             path: '/error/404',
-            component: React.lazy(() => import('../views/Error/404')),
+            component: lazy(() => import('../views/Error/404')),
             meta: {
               title: '页面不存在',
             },
           },
           {
             path: '/error/403',
-            component: React.lazy(() => import('../views/Error/403')),
+            component: lazy(() => import('../views/Error/403')),
             meta: {
               title: '暂无权限',
             },
