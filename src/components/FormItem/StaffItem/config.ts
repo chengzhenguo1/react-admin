@@ -1,6 +1,6 @@
 import React from 'react'
 import {
- education, face, JobStatus, nation, UserStatus, 
+ education, face, JobStatus, nation, StatusText, 
 } from '@src/assets/data'
 import { CARDREG, PHONEREG } from '@src/constants/validate'
 import { ItemConfig, ItemProps } from '../type'
@@ -209,7 +209,7 @@ export const config: {[key in keyof StaffItemType]: ItemConfig} = {
         inputProps: {
             type: 'radio',
         },
-        optionItem: UserStatus,
+        optionItem: StatusText,
     },
     JobEntryDate: {
         name: 'job_entry_date',

@@ -1,8 +1,11 @@
 import { Roles } from '@src/router/type'
+import { IStoreState } from '@src/store/type'
 import React, { memo } from 'react'
+import { connect } from 'react-redux'
 
 interface IProps {
     roles?: Roles[]
+    role?: Roles
     component: any
     noMatch?: React.ReactNode | null // 不匹配后的结果
 }
@@ -15,11 +18,10 @@ export const checkAuth = (roles?: Roles[], auth?: Roles) => {
     return !!roles.includes(auth as never)
 }
 
-const AuthWrapper: React.FC<IProps> = memo(({ roles, component: Component, noMatch = null }) => {
-   const user = 'admin'
-   return (
-         checkAuth(roles, user) ? Component : noMatch
-    )
- })
+const AuthWrapper: React.FC<IProps> = memo(({
+ roles, role, component: Component, noMatch = null, 
+}) => (
+         checkAuth(roles, role) ? Component : noMatch
+))
 
-export default AuthWrapper
+export default connect(({ user: { role } }: IStoreState) => ({ role }), null)(AuthWrapper)

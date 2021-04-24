@@ -3,9 +3,9 @@ import { IList, IGetParam } from './types'
 import { User, FormParam, IUserDeatil } from './types/user'
 
 type GetUserListFn = (page: IGetParam)=>Promise<IList<User>>
-type UserAddOrEditFn = (data: FormParam & {id?: string})=> Promise<{message: string}>
+type AddOrEditUserFn = (data: FormParam & {id?: string})=> Promise<{message: string}>
 type SetUserStatusFn = (id: string, status: boolean)=> Promise<{message: string}>
-type UserDeleteFn = (id: string)=> Promise<{message: string}>
+type DeleteUserFn = (id: string)=> Promise<{message: string}>
 type GetUserDetailFn = (id: string)=> Promise<IUserDeatil>
 
 /* 获取用户列表 / 全部 */
@@ -19,7 +19,7 @@ const getUserList: GetUserListFn = async (data) => {
 }
 
 /* 用户编辑或添加 */
-const userAddOrEdit: UserAddOrEditFn = (data) => {
+const addOrEditUser: AddOrEditUserFn = (data) => {
     const path = data?.id ? 'edit' : 'add'
     return axios({
         url: `/user/${path}/`,
@@ -38,7 +38,7 @@ const setUserStatus: SetUserStatusFn = (id, status) => axios({
 })
 
 /* 用户删除 */
-const userDelete: UserDeleteFn = (id) => axios({
+const deleteUser: DeleteUserFn = (id) => axios({
         url: '/user/delete/',
         method: 'POST',
         data: {
@@ -60,8 +60,8 @@ const getUserDetail: GetUserDetailFn = async (id) => {
 
 export default {
     getUserList,
-    userAddOrEdit,
-    userDelete,
+    addOrEditUser,
+    deleteUser,
     setUserStatus,
     getUserDetail,
 }

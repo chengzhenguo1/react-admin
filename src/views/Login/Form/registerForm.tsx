@@ -1,9 +1,9 @@
 import React, { memo, useCallback } from 'react'
 import sha256 from 'crypto-js/sha256'
-import { useAsyncFn, useKey, useDebounce } from 'react-use'
+import { useAsyncFn, useKey } from 'react-use'
+import { Form, Button, message } from 'antd'
 import { IParam } from '@src/api/types/auth'
 import authApi from '@src/api/auth'
-import { Form, Button, message } from 'antd'
 import LoginItem from '@src/components/FormItem/LoginItem'
 
 interface IProps {
@@ -15,8 +15,9 @@ interface FormProp extends IParam{
 }
 
 const RegisterForm: React.FC<IProps> = memo(({ toggleState }) => {
-    const [{ loading }, registerFn] = useAsyncFn(authApi.register)
-    const [form] = Form.useForm()
+  const [form] = Form.useForm()
+
+  const [{ loading }, registerFn] = useAsyncFn(authApi.register)
     
     const onRegister = useCallback(
       () => {
@@ -38,7 +39,7 @@ const RegisterForm: React.FC<IProps> = memo(({ toggleState }) => {
       [],
       )
       
-      useKey('Enter', onRegister)
+    useKey('Enter', onRegister)
 
     return (
         <Form

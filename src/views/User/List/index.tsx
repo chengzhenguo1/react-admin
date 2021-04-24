@@ -1,22 +1,20 @@
 import React, {
 memo, useCallback, useEffect, useState, 
 } from 'react'
-import { useHistory } from 'react-router-dom'
 import { useAsyncFn } from 'react-use'
-import userApi from '@src/api/user'
-import BasisTable from '@src/components/BasisTable'
-import SearchItem from '@src/components/FormItem/SearchItem'
-import { IDepartmentData } from '@src/api/types/department'
 import {
-Button, Table, Popconfirm, message, PaginationProps, Form, Input, Switch, Modal, Row,
+    Button, Table, Popconfirm, message, PaginationProps, Form, Switch, Modal,
 } from 'antd'
-import './index.less'
-import { IUser } from '@src/api/types/auth'
+import userApi from '@src/api/user'
 import { User } from '@src/api/types/user'
+import BasisTable from '@src/components/BasisTable'
+import AuthWrapper from '@src/components/AuthWrapper'
+import SearchItem, { SearchParam } from '@src/components/FormItem/SearchItem'
 import AddModal from './AddModal'
+import './index.less'
 
 const UserList: React.FC = memo(() => {
-    const [name, setName] = useState('')
+    const [search, setSearch] = useState<SearchParam>()
     const [id, setId] = useState('')
     const [addVisible, setAddVisible] = useState(false)
     const [page, setPage] = useState<PaginationProps>({
@@ -24,16 +22,18 @@ const UserList: React.FC = memo(() => {
         pageSize: 10,
     })
     const [selectedRowKeys, setSelectedRowKeys] = useState([])
+
     const [form] = Form.useForm()
     
-    const [departmentList, getDepartmentListFn] = useAsyncFn(userApi.getUserList)
-    const [, deleteDepartmentFn] = useAsyncFn(userApi.userDelete)
+    const [userList, getUserListFn] = useAsyncFn(userApi.getUserList)
+    const [, deleteDepartmentFn] = useAsyncFn(userApi.deleteUser)
     const [, setDepartmentStatusFn] = useAsyncFn(userApi.setUserStatus)
 
     useEffect(() => {
-        getDepartmentData()
-    }, [page, name, id])
+        getUserData()
+    }, [page, search])
 
+    /* 关闭对话框 */
     const closeAddModal = useCallback(
         () => {
             setAddVisible(false)
@@ -64,7 +64,7 @@ const UserList: React.FC = memo(() => {
             setDepartmentStatusFn(id, status)
             /* 立马修改后，服务器反应慢 */
             setTimeout(() => {
-                getDepartmentData()
+                getUserData()
             }, 10)
         },
         [],
@@ -89,12 +89,12 @@ const UserList: React.FC = memo(() => {
         [selectedRowKeys],
     )
 
-    /* 删除部门 */
+    /* 删除 */
     const onDeleteModal = useCallback(
         (id:string) => {
             deleteDepartmentFn(id).then((res) => {
                 message.success(res.message)
-                getDepartmentData()
+                getUserData()
             })
         },
         [],
@@ -102,16 +102,19 @@ const UserList: React.FC = memo(() => {
     
     /* 点击搜索 */
     const onHandleSearch = useCallback(
-        () => {
-            const name = form.getFieldValue('name')
-            setName(name)
+        (value: SearchParam) => {
+            setSearch(value)
         },
         [],
     )
 
-    const getDepartmentData = () => {
-        console.log(name)
-        getDepartmentListFn({ name, pageNumber: page.current || 1, pageSize: page.pageSize || 10 })
+    const getUserData = () => {
+        getUserListFn({
+            name: search?.name, 
+            status: search?.status, 
+            pageNumber: page.current || 1, 
+            pageSize: page.pageSize || 10, 
+        })
     }
 
     return (
@@ -127,17 +130,21 @@ const UserList: React.FC = memo(() => {
                     <Button type='primary' htmlType='submit'>搜索</Button>
                 </div>
                 <div>
-                    <Button 
-                      type='primary'
-                      onClick={() => { setAddVisible(true) }}>
-                        添加用户
-                    </Button>
+                    <AuthWrapper
+                      roles={['admin']}
+                      component={(
+                          <Button 
+                            type='primary'
+                            onClick={() => { setAddVisible(true) }}>
+                              添加用户
+                          </Button>
+                    )} />
                 </div>
             </Form>
             <BasisTable<User> 
-              loading={departmentList.loading} 
-              data={departmentList.value?.data.data}
-              total={departmentList.value?.data.total}
+              loading={userList.loading} 
+              data={userList.value?.data.data}
+              total={userList.value?.data.total}
               rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
               onChange={onPageChange}
               footer={() => <Button onClick={onHandleDelete}>批量删除</Button>}>
@@ -183,7 +190,7 @@ const UserList: React.FC = memo(() => {
                       </div>
                     )} />
             </BasisTable>
-
+            {/* 添加框 */}
             <AddModal 
               visible={addVisible}
               id={id}

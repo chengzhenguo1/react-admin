@@ -3,7 +3,7 @@ import {
  ConfirmRule, PASSWORDREG, PassWordRule, PHONEREG, UserNameRule, 
 } from '@src/constants/validate'
 import React, { memo } from 'react'
-import { UserStatus } from '@src/assets/data'
+import { StatusText } from '@src/assets/data'
 import FormInput from '../../FromInput/input'
 import { formProps, ItemConfig, ItemProps } from '../type'
 
@@ -61,7 +61,7 @@ const config: {[key in keyof UserItemType]: ItemConfig} = {
         inputProps: {
             type: 'radio',
         },
-        optionItem: UserStatus,
+        optionItem: StatusText,
     },
     Phone: {
         name: 'phone',

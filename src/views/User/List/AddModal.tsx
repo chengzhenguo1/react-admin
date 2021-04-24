@@ -1,10 +1,10 @@
 import React, { memo, useCallback, useEffect } from 'react'
 import { useAsyncFn } from 'react-use'
-import { FormParam } from '@src/api/types/user'
 import sha256 from 'crypto-js/sha256'
+import { Form, message, Modal } from 'antd'
+import { FormParam } from '@src/api/types/user'
 import userApi from '@src/api/user'
 import authApi from '@src/api/auth'
-import { Form, message, Modal } from 'antd'
 import UserItem from '@src/components/FormItem/UserItem'
 
 interface IProps {
@@ -18,9 +18,10 @@ const AddModal: React.FC<IProps> = memo(({
  visible, id, onClose, onConfirm, 
 }) => {
     const [form] = Form.useForm()
-    const [userAddOrEdit, userAddOrEditFn] = useAsyncFn(userApi.userAddOrEdit)
+    
+    const [addOrEditUser, addOrEditUserFn] = useAsyncFn(userApi.addOrEditUser)
     const [getRole, getRoleFn] = useAsyncFn(authApi.getRole)
-    const [getUserDetail, getUserDetailFn] = useAsyncFn(userApi.getUserDetail)
+    const [, getUserDetailFn] = useAsyncFn(userApi.getUserDetail)
 
     useEffect(() => {
         if (id) {
@@ -34,12 +35,13 @@ const AddModal: React.FC<IProps> = memo(({
         getRoleFn()
     }, [])
 
+    /* 提交 */
     const onSubmit = useCallback(
         () => {
             form.validateFields().then((res) => {
                 const { cpassword, ...values } = res as FormParam & {cpassword: string}
                 const data = { id, ...values, password: sha256(values.password).toString() }
-                userAddOrEditFn(data).then((res) => {
+                addOrEditUserFn(data).then((res) => {
                     message.success(res.message)
                     onConfirm()
                 })
@@ -56,7 +58,7 @@ const AddModal: React.FC<IProps> = memo(({
           title={id ? '修改用户' : '添加用户'}
           onOk={onSubmit}
           onCancel={onClose}
-          confirmLoading={userAddOrEdit.loading}
+          confirmLoading={addOrEditUser.loading}
           destroyOnClose>
             <Form
               form={form}

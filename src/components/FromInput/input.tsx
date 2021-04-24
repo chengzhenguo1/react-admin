@@ -51,7 +51,7 @@ const FormInput: React.FC<FormInputProps> = memo((props) => {
                     )
                 case 'number':
                     return (
-                        <InputNumber min={props.inputProps.type} max={props.inputProps.max} />
+                        <InputNumber min={props.inputProps.min} max={props.inputProps.max} />
                     )
                 case 'select':
                     return (
@@ -74,7 +74,7 @@ const FormInput: React.FC<FormInputProps> = memo((props) => {
                     )
                 case 'file': 
                     return (
-                        <UpLoadPic />
+                        <UpLoadPic token={props.token} />
                     )
                 case 'editor': 
                     return (

@@ -2,25 +2,15 @@ import axios from '@src/utils/request'
 import { IGetParam, IList } from './types'
 import type { IStaffAdd, IStaff } from './types/staff'
 
-type AddStaffFn = (data: IStaffAdd)=> Promise<{message: string}>
+type AddOrEditStaffFn = (data: IStaffAdd & {id?: string})=> Promise<string>
 type GetStaffListFn = (data: IGetParam)=> Promise<IList<IStaff>>
 type GetStaffDetailFn = (id: string)=> Promise<IStaffAdd>
-type SetStaffStatusFn = (id: string, status: boolean)=> Promise<{message: string}>
-type EditStaffFn = (data:any)=> Promise<any>
+type SetStaffStatusFn = (id: string, status: boolean)=> Promise<string>
 type DeleteStaffFn = (id: string)=> Promise<any>
 
 const getstaffList: GetStaffListFn = async (data) => {
     const res = await axios({
         url: '/staff/list/',
-        method: 'POST',
-        data,
-    })
-    return res
-}
-
-const staffAdd: AddStaffFn = async (data) => {
-    const res = await axios({
-        url: '/staff/add/',
         method: 'POST',
         data,
     })
@@ -38,6 +28,16 @@ const getstaffDetail: GetStaffDetailFn = async (id) => {
     return res.data
 }
 
+const addOrEditStaff: AddOrEditStaffFn = async (data) => {
+    const path = data.id ? 'edit' : 'add'
+    const res = await axios({
+        url: `/staff/${path}/`,
+        method: 'POST',
+        data,
+    })
+    return res.message
+}
+
 const setstaffStatus: SetStaffStatusFn = async (id, status) => {
     const res = await axios({
         url: '/staff/status/',
@@ -47,16 +47,7 @@ const setstaffStatus: SetStaffStatusFn = async (id, status) => {
             status,
         },
     })
-    return res
-}
-
-const editstaff: EditStaffFn = async (data) => {
-    const res = await axios({
-        url: '/staff/edit/',
-        method: 'POST',
-        data,
-    })
-    return res
+    return res.message
 }
 
 const deleteStaff: DeleteStaffFn = async (id) => {
@@ -71,10 +62,9 @@ const deleteStaff: DeleteStaffFn = async (id) => {
 }
 
 export default {
-    staffAdd,
-    getstaffList,
-    editstaff,
-    setstaffStatus,
     getstaffDetail,
+    getstaffList,
+    addOrEditStaff,
+    setstaffStatus,
     deleteStaff,
 }

@@ -3,13 +3,11 @@ import { useAsyncFn, useKey } from 'react-use'
 import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import sha256 from 'crypto-js/sha256'
-import authApi from '@src/api/auth'
 import { Form, Button, message } from 'antd'
+import authApi from '@src/api/auth'
 import LoginItem from '@src/components/FormItem/LoginItem'
 import type { IParam } from '@src/api/types/auth'
 import { UserState, setUserInfo } from '@src/store/module/user'
-
-type FormProp = IParam
 
 interface IProps {
   setUserInfo: (user: UserState)=> void
@@ -17,8 +15,9 @@ interface IProps {
 
 const LoginForm: React.FC<IProps> = memo((props) => {
     const { replace } = useHistory()
-    const [{ loading }, loginFn] = useAsyncFn(authApi.login)
     const [form] = Form.useForm()
+
+    const [{ loading }, loginFn] = useAsyncFn(authApi.login)
 
     const next = () => {
       const params = new URLSearchParams(window.location.search)
@@ -33,7 +32,7 @@ const LoginForm: React.FC<IProps> = memo((props) => {
     const onLogin = useCallback(
       () => {
         form.validateFields().then(async (res) => {
-          const values = res as FormProp
+          const values = res as IParam
           const { data, message: mes } = await loginFn({ 
             username: values.username, 
             password: sha256(values.password).toString(), 

@@ -1,11 +1,16 @@
 import React, { memo } from 'react'
-import { UserStatus } from '@src/assets/data'
-import { ItemConfig, ItemProps } from './type'
+import { StatusText } from '@src/assets/data'
+import { ItemConfig, ItemProps, OptionItemType } from './type'
 import FormInput from '../FromInput/input'
 
 interface SearchItemType {
     SearchName: React.FC<ItemProps>,
     SearchStatus: React.FC<ItemProps>,
+}
+
+export interface SearchParam {
+    name?: string
+    status?: boolean | undefined
 }
 
 const config: {[key in keyof SearchItemType]: ItemConfig} = {
@@ -24,7 +29,7 @@ const config: {[key in keyof SearchItemType]: ItemConfig} = {
             type: 'select',
         },
         width: 100,
-        optionItem: UserStatus,
+        optionItem: StatusText,
     },
 }
 

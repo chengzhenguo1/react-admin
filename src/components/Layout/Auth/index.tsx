@@ -39,8 +39,8 @@ function checkAuth(location: RouteComponentProps['location']): boolean {
     return false
   }  */
 
-  /* 当前用户角色是否有该路由权限，没有返回403 */
-  if (!route.roles?.includes(role as Roles)) {
+  /* 当前用户角色是否有该路由权限, admin直接放行 */
+  if (!route.roles?.includes(role as Roles) && role !== 'admin') {
     return false
   }
 

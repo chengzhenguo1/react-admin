@@ -3,31 +3,32 @@ import React, {
 } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useAsyncFn } from 'react-use'
+import {
+    Button, Table, Popconfirm, message, PaginationProps, Form, Switch, Modal,
+   } from 'antd'
 import jobApi from '@src/api/job'
 import BasisTable from '@src/components/BasisTable'
 import { IJob } from '@src/api/types/job'
-import {
- Button, Table, Popconfirm, message, PaginationProps, Form, Switch, Modal,
-} from 'antd'
-import SearchItem from '@src/components/FormItem/SearchItem'
+import SearchItem, { SearchParam } from '@src/components/FormItem/SearchItem'
 
 const JobList: React.FC = memo(() => {
-    const [name, setName] = useState('')
-    const [status, setStatus] = useState<boolean>()
+    const [search, setSearch] = useState<SearchParam>()
     const [page, setPage] = useState<PaginationProps>({
         current: 1,
         pageSize: 10,
     })
     const [selectedRowKeys, setSelectedRowKeys] = useState([])
+
     const [form] = Form.useForm()
     const { push } = useHistory()
+
     const [jobList, getJobListFn] = useAsyncFn(jobApi.getJobList)
     const [, deleteJobFn] = useAsyncFn(jobApi.jobDelete)
     const [, setJobStatusFn] = useAsyncFn(jobApi.setJobStatus)
 
     useEffect(() => {
         getJobData()
-    }, [page, name, status])
+    }, [page, search])
 
     /* 页码改变 */
     const onPageChange = useCallback(
@@ -89,18 +90,15 @@ const JobList: React.FC = memo(() => {
     
     /* 点击搜索 */
    const onSearch = useCallback(
-       () => {
-           const name = form.getFieldValue('name')
-           const status = form.getFieldValue('status')
-           setStatus(status)
-           setName(name)
+       (value: SearchParam) => {
+           setSearch(value)
        },
        [],
    )
 
     const getJobData = () => {
         getJobListFn({
-            name, status, pageNumber: page.current || 1, pageSize: page.pageSize || 10, 
+            name: search?.name, status: search?.status, pageNumber: page.current || 1, pageSize: page.pageSize || 10, 
         })
     }
 

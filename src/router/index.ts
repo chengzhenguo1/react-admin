@@ -8,7 +8,7 @@ const Layout = lazyImport('../components/Layout')
 const Login = lazyImport('../views/Login')
 
 const Dashboard = lazyImport('../views/Dashboard')
-const UserAdd = lazyImport('../views/User/Add')
+/* const UserAdd = lazyImport('../views/User/Add') */
 const UserList = lazyImport('../views/User/List')
 const DepartmentList = lazyImport('../views/Department/List')
 const DepartmentAdd = lazyImport('../views/Department/Add')
@@ -30,20 +30,21 @@ export const authRoutes: IRoute[] = [
     },
     {
         path: '/user',
+        redirect: '/user/add',
+        roles: ['user', 'admin'],
         meta: {
             title: '用户管理',
             icon: 'UserOutlined',
         },
-        redirect: '/user/add',
         children: [
-            {
+/*             {
                 path: '/user/add',
                 component: UserAdd,
                 meta: {
                     title: '用户添加',
                 },
-                roles: ['user', 'admin'],
-            },
+                roles: ['admin'],
+            }, */
             {
                 path: '/user/list',
                 component: UserList,
@@ -56,6 +57,7 @@ export const authRoutes: IRoute[] = [
     {
         path: '/department',
         redirect: '/department/list',
+        roles: ['product', 'information'],
         meta: {
             title: '部门管理',
             icon: 'WechatOutlined',
@@ -63,17 +65,19 @@ export const authRoutes: IRoute[] = [
         children: [
             {
                 path: '/department/list',
+                component: DepartmentList,
+                roles: ['product'],
                 meta: {
                     title: '部门列表',
                 },
-                component: DepartmentList,
             },
             {
                 path: '/department/add',
+                roles: ['information'],
+                component: DepartmentAdd,
                 meta: {
                     title: '添加部门',
                 },
-                component: DepartmentAdd,
             },
         ],
     },
@@ -87,17 +91,17 @@ export const authRoutes: IRoute[] = [
         children: [
             {
                 path: '/job/list',
+                component: JobList,
                 meta: {
                     title: '职位列表',
                 },
-                component: JobList,
             },
             {
                 path: '/job/add',
+                component: JobAdd,
                 meta: {
                     title: '添加职位',
                 },
-                component: JobAdd,
             },
         ],
     },
@@ -130,19 +134,19 @@ export const authRoutes: IRoute[] = [
 export const routes: IRoute[] = [
     {
         path: '/system',
+        redirect: '/system/login',
+        component: System,
         meta: {
             title: '系统',
         },
-        redirect: '/system/login',
-        component: System,
         children: [
             {
                 path: '/system/login',
+                exact: true,
+                component: Login,  
                 meta: {
                     title: '登录',
                 },
-                exact: true,
-                component: Login,  
             },
         ],
     },
@@ -156,28 +160,6 @@ export const routes: IRoute[] = [
         children: [
             ...authRoutes,
             /*
-            {
-                path: '/announcement',
-                redirect: '/announcement/list',
-                meta: {
-                    title: '公告管理',
-                    icon: 'MailOutlined',
-                },
-                children: [
-                    {
-                        path: '/announcement/list',
-                        meta: {
-                            title: '公告列表',
-                        },
-                    },
-                    {
-                        path: '/announcement/add',
-                        meta: {
-                            title: '新增公告',
-                        },
-                    },
-                ],
-            },
             {
                 path: '/a',
                 meta: {
@@ -239,6 +221,10 @@ export const routes: IRoute[] = [
                 },
             }, */
             /* 错误页面 */
+    {
+        path: '/success',
+        component: lazy(() => import('../views/Success')),
+    },
     {
         path: '/error',
         meta: {

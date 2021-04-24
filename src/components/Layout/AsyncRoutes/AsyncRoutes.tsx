@@ -18,13 +18,13 @@ interface AsyncRoutesProps {
 function formatMenuToRoute(menus: IRoute[], role: Roles): IRoute[] {
   const result: IRoute[] = []
   menus.forEach((menu) => {
-    /* 查看当前路由表是否有权限 */
-    if ((menu?.path && checkAuth(menu.roles, role))) {
+    /* 查看当前路由表是否有权限, admin不用校验 */
+    if (((menu?.path && checkAuth(menu.roles, role)) || role === 'admin')) {
       const route: IRoute = {
         path: menu.path,
         meta: { 
-          title: menu.meta.title,
-          icon: menu.meta.icon,
+          title: menu.meta?.title || '未知',
+          icon: menu.meta?.icon,
         },
       }
       if (menu.children) {

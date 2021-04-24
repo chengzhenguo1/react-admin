@@ -1,22 +1,27 @@
 import React, { memo, useCallback, useEffect } from 'react'
 import { useAsyncFn } from 'react-use'
-import { useLocation } from 'react-router-dom'
-import { Button, Form, message } from 'antd'
+import { useLocation, useHistory } from 'react-router-dom'
+import moment from 'moment'
+import store from 'store'
+import { Button, Form } from 'antd'
 import departmentApi from '@src/api/department'
 import jobApi from '@src/api/job'
 import staffApi from '@src/api/staff'
 import StaffItem from '@src/components/FormItem/StaffItem'
 import './index.less'
-import moment from 'moment'
+import { UPLOAD_TOKEN } from '@src/components/UploadPic'
+
+const token = store.get(UPLOAD_TOKEN)
 
 const StaffAdd: React.FC = memo(() => {
     const [form] = Form.useForm()
     const { state } = useLocation<{id: string}>()
+    const { push } = useHistory()
+
     const [departmentAll, getDepartmentListAllFn] = useAsyncFn(departmentApi.getDepartmentListAll)
     const [jobAll, getJobListAllFn] = useAsyncFn(jobApi.getJobAllList)
-    const [staffDetail, getStaffDetailFn] = useAsyncFn(staffApi.getstaffDetail)
-    const [, addStaffFn] = useAsyncFn(staffApi.staffAdd)
-    const [, editStaffFn] = useAsyncFn(staffApi.editstaff)
+    const [, getStaffDetailFn] = useAsyncFn(staffApi.getstaffDetail)
+    const [, addOrEditStaffFn] = useAsyncFn(staffApi.addOrEditStaff)
 
     useEffect(() => {
       getDepartmentListAllFn()
@@ -43,35 +48,33 @@ const StaffAdd: React.FC = memo(() => {
           form.setFieldsValue({ ...data, ...basisDate })
         })
       }
+      return () => {
+        store.remove(UPLOAD_TOKEN)
+      }
   }, [])
 
-      const onFinish = useCallback(
-        () => {
-          form.validateFields().then((res) => {
-              const id = state?.id
-              const values = { id, ...res }
-
-              if (id) {
-                editStaffFn(values).then((data) => {
-                    message.success(data.message)
-                })
-              } else {
-                addStaffFn(values).then((data) => {
-                    message.success(data.message)
-                })
-              }
-              /* form.resetFields() */
-          })
-        },
-        [],
-    )
+    const onSubmit = useCallback(
+      () => {
+        form.validateFields().then((res) => {
+            const id = state?.id
+            const values = { id, ...res }
+            addOrEditStaffFn(values).then(() => {
+              push({
+                pathname: '/success', 
+                state: { title: `职员${id ? '修改' : '添加'}成功`, path: '/staff/list' }, 
+              })
+            })
+        })
+      },
+      [],
+  )
 
     return (
         <Form 
           className='staff-form'
           form={form}
           layout='vertical'
-          onFinish={onFinish}
+          onFinish={onSubmit}
           requiredMark={false}
           labelCol={{ span: 10 }}
           wrapperCol={{ span: 10 }}
@@ -80,8 +83,8 @@ const StaffAdd: React.FC = memo(() => {
             <StaffItem.Sex form={form} />
             <StaffItem.CardId form={form} />
             <StaffItem.Birthday form={form} />
-            <StaffItem.DiplomaImg form={form} />
-            <StaffItem.FaceImg form={form} />
+            <StaffItem.DiplomaImg token={token} form={form} />
+            <StaffItem.FaceImg token={token} form={form} />
             <StaffItem.Phone form={form} />
             <StaffItem.Nation form={form} />
             <StaffItem.Political form={form} />

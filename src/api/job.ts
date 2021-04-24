@@ -1,5 +1,5 @@
 import axios from '@src/utils/request'
-import type { DataDeatil, IJobDeatil, IJob } from '../api/types/job'
+import type { IJobDeatil, IJob } from '../api/types/job'
 import { IGetParam, IList } from './types'
 
 type JobAddOrEditFn = (data: IJob & {content: string, parentId?: string})=> Promise<{message: string}>

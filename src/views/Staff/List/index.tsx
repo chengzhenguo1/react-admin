@@ -3,31 +3,32 @@ import React, {
 } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useAsyncFn } from 'react-use'
-import staffApi from '@src/api/staff'
-import BasisTable from '@src/components/BasisTable'
-import SearchItem from '@src/components/FormItem/SearchItem'
 import {
     Button, Table, Popconfirm, message, PaginationProps, Form, Switch, Modal,
 } from 'antd'
+import staffApi from '@src/api/staff'
+import BasisTable from '@src/components/BasisTable'
+import SearchItem, { SearchParam } from '@src/components/FormItem/SearchItem'
 import { IStaff } from '@src/api/types/staff'
 
 const StaffList: React.FC = memo(() => {
-    const [name, setName] = useState('')
-    const [status, setStatus] = useState<boolean>()
+    const [search, setSearch] = useState<SearchParam>()
     const [page, setPage] = useState<PaginationProps>({
         current: 1,
         pageSize: 10,
     })
     const [selectedRowKeys, setSelectedRowKeys] = useState([])
-    const [form] = Form.useForm()
+
     const { push } = useHistory()
+    const [form] = Form.useForm()
+
     const [staffList, getStaffFn] = useAsyncFn(staffApi.getstaffList)
     const [, deleteStaffFn] = useAsyncFn(staffApi.deleteStaff)
     const [, setStatusFn] = useAsyncFn(staffApi.setstaffStatus)
 
     useEffect(() => {
         getStaffData()
-    }, [page, name, status])
+    }, [page, search])
 
     /* 页码改变 */
     const onPageChange = useCallback(
@@ -89,18 +90,15 @@ const StaffList: React.FC = memo(() => {
     
     /* 点击搜索 */
     const onSearch = useCallback(
-        () => {
-            const name = form.getFieldValue('jobName')
-            const status = form.getFieldValue('status')
-            setStatus(status)
-            setName(name)
+        (value: SearchParam) => {
+            setSearch(value)
         },
         [],
     )
 
     const getStaffData = () => {
         getStaffFn({
-            name, status, pageNumber: page.current || 1, pageSize: page.pageSize || 10, 
+            name: search?.name, status: search?.status, pageNumber: page.current || 1, pageSize: page.pageSize || 10, 
         })
     }
 
