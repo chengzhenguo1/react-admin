@@ -1,8 +1,7 @@
-import React, { memo } from 'react'
+import React, { memo, useEffect, useMemo } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Menu } from 'antd'
-import routes from '@src/router'
 import { IRoute } from '@src/router/type'
 import { pathToList } from '@src/router/utils'
 import { IDictionary } from '@src/typings/global'
@@ -10,6 +9,7 @@ import {
  UserOutlined, AppstoreOutlined, WechatOutlined, UsergroupAddOutlined, AuditOutlined, MailOutlined, MehOutlined, FrownOutlined,
 } from '@ant-design/icons'
 import { IStoreState } from '@src/store/type'
+import { Min_Width } from '@src/constants/app'
 
 const { SubMenu } = Menu
 
@@ -32,14 +32,14 @@ const IconMap: IDictionary<any> = {
 const renderMenu = ({ path, meta }: IRoute) => (
     <Menu.Item key={path as React.Key} icon={meta?.icon && IconMap[meta.icon]}>
         <Link to={path as string}>
-            {meta.title}
+            {meta?.title}
         </Link>
     </Menu.Item>
 )
 
 /* 子级菜单处理 */
 const renderSubMenu = ({ children, path, meta }: IRoute) => (
-    <SubMenu key={path as React.Key} title={meta.title} icon={meta?.icon && IconMap[meta.icon]}>
+    <SubMenu key={path as React.Key} title={meta?.title} icon={meta?.icon && IconMap[meta.icon]}>
         {children?.map((item) => (
         item.children && item.children.length > 0 ? renderSubMenu(item) : renderMenu(item)
         ))}
@@ -48,12 +48,15 @@ const renderSubMenu = ({ children, path, meta }: IRoute) => (
 
 const SiderMenu: React.FC<IProps> = memo((props) => {
     const { pathname } = useLocation()
+
+    const width = useMemo(() => document.body.clientWidth, [])
+
     return (
         <Menu 
           theme='dark' 
           mode='inline' 
           selectedKeys={[pathname]}
-          defaultOpenKeys={pathToList(pathname)}>
+          defaultOpenKeys={width > Min_Width ? pathToList(pathname) : []}>
             {props?.routes?.map((route) => (
             route.children && route.children.length > 0 ? renderSubMenu(route) : renderMenu(route)
           ))}

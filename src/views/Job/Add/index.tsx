@@ -5,6 +5,7 @@ import { Button, Form, message } from 'antd'
 import jobApi from '@src/api/job'
 import departmentApi from '@src/api/department'
 import JobItem from '@src/components/FormItem/JobItem'
+import { LayoutCol } from '@src/constants/app'
 
 const JobAdd: React.FC = memo(() => {
     const { state } = useLocation<{jobId: string}>()
@@ -46,9 +47,8 @@ const JobAdd: React.FC = memo(() => {
         <Form
           form={form}
           onFinish={onHandleDartmentAddOrEdit}
-          labelCol={{ span: 2 }}
-          wrapperCol={{ span: 20 }}
-          labelAlign='left'
+          {...LayoutCol}
+          labelAlign='right'
           initialValues={{
             status: false,
             number: 1,
@@ -60,7 +60,7 @@ const JobAdd: React.FC = memo(() => {
             <JobItem.JobName form={form} />
             <JobItem.Status form={form} />
             <JobItem.Content form={form} />
-            <Form.Item>
+            <Form.Item wrapperCol={{ ...LayoutCol.wrapperCol, offset: 4 }}>
                 <Button type='primary' htmlType='submit' loading={loading}>确定</Button>
             </Form.Item>
         </Form>
