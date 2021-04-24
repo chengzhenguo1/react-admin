@@ -25,6 +25,7 @@ export interface ItemProps {
     form: FormInstance
     optionItem? : optionItemType
     loading?: boolean
+    label?: string 
 }
 
 export type optionItemType = { value: any, text: string, [item: string]: any}[] 

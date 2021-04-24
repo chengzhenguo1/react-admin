@@ -9,8 +9,7 @@ import { IJob } from '@src/api/types/job'
 import {
  Button, Table, Popconfirm, message, PaginationProps, Form, Switch, Modal,
 } from 'antd'
-import JobItem from '@src/components/FormItem/JobItem'
-import SearchItem from '@src/components/FormItem/searchItem'
+import SearchItem from '@src/components/FormItem/SearchItem'
 
 const JobList: React.FC = memo(() => {
     const [name, setName] = useState('')

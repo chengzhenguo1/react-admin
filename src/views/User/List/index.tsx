@@ -1,33 +1,46 @@
 import React, {
-    memo, useCallback, useEffect, useState, 
+memo, useCallback, useEffect, useState, 
 } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useAsyncFn } from 'react-use'
-import staffApi from '@src/api/staff'
+import userApi from '@src/api/user'
 import BasisTable from '@src/components/BasisTable'
 import SearchItem from '@src/components/FormItem/SearchItem'
+import { IDepartmentData } from '@src/api/types/department'
 import {
-    Button, Table, Popconfirm, message, PaginationProps, Form, Switch, Modal,
+Button, Table, Popconfirm, message, PaginationProps, Form, Input, Switch, Modal, Row,
 } from 'antd'
-import { IStaff } from '@src/api/types/staff'
+import './index.less'
+import { IUser } from '@src/api/types/auth'
+import { User } from '@src/api/types/user'
+import AddModal from './AddModal'
 
-const StaffList: React.FC = memo(() => {
+const UserList: React.FC = memo(() => {
     const [name, setName] = useState('')
-    const [status, setStatus] = useState<boolean>()
+    const [id, setId] = useState('')
+    const [addVisible, setAddVisible] = useState(false)
     const [page, setPage] = useState<PaginationProps>({
         current: 1,
         pageSize: 10,
     })
     const [selectedRowKeys, setSelectedRowKeys] = useState([])
     const [form] = Form.useForm()
-    const { push } = useHistory()
-    const [staffList, getStaffFn] = useAsyncFn(staffApi.getstaffList)
-    const [, deleteStaffFn] = useAsyncFn(staffApi.deleteStaff)
-    const [, setStatusFn] = useAsyncFn(staffApi.setstaffStatus)
+    
+    const [departmentList, getDepartmentListFn] = useAsyncFn(userApi.getUserList)
+    const [, deleteDepartmentFn] = useAsyncFn(userApi.userDelete)
+    const [, setDepartmentStatusFn] = useAsyncFn(userApi.setUserStatus)
 
     useEffect(() => {
-        getStaffData()
-    }, [page, name, status])
+        getDepartmentData()
+    }, [page, name, id])
+
+    const closeAddModal = useCallback(
+        () => {
+            setAddVisible(false)
+            setId('')
+        },
+        [],
+    )
 
     /* 页码改变 */
     const onPageChange = useCallback(
@@ -48,10 +61,10 @@ const StaffList: React.FC = memo(() => {
     /* 切换状态 */
     const onHandleChangeStatus = useCallback(
         (id, status) => {
-            setStatusFn(id, status)
+            setDepartmentStatusFn(id, status)
             /* 立马修改后，服务器反应慢 */
             setTimeout(() => {
-                getStaffData()
+                getDepartmentData()
             }, 10)
         },
         [],
@@ -64,7 +77,7 @@ const StaffList: React.FC = memo(() => {
                 return false
             }
             Modal.confirm({
-                title: '是否删除所选职员?',
+                title: '是否删除所选部门?',
                 okText: '确定',
                 cancelText: '取消',
                 onOk() {
@@ -76,61 +89,68 @@ const StaffList: React.FC = memo(() => {
         [selectedRowKeys],
     )
 
-    /* 删除职位 */
+    /* 删除部门 */
     const onDeleteModal = useCallback(
         (id:string) => {
-            deleteStaffFn(id).then((res) => {
+            deleteDepartmentFn(id).then((res) => {
                 message.success(res.message)
-                getStaffData()
+                getDepartmentData()
             })
         },
         [],
     )
     
     /* 点击搜索 */
-    const onSearch = useCallback(
+    const onHandleSearch = useCallback(
         () => {
-            const name = form.getFieldValue('jobName')
-            const status = form.getFieldValue('status')
-            setStatus(status)
+            const name = form.getFieldValue('name')
             setName(name)
         },
         [],
     )
 
-    const getStaffData = () => {
-        getStaffFn({
-            name, status, pageNumber: page.current || 1, pageSize: page.pageSize || 10, 
-        })
+    const getDepartmentData = () => {
+        console.log(name)
+        getDepartmentListFn({ name, pageNumber: page.current || 1, pageSize: page.pageSize || 10 })
     }
 
     return (
         <div>
             <Form 
-              form={form} 
+              form={form}
               layout='inline' 
-              className='mb-20'
-              onFinish={onSearch}>
-                <SearchItem.SearchName form={form} />
-                <SearchItem.SearchStatus form={form} />
-                <Form.Item>
+              className='mb-20 header-form'
+              onFinish={onHandleSearch}>
+                <div>
+                    <SearchItem.SearchName form={form} label='用户名称' />
+                    <SearchItem.SearchStatus form={form} />
                     <Button type='primary' htmlType='submit'>搜索</Button>
-                </Form.Item>
+                </div>
+                <div>
+                    <Button 
+                      type='primary'
+                      onClick={() => { setAddVisible(true) }}>
+                        添加用户
+                    </Button>
+                </div>
             </Form>
-            <BasisTable<IStaff> 
-              loading={staffList.loading} 
-              data={staffList.value?.data.data}
-              total={staffList.value?.data.total}
+            <BasisTable<User> 
+              loading={departmentList.loading} 
+              data={departmentList.value?.data.data}
+              total={departmentList.value?.data.total}
               rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
               onChange={onPageChange}
               footer={() => <Button onClick={onHandleDelete}>批量删除</Button>}>
-                <Table.Column<IStaff> 
-                  title='职员名称' 
-                  dataIndex='full_name' />
-                <Table.Column<IStaff> 
-                  title='部门名称' 
-                  dataIndex='jobName' />
-                <Table.Column<IStaff> 
+                <Table.Column<User> 
+                  title='用户名' 
+                  dataIndex='username' />
+                <Table.Column<User> 
+                  title='真实姓名' 
+                  dataIndex='truename' />
+                <Table.Column<User> 
+                  title='手机号' 
+                  dataIndex='phone' />
+                <Table.Column<User> 
                   title='禁启用' 
                   dataIndex='status' 
                   align='center' 
@@ -140,9 +160,9 @@ const StaffList: React.FC = memo(() => {
                         checkedChildren='开启' 
                         unCheckedChildren='禁用'
                         checked={record.status}
-                        onChange={(checked) => onHandleChangeStatus(record.staff_id, checked)} />
+                        onChange={(checked) => onHandleChangeStatus(record.id, checked)} />
                 )} />
-                <Table.Column<IStaff> 
+                <Table.Column<User> 
                   title='操作' 
                   align='center'
                   width={200}
@@ -150,12 +170,12 @@ const StaffList: React.FC = memo(() => {
                       <div className='table-btn-group'>
                           <Button
                             type='primary' 
-                            onClick={() => push({ pathname: '/staff/add', state: { id: record.staff_id } })}>
+                            onClick={() => { setAddVisible(true); setId(record.id) }}>
                               编辑
                           </Button>
                           <Popconfirm
-                            title='是否要删除该部门?'
-                            onConfirm={() => onDeleteModal(record.staff_id)}
+                            title='是否要删除该用户?'
+                            onConfirm={() => onDeleteModal(record.id)}
                             okText='确认'
                             cancelText='取消'>
                               <Button>删除</Button>
@@ -163,8 +183,14 @@ const StaffList: React.FC = memo(() => {
                       </div>
                     )} />
             </BasisTable>
+
+            <AddModal 
+              visible={addVisible}
+              id={id}
+              onClose={() => { closeAddModal() }}
+              onConfirm={() => { closeAddModal() }} />
         </div>
 )
-    })
+})
 
-export default StaffList
+export default UserList

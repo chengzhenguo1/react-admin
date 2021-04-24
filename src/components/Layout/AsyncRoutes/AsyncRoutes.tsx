@@ -18,7 +18,7 @@ interface AsyncRoutesProps {
 function formatMenuToRoute(menus: IRoute[], role: Roles): IRoute[] {
   const result: IRoute[] = []
   menus.forEach((menu) => {
-    /* 查看当前路由表的是否有权限 */
+    /* 查看当前路由表是否有权限 */
     if ((menu?.path && checkAuth(menu.roles, role))) {
       const route: IRoute = {
         path: menu.path,
@@ -40,7 +40,8 @@ const AsyncRoutes: React.FC<AsyncRoutesProps> = (props) => {
   if (!props.init) {
     /* 
        进行侧边栏筛选渲染，查看当前路由是否有该权限
-       可以进行异步请求后端路由表，根据后端路由进行渲染侧边栏
+       可以进行异步请求后端路由表，根据后端存储的路由进行渲染，
+       同时存储到Redux中，然后在Auth组件改变校验方式，也就是注释上的
        如
         apiGetMenuList()
         .then(({ data }) => {

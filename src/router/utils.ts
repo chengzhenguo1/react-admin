@@ -12,14 +12,14 @@ import { IRoute } from './type'
         exact={route.exact}
         component={route.component} />
     ))}
-    2.在layout中遍历 /下的路由，需要检验的路由，进行条件渲染businessRouteList属性
+    2.在layout中遍历 /下的所有路由，进行条件校验渲染（没有权限跳到403，重定向。。。），businessRouteList属性
     在Layout/MainRoutes/index.tsx
-      2.1使用auth包裹进行条件渲染，渲染出有权限的的路由,没有权限的进行403跳转
+      2.1使用auth组件包裹进行条件渲染，渲染出有权限的的路由,没有权限的进行403跳转
     有权限但有redirect属性的进行重定向
-      2.2使用AsyncRoutes包裹剩下条件渲染后的组件。使用dashboardRouteList属性动态生成侧边栏以及进行渲染动画
+      2.2使用AsyncRoutes包裹剩下条件渲染后的组件。authRoutes属性动态生成侧边栏以及添加跳转动画
     3.在UserLayout中遍历 /system下的路由，即登录，注册等。及systemRouteList属性下的路由
     在UserLayout/index.tsx 
-      2.1进行循环生成以及布局和捕获错误
+      3.1进行循环生成以及布局和捕获错误
       
 */
 

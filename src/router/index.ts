@@ -9,7 +9,7 @@ const Login = lazyImport('../views/Login')
 
 const Dashboard = lazyImport('../views/Dashboard')
 const UserAdd = lazyImport('../views/User/Add')
-const UserDelete = lazyImport('../views/User/Delete')
+const UserList = lazyImport('../views/User/List')
 const DepartmentList = lazyImport('../views/Department/List')
 const DepartmentAdd = lazyImport('../views/Department/Add')
 const JobList = lazyImport('../views/Job/List')
@@ -17,6 +17,7 @@ const JobAdd = lazyImport('../views/Job/Add')
 const StaffList = lazyImport('../views/Staff/List')
 const StaffAdd = lazyImport('../views/Staff/Add')
 
+/* 需要校验的路由 */
 export const authRoutes: IRoute[] = [
     {
         path: '/dashboard',
@@ -44,10 +45,10 @@ export const authRoutes: IRoute[] = [
                 roles: ['user', 'admin'],
             },
             {
-                path: '/user/delete',
-                component: UserDelete,
+                path: '/user/list',
+                component: UserList,
                 meta: {
-                    title: '用户删除',
+                    title: '用户列表',
                 },
             },
         ],

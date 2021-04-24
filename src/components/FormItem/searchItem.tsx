@@ -1,19 +1,19 @@
 import React, { memo } from 'react'
 import { UserStatus } from '@src/assets/data'
-import { ItemConfig, ItemProps, formProps } from './type'
+import { ItemConfig, ItemProps } from './type'
 import FormInput from '../FromInput/input'
 
-interface JobItemType {
+interface SearchItemType {
     SearchName: React.FC<ItemProps>,
     SearchStatus: React.FC<ItemProps>,
 }
 
-const config: {[key in keyof JobItemType]: ItemConfig} = {
+const config: {[key in keyof SearchItemType]: ItemConfig} = {
     SearchName: {
         name: 'name',
-        label: '职位名称',
+        label: '名称',
         inputProps: {
-            placeholder: '职位名称',
+            placeholder: '名称',
             type: 'text',
         },
     }, 
@@ -46,7 +46,7 @@ function SearchStatus(props: ItemProps) {
 )
 }
 
-const SearchItem: JobItemType = {
+const SearchItem: SearchItemType = {
     SearchName: memo(SearchName),
     SearchStatus: memo(SearchStatus),
 }

@@ -1,5 +1,5 @@
 import React, { memo, useCallback } from 'react'
-import { useAsyncFn, useKey, useLocation } from 'react-use'
+import { useAsyncFn, useKey } from 'react-use'
 import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import sha256 from 'crypto-js/sha256'

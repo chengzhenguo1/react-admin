@@ -1,6 +1,7 @@
 import { Reducer } from 'redux'
 import { IRoute } from '@src/router/type'
 import store from 'store'
+import { flattenRoute } from '@src/router/utils';
 import { IAction } from '../type'
 
 export interface AppState {
@@ -8,7 +9,7 @@ export interface AppState {
     opened: boolean
   }
   routes: IRoute[]
-
+  /* flattenRoutes: IRoute[], */
   init: boolean
 }
 
@@ -21,6 +22,7 @@ const defaultApp: AppState = {
     opened: typeof opened === 'boolean' ? opened : true,
   },
   routes: [], // 过滤后的侧边栏
+  /* flattenRoutes: [], // 路由表进行打平后的结果，用来进行校验使用 */
   init: false, // 进行判断是否初始化
 }
 
@@ -55,18 +57,20 @@ const appReducer: Reducer<AppState, IAction<any>> = (state = defaultApp, action:
         sidebar: payload,
       }
 
-      /* 侧边栏路由 */
+      /* 路由 */
     case SET_SIDE_BAR_ROUTES:
       return {
         ...state,
         routes: payload,
+        /* flattenRoutes: flattenRoute(payload, true), */
         init: true,
       }
-      /* 移除侧边栏路由 */
+      /* 移除路由 */
     case RMOVE_SIDE_BAR_ROUTES:
       return {
         ...state,
         routes: [],
+        /* flattenRoutes: [], */
         init: false,
       }
 
