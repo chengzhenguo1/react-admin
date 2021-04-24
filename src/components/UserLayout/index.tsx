@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react'
 import { Route, Switch, Link } from 'react-router-dom'
 import {
- Spin, Result, Button, Layout, Typography, 
+ Spin, Result, Button, Typography, 
 } from 'antd'
 import { IRoute } from '@src/router/type'
 import './index.less'
@@ -60,7 +60,7 @@ class UserLayout extends React.PureComponent<any, UserLayoutState> {
                 </div>
             </div>
         </>
-    );
+    )
   }
 }
 

@@ -46,12 +46,12 @@ const FormInput: React.FC<FormInputProps> = memo((props) => {
                 case 'radio': 
                     return (
                         <Radio.Group>
-                            {props.radioItem?.map((item) => <Radio value={item.value} key={item.text}>{item.text}</Radio>)}
+                            {props.optionItem?.map((item) => <Radio value={item.value} key={item.text}>{item.text}</Radio>)}
                         </Radio.Group>
                     )
                 case 'number':
                     return (
-                        <InputNumber min={props.inputProps.type} max={props.inputProps.max} />
+                        <InputNumber min={props.inputProps.min} max={props.inputProps.max} />
                     )
                 case 'select':
                     return (
@@ -74,7 +74,7 @@ const FormInput: React.FC<FormInputProps> = memo((props) => {
                     )
                 case 'file': 
                     return (
-                        <UpLoadPic />
+                        <UpLoadPic token={props.token} />
                     )
                 case 'editor': 
                     return (

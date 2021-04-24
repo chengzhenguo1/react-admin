@@ -1,44 +1,32 @@
 import axios from '@src/utils/request'
 import { IList, IGetParam } from './types'
-import {
- User, AddFormParam, EditFormParam, IUserDeatil, 
-} from './types/user'
+import { User, FormParam, IUserDeatil } from './types/user'
 
 type GetUserListFn = (page: IGetParam)=>Promise<IList<User>>
-type UserAddFn = (data: AddFormParam)=> Promise<{message: string}>
-type UserEditFn = (data: EditFormParam)=> Promise<{message: string}>
+type AddOrEditUserFn = (data: FormParam & {id?: string})=> Promise<{message: string}>
 type SetUserStatusFn = (id: string, status: boolean)=> Promise<{message: string}>
-type UserDeleteFn = (id: string)=> Promise<{message: string}>
-type GetUserDetailFn = (id: number)=> Promise<IUserDeatil>
+type DeleteUserFn = (id: string)=> Promise<{message: string}>
+type GetUserDetailFn = (id: string)=> Promise<IUserDeatil>
 
 /* 获取用户列表 / 全部 */
-const getUserList: GetUserListFn = async (page) => {
-    const { pageNumber, pageSize } = page
-    const res = axios({
+const getUserList: GetUserListFn = async (data) => {
+    const res = await axios({
         url: '/user/list/',
         method: 'POST',
-        data: {
-            pageNumber,
-            pageSize,
-        },
+        data,
     })
     return res
 }
 
-/* 用户添加 */
-const userAdd: UserAddFn = (data) => axios({
-        url: '/user/add/',
+/* 用户编辑或添加 */
+const addOrEditUser: AddOrEditUserFn = (data) => {
+    const path = data?.id ? 'edit' : 'add'
+    return axios({
+        url: `/user/${path}/`,
         method: 'POST',
         data,
-})
-
-/* 用户修改 */
-const userEdit: UserEditFn = (data) => axios({
-        url: '/user/edit/',
-        method: 'POST',
-        data,
-})
-
+    })
+}
 /* 用户禁启用 */
 const setUserStatus: SetUserStatusFn = (id, status) => axios({
         url: '/user/status/',
@@ -50,7 +38,7 @@ const setUserStatus: SetUserStatusFn = (id, status) => axios({
 })
 
 /* 用户删除 */
-const userDelete: UserDeleteFn = (id) => axios({
+const deleteUser: DeleteUserFn = (id) => axios({
         url: '/user/delete/',
         method: 'POST',
         data: {
@@ -61,20 +49,19 @@ const userDelete: UserDeleteFn = (id) => axios({
 /* 用户详情 */
 const getUserDetail: GetUserDetailFn = async (id) => {
     const res = await axios({
-        url: '/user/detail',
+        url: '/user/detailed/',
         method: 'POST',
         data: {
             id,
         },
     })
-    return res
+    return res.data
 }
 
 export default {
     getUserList,
-    userAdd,
-    userEdit,
+    addOrEditUser,
+    deleteUser,
     setUserStatus,
-    userDelete,
     getUserDetail,
 }

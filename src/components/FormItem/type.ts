@@ -12,24 +12,22 @@ export interface ItemConfig {
     inputProps: InputProps
     rows?: number // 富文本行数
     cols?: number
-    radioItem?: radioItemType // 单选框列表
-    optionItem? : optionItemType // 下拉框选项
+    optionItem? : OptionItemType
     format?: string // 格式化时间
     picker?: 'time' | 'date' | 'month' | 'week' | 'quarter' | 'year' | undefined
     loading?: boolean
     width?: number
     height?: number
     module?: 'register' | 'login'
+    [params: string]: any
 }
 
 export interface ItemProps {
     form: FormInstance
-    optionItem? : optionItemType
+    optionItem? : OptionItemType
     loading?: boolean
-    radioItem?: radioItemType
+    label?: string 
+    [params: string]: any
 }
-/* 下拉框 */
-export type optionItemType = { value: any, text: string}[] 
 
-/* 单选框 */
-export type radioItemType = { value: any, text: string, [item: string]: any}[] 
+export type OptionItemType = { value: any, text: string, [item: string]: any}[] 

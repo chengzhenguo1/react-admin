@@ -1,18 +1,24 @@
 import React, { memo } from 'react'
-import { ItemConfig, ItemProps, formProps } from './type'
+import { StatusText } from '@src/assets/data'
+import { ItemConfig, ItemProps, OptionItemType } from './type'
 import FormInput from '../FromInput/input'
 
-interface JobItemType {
+interface SearchItemType {
     SearchName: React.FC<ItemProps>,
     SearchStatus: React.FC<ItemProps>,
 }
 
-const config: {[key in keyof JobItemType]: ItemConfig} = {
+export interface SearchParam {
+    name?: string
+    status?: boolean | undefined
+}
+
+const config: {[key in keyof SearchItemType]: ItemConfig} = {
     SearchName: {
         name: 'name',
-        label: '职位名称',
+        label: '名称',
         inputProps: {
-            placeholder: '职位名称',
+            placeholder: '名称',
             type: 'text',
         },
     }, 
@@ -23,16 +29,7 @@ const config: {[key in keyof JobItemType]: ItemConfig} = {
             type: 'select',
         },
         width: 100,
-        optionItem: [
-            {
-                value: false,
-                text: '禁用',
-            },
-            {
-                value: true,
-                text: '启用',
-            },
-        ],
+        optionItem: StatusText,
     },
 }
 
@@ -54,7 +51,7 @@ function SearchStatus(props: ItemProps) {
 )
 }
 
-const SearchItem: JobItemType = {
+const SearchItem: SearchItemType = {
     SearchName: memo(SearchName),
     SearchStatus: memo(SearchStatus),
 }

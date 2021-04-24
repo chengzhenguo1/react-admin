@@ -34,13 +34,13 @@ function checkAuth(location: RouteComponentProps['location']): boolean {
     return true
   }
 
-/*   // 路由存在于系统中，查看该用户是否有此路由权限
+  /*   // 查看当前路由是否存在系统中，该用户是否有此路由权限，后端返回路由表的时候使用该方法
    if (!flattenRoutes.find((child) => child.path === location.pathname)) {
     return false
   }  */
 
-  /* 当前用户角色是否有该路由权限，没有返回403 */
-  if (!route.roles?.includes(role as Roles)) {
+  /* 当前用户角色是否有该路由权限, admin直接放行 */
+  if (!route.roles?.includes(role as Roles) && role !== 'admin') {
     return false
   }
 

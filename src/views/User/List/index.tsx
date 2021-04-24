@@ -1,18 +1,22 @@
 import React, {
- memo, useCallback, useEffect, useState, 
+memo, useCallback, useEffect, useState, 
 } from 'react'
-import { useHistory } from 'react-router-dom'
 import { useAsyncFn } from 'react-use'
 import {
     Button, Table, Popconfirm, message, PaginationProps, Form, Switch, Modal,
-   } from 'antd'
-import jobApi from '@src/api/job'
+} from 'antd'
+import userApi from '@src/api/user'
+import { User } from '@src/api/types/user'
 import BasisTable from '@src/components/BasisTable'
-import { IJob } from '@src/api/types/job'
+import AuthWrapper from '@src/components/AuthWrapper'
 import SearchItem, { SearchParam } from '@src/components/FormItem/SearchItem'
+import AddModal from './AddModal'
+import './index.less'
 
-const JobList: React.FC = memo(() => {
+const UserList: React.FC = memo(() => {
     const [search, setSearch] = useState<SearchParam>()
+    const [id, setId] = useState('')
+    const [addVisible, setAddVisible] = useState(false)
     const [page, setPage] = useState<PaginationProps>({
         current: 1,
         pageSize: 10,
@@ -20,15 +24,23 @@ const JobList: React.FC = memo(() => {
     const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
     const [form] = Form.useForm()
-    const { push } = useHistory()
-
-    const [jobList, getJobListFn] = useAsyncFn(jobApi.getJobList)
-    const [, deleteJobFn] = useAsyncFn(jobApi.jobDelete)
-    const [, setJobStatusFn] = useAsyncFn(jobApi.setJobStatus)
+    
+    const [userList, getUserListFn] = useAsyncFn(userApi.getUserList)
+    const [, deleteDepartmentFn] = useAsyncFn(userApi.deleteUser)
+    const [, setDepartmentStatusFn] = useAsyncFn(userApi.setUserStatus)
 
     useEffect(() => {
-        getJobData()
+        getUserData()
     }, [page, search])
+
+    /* 关闭对话框 */
+    const closeAddModal = useCallback(
+        () => {
+            setAddVisible(false)
+            setId('')
+        },
+        [],
+    )
 
     /* 页码改变 */
     const onPageChange = useCallback(
@@ -49,10 +61,10 @@ const JobList: React.FC = memo(() => {
     /* 切换状态 */
     const onHandleChangeStatus = useCallback(
         (id, status) => {
-            setJobStatusFn(id, status)
+            setDepartmentStatusFn(id, status)
             /* 立马修改后，服务器反应慢 */
             setTimeout(() => {
-                getJobData()
+                getUserData()
             }, 10)
         },
         [],
@@ -77,58 +89,75 @@ const JobList: React.FC = memo(() => {
         [selectedRowKeys],
     )
 
-    /* 删除职位 */
-   const onDeleteModal = useCallback(
+    /* 删除 */
+    const onDeleteModal = useCallback(
         (id:string) => {
-            deleteJobFn(id).then((res) => {
+            deleteDepartmentFn(id).then((res) => {
                 message.success(res.message)
-                getJobData()
+                getUserData()
             })
         },
         [],
     )
     
     /* 点击搜索 */
-   const onSearch = useCallback(
-       (value: SearchParam) => {
-           setSearch(value)
-       },
-       [],
-   )
+    const onHandleSearch = useCallback(
+        (value: SearchParam) => {
+            setSearch(value)
+        },
+        [],
+    )
 
-    const getJobData = () => {
-        getJobListFn({
-            name: search?.name, status: search?.status, pageNumber: page.current || 1, pageSize: page.pageSize || 10, 
+    const getUserData = () => {
+        getUserListFn({
+            name: search?.name, 
+            status: search?.status, 
+            pageNumber: page.current || 1, 
+            pageSize: page.pageSize || 10, 
         })
     }
 
     return (
         <div>
             <Form 
-              form={form} 
+              form={form}
               layout='inline' 
-              className='mb-20'
-              onFinish={onSearch}>
-                <SearchItem.SearchName form={form} />
-                <SearchItem.SearchStatus form={form} />
-                <Form.Item>
+              className='mb-20 header-form'
+              onFinish={onHandleSearch}>
+                <div>
+                    <SearchItem.SearchName form={form} label='用户名称' />
+                    <SearchItem.SearchStatus form={form} />
                     <Button type='primary' htmlType='submit'>搜索</Button>
-                </Form.Item>
+                </div>
+                <div>
+                    <AuthWrapper
+                      roles={['admin']}
+                      component={(
+                          <Button 
+                            type='primary'
+                            onClick={() => { setAddVisible(true) }}>
+                              添加用户
+                          </Button>
+                    )} />
+                </div>
             </Form>
-            <BasisTable<IJob> 
-              loading={jobList.loading} 
-              data={jobList.value?.data.data}
-              total={jobList.value?.data.total}
+            <BasisTable<User> 
+              loading={userList.loading} 
+              data={userList.value?.data.data}
+              total={userList.value?.data.total}
               rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
               onChange={onPageChange}
               footer={() => <Button onClick={onHandleDelete}>批量删除</Button>}>
-                <Table.Column<IJob> 
-                  title='职位名称' 
-                  dataIndex='name' />
-                <Table.Column<IJob> 
-                  title='部门名称' 
-                  dataIndex='jobName' />
-                <Table.Column<IJob> 
+                <Table.Column<User> 
+                  title='用户名' 
+                  dataIndex='username' />
+                <Table.Column<User> 
+                  title='真实姓名' 
+                  dataIndex='truename' />
+                <Table.Column<User> 
+                  title='手机号' 
+                  dataIndex='phone' />
+                <Table.Column<User> 
                   title='禁启用' 
                   dataIndex='status' 
                   align='center' 
@@ -138,9 +167,9 @@ const JobList: React.FC = memo(() => {
                         checkedChildren='开启' 
                         unCheckedChildren='禁用'
                         checked={record.status}
-                        onChange={(checked) => onHandleChangeStatus(record.jobId, checked)} />
+                        onChange={(checked) => onHandleChangeStatus(record.id, checked)} />
                 )} />
-                <Table.Column<IJob> 
+                <Table.Column<User> 
                   title='操作' 
                   align='center'
                   width={200}
@@ -148,12 +177,12 @@ const JobList: React.FC = memo(() => {
                       <div className='table-btn-group'>
                           <Button
                             type='primary' 
-                            onClick={() => push({ pathname: '/job/add', state: { jobId: record.jobId } })}>
+                            onClick={() => { setAddVisible(true); setId(record.id) }}>
                               编辑
                           </Button>
                           <Popconfirm
-                            title='是否要删除该部门?'
-                            onConfirm={() => onDeleteModal(record.jobId)}
+                            title='是否要删除该用户?'
+                            onConfirm={() => onDeleteModal(record.id)}
                             okText='确认'
                             cancelText='取消'>
                               <Button>删除</Button>
@@ -161,8 +190,14 @@ const JobList: React.FC = memo(() => {
                       </div>
                     )} />
             </BasisTable>
+            {/* 添加框 */}
+            <AddModal 
+              visible={addVisible}
+              id={id}
+              onClose={() => { closeAddModal() }}
+              onConfirm={() => { closeAddModal() }} />
         </div>
 )
- })
+})
 
-export default JobList
+export default UserList

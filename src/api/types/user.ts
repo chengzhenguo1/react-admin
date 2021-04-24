@@ -1,14 +1,10 @@
-export interface AddFormParam {
+export interface FormParam {
     username: string
     truename: string
     password: string
     status: boolean
     phone: string
     role: string
-}
-
-export interface EditFormParam extends AddFormParam {
-    id: string
 }
 
 export interface User extends IUserDeatil{

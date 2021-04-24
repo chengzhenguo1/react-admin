@@ -3,30 +3,32 @@ import React, {
 } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useAsyncFn } from 'react-use'
-import departmentApi from '@src/api/department'
-import BasisTable from '@src/components/BasisTable'
-import { IDepartmentData } from '@src/api/types/department'
 import {
- Button, Table, Popconfirm, message, PaginationProps, Form, Input, Switch, Modal,
+    Button, Table, Popconfirm, message, PaginationProps, Form, Switch, Modal,
 } from 'antd'
+import { IDepartment } from '@src/api/types/department'
+import BasisTable from '@src/components/BasisTable'
+import departmentApi from '@src/api/department'
+import SearchItem, { SearchParam } from '@src/components/FormItem/SearchItem'
 
 const DepartList: React.FC = memo(() => {
-    const [name, setName] = useState('')
+    const [search, setSearch] = useState<SearchParam>()
     const [page, setPage] = useState<PaginationProps>({
         current: 1,
         pageSize: 10,
     })
-    const [selectedRowKeys, setSelectedRowKeys] = useState([])
+    const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([])
+    
     const [form] = Form.useForm()
     const { push } = useHistory()
 
     const [departmentList, getDepartmentListFn] = useAsyncFn(departmentApi.getDepartmentList)
-    const [, deleteDepartmentFn] = useAsyncFn(departmentApi.deleteDepartment)
+    const [deleteDepartment, deleteDepartmentFn] = useAsyncFn(departmentApi.deleteDepartment)
     const [, setDepartmentStatusFn] = useAsyncFn(departmentApi.setDepartmentStatus)
 
     useEffect(() => {
         getDepartmentData()
-    }, [page, name])
+    }, [page, search])
 
     /* 页码改变 */
     const onPageChange = useCallback(
@@ -79,7 +81,7 @@ const DepartList: React.FC = memo(() => {
    const onDeleteModal = useCallback(
         (id:string) => {
             deleteDepartmentFn(id).then((res) => {
-                message.success(res.message)
+                message.success(res)
                 getDepartmentData()
             })
         },
@@ -87,16 +89,17 @@ const DepartList: React.FC = memo(() => {
     )
     
     /* 点击搜索 */
-   const onSearchDepartment = useCallback(
-       (value) => {
-           const name = form.getFieldValue('name')
-           setName(name)
+   const onHandleSearch = useCallback(
+       (res: SearchParam) => {
+          setSearch(res)
        },
        [],
    )
 
     const getDepartmentData = () => {
-        getDepartmentListFn({ name, pageNumber: page.current || 1, pageSize: page.pageSize || 10 })
+        getDepartmentListFn({
+            name: search?.name, status: search?.status, pageNumber: page.current || 1, pageSize: page.pageSize || 10, 
+        })
     }
 
     return (
@@ -105,44 +108,43 @@ const DepartList: React.FC = memo(() => {
               form={form} 
               layout='inline' 
               className='mb-20'
-              onFinish={onSearchDepartment}>
-                <Form.Item label='部门名称' name='name'>
-                    <Input />
-                </Form.Item>
+              onFinish={onHandleSearch}>
+                <SearchItem.SearchName form={form} label='部门名称' />
+                <SearchItem.SearchStatus form={form} />
                 <Form.Item>
                     <Button type='primary' htmlType='submit'>搜索</Button>
                 </Form.Item>
             </Form>
-            <BasisTable<IDepartmentData> 
+            <BasisTable<IDepartment> 
               loading={departmentList.loading} 
               data={departmentList.value?.data.data}
               total={departmentList.value?.data.total}
               rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
               onChange={onPageChange}
               footer={() => <Button onClick={onHandleDelete}>批量删除</Button>}>
-                <Table.Column<IDepartmentData> 
+                <Table.Column<IDepartment> 
                   title='部门名称' 
                   dataIndex='name' />
-                <Table.Column<IDepartmentData> 
+                <Table.Column<IDepartment> 
                   title='禁启用' 
                   dataIndex='status' 
                   align='center' 
                   width={100}
-                  render={(text, record) => (
+                  render={(_, record) => (
                       <Switch 
                         checkedChildren='开启' 
                         unCheckedChildren='禁用'
                         checked={record.status}
                         onChange={(checked) => onHandleChangeStatus(record.id, checked)} />
                 )} />
-                <Table.Column<IDepartmentData> 
+                <Table.Column<IDepartment> 
                   title='人员数量' 
                   dataIndex='number' />
-                <Table.Column<IDepartmentData> 
+                <Table.Column<IDepartment> 
                   title='操作' 
                   align='center'
                   width={200}
-                  render={(text, record) => (
+                  render={(_, record) => (
                       <div className='table-btn-group'>
                           <Button
                             type='primary' 
@@ -151,10 +153,10 @@ const DepartList: React.FC = memo(() => {
                           </Button>
                           <Popconfirm
                             title='是否要删除该部门?'
-                            onConfirm={() => onDeleteModal(record.id)}
+                            onConfirm={() => onDeleteModal(record.id!)}
                             okText='确认'
                             cancelText='取消'>
-                              <Button>删除</Button>
+                              <Button loading={deleteDepartment.loading}>删除</Button>
                           </Popconfirm>
                       </div>
                     )} />

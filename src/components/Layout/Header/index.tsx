@@ -1,8 +1,9 @@
-import React, { memo, useEffect } from 'react'
+import React, { memo } from 'react'
+import { useWindowSize, useDebounce } from 'react-use'
 import { Layout } from 'antd'
-import { useWindowSize } from 'react-use'
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
 import { AppState, updateSideBar } from '@src/store/module/app'
+import { Min_Width } from '@src/constants/app'
 import { connect } from 'react-redux'
 import UserInfo from './UserInfo'
 import './index.less'
@@ -15,11 +16,15 @@ interface IProps {
 const Header: React.FC<IProps> = memo(({ sidebar, updateSideBar }) => {
     const { width } = useWindowSize()
 
-    useEffect(() => {
-        if (width < 460) {
-            updateSideBar({ ...sidebar, opened: true })
-        }
-    }, [width])
+    useDebounce(
+        () => {
+            if (width < Min_Width) {
+                updateSideBar({ ...sidebar, opened: true })
+            }
+        },
+        100,
+        [width],
+      )
 
     const handleToggle = () => {
         updateSideBar({ ...sidebar, opened: !sidebar.opened })

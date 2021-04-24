@@ -1,3 +1,4 @@
+import { StatusText } from '@src/assets/data'
 import React, { memo } from 'react'
 import FormInput from '../../FromInput/input'
 import { formProps, ItemConfig, ItemProps } from '../type'
@@ -34,16 +35,7 @@ const config: {[key in keyof JobItemType]: ItemConfig} = {
         inputProps: {
             type: 'radio',
         },
-        radioItem: [
-            {
-                value: false,
-                text: '禁用',
-            },
-            {
-                value: true,
-                text: '启用',
-            },
-        ],
+        optionItem: StatusText,
     },
     Content: {
         name: 'content',

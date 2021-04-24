@@ -2,26 +2,33 @@ import React, {
  memo, useState, useCallback, useEffect,
  } from 'react'
 import { useAsyncFn, useLocalStorage } from 'react-use'
+import store from 'store'
 import uploadApi from '@src/api/upload'
 import { Upload, message } from 'antd'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { RcFile } from 'antd/lib/upload'
   
 interface IProps {
-  onChange?: (value:any)=>void
+  onChange?: (value: any)=> void
+  token: string
 }
 
-const UpLoadPic: React.FC<IProps> = memo(({ onChange }) => {
+export const UPLOAD_TOKEN = 'admin_upload_token'
+
+const UpLoadPic: React.FC<IProps> = memo(({ token, onChange }) => {
     const [loading, setLoading] = useState(false)
     const [imgUrl, setImgUrl] = useState('')
     const [uploadKey, setUploadKey] = useState<{token?:string, key?: string}>()
-    const [{ value }, uploadtokenFn] = useAsyncFn(uploadApi.uploadToken)
-    const [token, setToken] = useLocalStorage('admin_pic_token', '')
+    
+    const [, uploadtokenFn] = useAsyncFn(uploadApi.uploadToken)
 
     useEffect(() => {
-        uploadtokenFn('dfawTwXxmuWJywb6LFiAn1a_xU8qz58dl3v7Bp74', 'gynIo9E-zyKeKBrPqeWmmgeA4DQSsl8gpuyYl9dT', 'bigbigtime')
-        setToken(value)
-    }, [])
+        if (!token) { 
+          uploadtokenFn('dfawTwXxmuWJywb6LFiAn1a_xU8qz58dl3v7Bp74', 'gynIo9E-zyKeKBrPqeWmmgeA4DQSsl8gpuyYl9dT', 'bigbigtime').then((res) => {
+            store.set(UPLOAD_TOKEN, res)
+          })
+        }
+    }, [token])
 
     const beforeUpload = useCallback((file: RcFile) => {
       const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'

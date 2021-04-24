@@ -1,21 +1,24 @@
 import React, { memo, useCallback, useEffect } from 'react'
-import { useLocation, useHistory } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { useAsyncFn } from 'react-use'
+import { Button, Form, message } from 'antd'
 import jobApi from '@src/api/job'
 import departmentApi from '@src/api/department'
 import JobItem from '@src/components/FormItem/JobItem'
-import { Button, Form, message } from 'antd'
+import { LayoutCol } from '@src/constants/app'
 
 const JobAdd: React.FC = memo(() => {
+    const { state } = useLocation<{jobId: string}>()
+    
+    const [form] = Form.useForm()
+
     const [{ loading }, jobAddOrEditFn] = useAsyncFn(jobApi.jobAddOrEdit)
     const [, getJobDetailedFn] = useAsyncFn(jobApi.jobDetail)
-    const [departmentList, getDepartmentListFn] = useAsyncFn(departmentApi.getDepartmentList)
-    const { state } = useLocation<{jobId: string}>()
-    const [form] = Form.useForm()
+    const [departmentAll, getDepartmentAllFn] = useAsyncFn(departmentApi.getDepartmentListAll)
 
     /* 职位列表跳转判断是否有id */
     useEffect(() => {
-        getDepartmentListFn()
+        getDepartmentAllFn()
         if (state?.jobId) {
             getJobDetailedFn(state.jobId).then((res) => {
                 form.setFieldsValue(res)
@@ -31,7 +34,6 @@ const JobAdd: React.FC = memo(() => {
               let jobId = state?.jobId
               const values = { ...res, jobId }
               jobAddOrEditFn(values).then((data) => {
-                console.log(jobId)
                 jobId = ''
                 message.success(data.message)
                 form.resetFields()
@@ -45,21 +47,20 @@ const JobAdd: React.FC = memo(() => {
         <Form
           form={form}
           onFinish={onHandleDartmentAddOrEdit}
-          labelCol={{ span: 2 }}
-          wrapperCol={{ span: 20 }}
-          labelAlign='left'
+          {...LayoutCol}
+          labelAlign='right'
           initialValues={{
             status: false,
             number: 1,
           }}>
             <JobItem.Name
               form={form} 
-              optionItem={departmentList?.value?.data.data.map((item) => ({ value: item.id, text: item.name }))} 
-              loading={departmentList?.loading} />
+              optionItem={departmentAll?.value?.map((item) => ({ value: item.id, text: item.name }))} 
+              loading={departmentAll?.loading} />
             <JobItem.JobName form={form} />
             <JobItem.Status form={form} />
             <JobItem.Content form={form} />
-            <Form.Item>
+            <Form.Item wrapperCol={{ ...LayoutCol.wrapperCol, offset: 4 }}>
                 <Button type='primary' htmlType='submit' loading={loading}>确定</Button>
             </Form.Item>
         </Form>

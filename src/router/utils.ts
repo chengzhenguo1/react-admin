@@ -12,14 +12,14 @@ import { IRoute } from './type'
         exact={route.exact}
         component={route.component} />
     ))}
-    2.在layout中遍历 /下的路由，需要检验的路由，进行条件渲染businessRouteList属性
+    2.在layout中遍历 /下的所有路由，进行条件校验渲染（没有权限跳到403，重定向。。。），businessRouteList属性
     在Layout/MainRoutes/index.tsx
-      2.1使用auth包裹进行条件渲染，渲染出有权限的的路由,没有权限的进行403跳转
+      2.1使用auth组件包裹进行条件渲染，渲染出有权限的的路由,没有权限的进行403跳转
     有权限但有redirect属性的进行重定向
-      2.2使用AsyncRoutes包裹剩下条件渲染后的组件。使用dashboardRouteList属性动态生成侧边栏以及进行渲染动画
+      2.2使用AsyncRoutes包裹剩下条件渲染后的组件。authRoutes属性动态生成侧边栏以及添加跳转动画
     3.在UserLayout中遍历 /system下的路由，即登录，注册等。及systemRouteList属性下的路由
     在UserLayout/index.tsx 
-      2.1进行循环生成以及布局和捕获错误
+      3.1进行循环生成以及布局和捕获错误
       
 */
 
@@ -91,23 +91,16 @@ function getSystemRouteList(): IRoute[] {
     return []
 }
 
-function getDashboardRouteList(): IRoute[] {
-    const routeList = routes.filter((route) => route.path === '/')
-    return routeList[0].children || []
-}
-
 /**
  * 这里会将 config 中所有路由解析成三个数组
  * 第一个: 最外层的路由，例如  Layout UserLayout ...
  * 第二个: 系统路由, 例如 Login Register RegisterResult
  * 第三个: 业务路由，为 /system 路由下的业务路由
- * 第四个: 业务路由，为 /dashboard 路由下的业务路由渲染侧边栏
  */
 
 export const layoutRouteList = getLayoutRouteList()
 export const businessRouteList = getBusinessRouteList()
 export const systemRouteList = getSystemRouteList()
-export const dashboardRouteList = getDashboardRouteList()
 
 /* 页面标题 */
 export function getPageTitle(routeList: IRoute[]): string {

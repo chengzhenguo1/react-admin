@@ -6,7 +6,7 @@ import { IStoreState } from '@src/store/type'
 import { setSideBarRoutes } from '@src/store/module/app'
 import TransitionMain from '@src/components/TransitionMain'
 import { checkAuth } from '@src/components/AuthWrapper'
-import { dashboardRouteList } from '@src/router/utils'
+import { authRoutes } from '@src/router'
 
 interface AsyncRoutesProps {
   children: React.ReactNode
@@ -18,13 +18,13 @@ interface AsyncRoutesProps {
 function formatMenuToRoute(menus: IRoute[], role: Roles): IRoute[] {
   const result: IRoute[] = []
   menus.forEach((menu) => {
-    /* 排除/error和/*渲染到侧边路由, 再查看当前路由表的是否有权限 */
-    if ((menu?.path && !['/error', '/*'].includes(menu?.path as string)) && checkAuth(menu.roles, role)) {
+    /* 查看当前路由表是否有权限, admin不用校验 */
+    if (((menu?.path && checkAuth(menu.roles, role)) || role === 'admin')) {
       const route: IRoute = {
         path: menu.path,
         meta: { 
-          title: menu.meta.title,
-          icon: menu.meta.icon,
+          title: menu.meta?.title || '未知',
+          icon: menu.meta?.icon,
         },
       }
       if (menu.children) {
@@ -40,7 +40,8 @@ const AsyncRoutes: React.FC<AsyncRoutesProps> = (props) => {
   if (!props.init) {
     /* 
        进行侧边栏筛选渲染，查看当前路由是否有该权限
-       可以进行异步请求后端路由表，根据后端路由进行渲染侧边栏
+       可以进行异步请求后端路由表，根据后端存储的路由进行渲染，
+       同时存储到Redux中，然后在Auth组件改变校验方式，也就是注释上的
        如
         apiGetMenuList()
         .then(({ data }) => {
@@ -48,7 +49,7 @@ const AsyncRoutes: React.FC<AsyncRoutesProps> = (props) => {
         })
         .catch(() => {})
     */
-   props.setSideBarRoutes(formatMenuToRoute(dashboardRouteList, props.role))
+   props.setSideBarRoutes(formatMenuToRoute(authRoutes, props.role))
 
    return <Spin />
   }

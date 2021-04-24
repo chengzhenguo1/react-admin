@@ -1,15 +1,9 @@
-export interface IDepartmentData {
-    id: string
-    name: string
-    number: number
-    status: boolean
+export interface IDepartmentParams extends IDepartment {
     content: string
 }
-
-/* 新增参数 / 详情反参 */
-export interface IDepartmentProps {
+export interface IDepartment {
+    id?: string
     name: string
     number: number
     status: true
-    content: true
 }

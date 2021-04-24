@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { UserStatus } from '@src/assets/data'
+import { StatusText } from '@src/assets/data'
 import FormInput from '../../FromInput/input'
 import { formProps, ItemConfig, ItemProps } from '../type'
 
@@ -37,7 +37,7 @@ const config: {[key in keyof JobItemType]: ItemConfig} = {
         inputProps: {
             type: 'radio',
         },
-        radioItem: UserStatus,
+        optionItem: StatusText,
     },
     Content: {
         name: 'content',
