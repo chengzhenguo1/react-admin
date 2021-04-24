@@ -1,6 +1,6 @@
 import React, { memo, useCallback } from 'react'
 import sha256 from 'crypto-js/sha256'
-import { useAsyncFn, useKey } from 'react-use'
+import { useAsyncFn, useKey, useDebounce } from 'react-use'
 import { IParam } from '@src/api/types/auth'
 import authApi from '@src/api/auth'
 import { Form, Button, message } from 'antd'
@@ -17,22 +17,28 @@ interface FormProp extends IParam{
 const RegisterForm: React.FC<IProps> = memo(({ toggleState }) => {
     const [{ loading }, registerFn] = useAsyncFn(authApi.register)
     const [form] = Form.useForm()
-
+    
     const onRegister = useCallback(
       () => {
-        form.validateFields().then((res) => {
+        form.validateFields().then(async (res) => { 
           const values = res as FormProp
           const { cpassword, ...user } = { ...values }
-          registerFn({ username: user.username, password: sha256(user.password).toString(), code: user.code }).then((data) => {
+          const data = await registerFn({ 
+            username: user.username, 
+            password: sha256(user.password).toString(), 
+            code: user.code, 
+          })
+          
+          if (data.message) {
             message.success(data.message)
             toggleState()
-          })
+          }
         })
       },
       [],
-    )
-
-    useKey('Enter', onRegister)
+      )
+      
+      useKey('Enter', onRegister)
 
     return (
         <Form

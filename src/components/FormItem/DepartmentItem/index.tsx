@@ -37,7 +37,7 @@ const config: {[key in keyof JobItemType]: ItemConfig} = {
         inputProps: {
             type: 'radio',
         },
-        radioItem: UserStatus,
+        optionItem: UserStatus,
     },
     Content: {
         name: 'content',

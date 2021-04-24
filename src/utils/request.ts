@@ -66,10 +66,10 @@ request.interceptors.response.use((res:any):any => {
             })
         }
         Message.error(res?.data?.message || '网络错误')
-        return Promise.reject(res?.data)
+        return Promise.reject()
     }
     
-    return res.data
+    return Promise.resolve(res.data)
 }, toastError)
 
 export default request

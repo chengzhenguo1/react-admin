@@ -1,5 +1,5 @@
 import React, { memo, useCallback } from 'react'
-import { useAsyncFn, useKey } from 'react-use'
+import { useAsyncFn, useKey, useLocation } from 'react-use'
 import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import sha256 from 'crypto-js/sha256'
@@ -20,15 +20,30 @@ const LoginForm: React.FC<IProps> = memo((props) => {
     const [{ loading }, loginFn] = useAsyncFn(authApi.login)
     const [form] = Form.useForm()
 
+    const next = () => {
+      const params = new URLSearchParams(window.location.search)
+      const redirectURL = params.get('redirectURL')
+      if (redirectURL) {
+        window.location.href = redirectURL
+        return
+      }
+      replace('/')
+    }
+
     const onLogin = useCallback(
       () => {
-        form.validateFields().then((res) => {
+        form.validateFields().then(async (res) => {
           const values = res as FormProp
-          loginFn({ username: values.username, password: sha256(values.password).toString(), code: values.code }).then(({ data, message: mes }) => {
+          const { data, message: mes } = await loginFn({ 
+            username: values.username, 
+            password: sha256(values.password).toString(), 
+            code: values.code, 
+          })
+          if (data) {
             message.success(mes)
             props.setUserInfo(data)
-            replace('/dashboard')
-          })
+            next()
+          }
         })
       },
       [],

@@ -46,7 +46,7 @@ const FormInput: React.FC<FormInputProps> = memo((props) => {
                 case 'radio': 
                     return (
                         <Radio.Group>
-                            {props.radioItem?.map((item) => <Radio value={item.value} key={item.text}>{item.text}</Radio>)}
+                            {props.optionItem?.map((item) => <Radio value={item.value} key={item.text}>{item.text}</Radio>)}
                         </Radio.Group>
                     )
                 case 'number':

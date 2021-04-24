@@ -1,24 +1,23 @@
 import axios from '@src/utils/request'
 import { IGetParam, IList } from './types'
-import type {
- IDepartmentProps, IDepartmentData, 
-} from './types/department'
+import type { IDepartment, IDepartmentData } from './types/department'
 
-type AddOrEditDepartmentFn = (data: IDepartmentProps & {id?: string})=> Promise<{message: string}>
-type GetDepartmentListFn = (data?: IGetParam)=> Promise<IList<IDepartmentData>>
-type GetDepartmentListAllFn = ()=> Promise<IDepartmentData[]>
-type GetDepartmentDetailedFn = (id: string)=> Promise<IDepartmentProps>
+type AddOrEditDepartmentFn = (data: IDepartmentData)=> Promise<{message: string}>
+type GetDepartmentListFn = (data: IGetParam)=> Promise<IList<IDepartment & {id: string}>>
+type GetDepartmentListAllFn = ()=> Promise<IDepartment[]>
+type GetDepartmentDetailedFn = (id: string)=> Promise<IDepartment & {content: string}>
 type SetDepartmentStatusFn = (id: string, status: boolean)=> Promise<{message: string}>
 type DeleteDepartmentFn = (id: string)=> Promise<{message: string}>
 
 /* 新增或者编辑部门 */
-const addOrEditDepartment: AddOrEditDepartmentFn = (data) => {
+const addOrEditDepartment: AddOrEditDepartmentFn = async (data) => {
     const path = data?.id ? 'edit' : 'add'
-    return axios({
+    const res = await axios({
         url: `/department/${path}/`,
         method: 'POST',
         data,
-})
+    })
+    return res
 }
 
 /* 获取部门列表 */
@@ -52,31 +51,30 @@ const getDepartmentDetailed: GetDepartmentDetailedFn = async (id) => {
     return res.data
 }
 
-/* 部门修改 */
-/* const editDepartment: AddDepartmentFn = (data) => axios({
-    url: '/department/add/',
-    method: 'POST',
-    data,
-}) */
-
 /* 部门禁启用 */
-const setDepartmentStatus: SetDepartmentStatusFn = (id, status) => axios({
+const setDepartmentStatus: SetDepartmentStatusFn = async (id, status) => {
+    const res = await axios({
         url: '/department/status/',
         method: 'POST',
         data: {
             id,
             status,
         },
-})
+    })
+    return res
+}
 
 /* 删除部门 */
-const deleteDepartment: DeleteDepartmentFn = (id) => axios({
+const deleteDepartment: DeleteDepartmentFn = async (id) => {
+    const res = await axios({
         url: '/department/delete/',
         method: 'POST',
         data: {
             id,
         },
-})
+    })
+    return res
+}
 
 export default {
     addOrEditDepartment,

@@ -46,7 +46,7 @@ export const config: {[key in keyof StaffItemType]: ItemConfig} = {
         name: 'sex',
         rules: [{ required: true, message: '请选择性别' }],
         label: '性别',
-        radioItem: [
+        optionItem: [
             {
                 value: true,
                 text: '男',
@@ -183,7 +183,7 @@ export const config: {[key in keyof StaffItemType]: ItemConfig} = {
             type: 'month',
             placeholder: '工作时间',
         },
-        radioItem: nation,
+        optionItem: nation,
     },
     JobStatus: {
         name: 'job_status',
@@ -192,7 +192,7 @@ export const config: {[key in keyof StaffItemType]: ItemConfig} = {
         inputProps: {
             type: 'radio',
         },
-        radioItem: JobStatus,
+        optionItem: JobStatus,
     },
     CompanyEmail: {
         name: 'company_email',
@@ -209,7 +209,7 @@ export const config: {[key in keyof StaffItemType]: ItemConfig} = {
         inputProps: {
             type: 'radio',
         },
-        radioItem: UserStatus,
+        optionItem: UserStatus,
     },
     JobEntryDate: {
         name: 'job_entry_date',

@@ -1,4 +1,5 @@
 import React, { memo } from 'react'
+import { UserStatus } from '@src/assets/data'
 import { ItemConfig, ItemProps, formProps } from './type'
 import FormInput from '../FromInput/input'
 
@@ -23,16 +24,7 @@ const config: {[key in keyof JobItemType]: ItemConfig} = {
             type: 'select',
         },
         width: 100,
-        optionItem: [
-            {
-                value: false,
-                text: '禁用',
-            },
-            {
-                value: true,
-                text: '启用',
-            },
-        ],
+        optionItem: UserStatus,
     },
 }
 

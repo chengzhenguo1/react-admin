@@ -6,7 +6,7 @@ import { IStoreState } from '@src/store/type'
 import { setSideBarRoutes } from '@src/store/module/app'
 import TransitionMain from '@src/components/TransitionMain'
 import { checkAuth } from '@src/components/AuthWrapper'
-import { dashboardRouteList } from '@src/router/utils'
+import { authRoutes } from '@src/router'
 
 interface AsyncRoutesProps {
   children: React.ReactNode
@@ -18,8 +18,8 @@ interface AsyncRoutesProps {
 function formatMenuToRoute(menus: IRoute[], role: Roles): IRoute[] {
   const result: IRoute[] = []
   menus.forEach((menu) => {
-    /* 排除/error和/*渲染到侧边路由, 再查看当前路由表的是否有权限 */
-    if ((menu?.path && !['/error', '/*'].includes(menu?.path as string)) && checkAuth(menu.roles, role)) {
+    /* 查看当前路由表的是否有权限 */
+    if ((menu?.path && checkAuth(menu.roles, role))) {
       const route: IRoute = {
         path: menu.path,
         meta: { 
@@ -48,7 +48,7 @@ const AsyncRoutes: React.FC<AsyncRoutesProps> = (props) => {
         })
         .catch(() => {})
     */
-   props.setSideBarRoutes(formatMenuToRoute(dashboardRouteList, props.role))
+   props.setSideBarRoutes(formatMenuToRoute(authRoutes, props.role))
 
    return <Spin />
   }
