@@ -17,10 +17,10 @@ const Breadcrumbs: React.FC = memo(() => {
         <div className='breadcrumb-container mb-20'>
             <Breadcrumb>
                 {breadcrumbs.map((item, index) => (
-                    index === breadcrumbs.length - 1 ? <Breadcrumb.Item key={item.meta.title}>{item.meta.title}</Breadcrumb.Item>
+                    index === breadcrumbs.length - 1 ? <Breadcrumb.Item key={item.meta?.title}>{item.meta?.title}</Breadcrumb.Item>
            : (
-               <Breadcrumb.Item key={item.meta.title}>
-                   {item.meta.title}
+               <Breadcrumb.Item key={item.meta?.title}>
+                   {item.meta?.title}
                    {/*  <Link to={item.path as string}>
                        {item.meta.title}
                    </Link> */}
