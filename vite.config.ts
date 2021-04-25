@@ -13,6 +13,7 @@ const themeVariables = lessToJS(
 /* const env = process.argv[process.argv.length - 1] */
 
 export default defineConfig({
+  base: '/reactAdmin/',
   resolve: {
     // 路径别名
     alias: [
@@ -33,7 +34,7 @@ export default defineConfig({
   plugins: [
     reactRefresh(),
      /* vitePluginImp({
-      // 按需引入
+      // 按需引入, 有bug 引不全
       libList: [
         {
           libName: 'antd',

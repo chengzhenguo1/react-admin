@@ -3,7 +3,7 @@ import { useAsyncFn } from 'react-use'
 import { useLocation, useHistory } from 'react-router-dom'
 import moment from 'moment'
 import store from 'store'
-import { Button, Form } from 'antd'
+import { Button, Form, Divider } from 'antd'
 import departmentApi from '@src/api/department'
 import jobApi from '@src/api/job'
 import staffApi from '@src/api/staff'
@@ -79,6 +79,7 @@ const StaffAdd: React.FC = memo(() => {
           labelCol={{ span: 10 }}
           wrapperCol={{ span: 10 }}
           labelAlign='right'>
+            <Divider>基础信息</Divider>
             <StaffItem.Name form={form} />
             <StaffItem.Sex form={form} />
             <StaffItem.CardId form={form} />
@@ -93,6 +94,7 @@ const StaffAdd: React.FC = memo(() => {
             <StaffItem.Major form={form} />
             <StaffItem.Wechat form={form} />
             <StaffItem.Email form={form} />
+            <Divider>其他信息</Divider>
             <StaffItem.JobId
               loading={jobAll.loading} 
               optionItem={jobAll.value?.map((item) => ({ text: item.jobName, value: item.jobId }))} 

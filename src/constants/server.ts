@@ -1,3 +1,2 @@
-export const SERVER = import.meta.env.VITE_SOME_KEY
-
-export const BASE = '/api'
+// eslint-disable-next-line import/prefer-default-export
+export const BASE = process.env.NODE_ENV === 'development' ? '/api' : '/adminApi/'

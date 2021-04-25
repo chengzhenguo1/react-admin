@@ -7,9 +7,12 @@
     
     .name {
         font-size: 14px;
-        padding: 0 20px;
+        padding: 0 10px;
         font-weight: 500;
-        .article-container(100px);
+        .article-container(80%);
+        @media (max-width: 768px){
+            .article-container(80px);
+        }
     }
 
     .close {

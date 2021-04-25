@@ -127,7 +127,7 @@ const UserList: React.FC = memo(() => {
                 <div>
                     <SearchItem.SearchName form={form} label='用户名称' />
                     <SearchItem.SearchStatus form={form} />
-                    <Button type='primary' htmlType='submit'>搜索</Button>
+                    <Button type='primary' htmlType='submit' loading={userList.loading}>搜索</Button>
                 </div>
                 <div>
                     <AuthWrapper

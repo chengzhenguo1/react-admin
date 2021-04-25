@@ -1,21 +1,21 @@
-import { lazyImport } from '@src/utils/lazyImport'
 import { lazy } from 'react'
+import { lazyImport } from '@src/utils/lazyImport'
 import { IRoute } from './type'
 
-const System = lazyImport('../components/UserLayout')
-const Layout = lazyImport('../components/Layout')
+const System = lazy(() => import('../components/UserLayout'))
+const Layout = lazy(() => import('../components/Layout'))
 
-const Login = lazyImport('../views/Login')
+const Login = lazy(() => import('../views/Login'))
 
-const Dashboard = lazyImport('../views/Dashboard')
+const Dashboard = lazy(() => import('../views/Dashboard'))
 /* const UserAdd = lazyImport('../views/User/Add') */
-const UserList = lazyImport('../views/User/List')
-const DepartmentList = lazyImport('../views/Department/List')
-const DepartmentAdd = lazyImport('../views/Department/Add')
-const JobList = lazyImport('../views/Job/List')
-const JobAdd = lazyImport('../views/Job/Add')
-const StaffList = lazyImport('../views/Staff/List')
-const StaffAdd = lazyImport('../views/Staff/Add')
+const UserList = lazy(() => import('../views/User/List'))
+const DepartmentList = lazy(() => import('../views/Department/List'))
+const DepartmentAdd = lazy(() => import('../views/Department/Add'))
+const JobList = lazy(() => import('../views/Job/List'))
+const JobAdd = lazy(() => import('../views/Job/Add'))
+const StaffList = lazy(() => import('../views/Staff/List'))
+const StaffAdd = lazy(() => import('../views/Staff/Add'))
 
 /* 需要校验的路由 */
 export const authRoutes: IRoute[] = [

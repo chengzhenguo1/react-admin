@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import { StatusText } from '@src/assets/data'
-import { ItemConfig, ItemProps, OptionItemType } from './type'
+import { ItemConfig, ItemProps } from './type'
 import FormInput from '../FromInput/input'
 
 interface SearchItemType {
