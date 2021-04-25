@@ -11,7 +11,7 @@ http://icloudmusic.top/reactAdmin
 ## 使用
 
 ```
-$ git https://github.com/chengzhenguo1/react-admin.git
+$ git clone https://github.com/chengzhenguo1/react-admin.git
 $ cd react-admin
 $ yarn install
 $ yarn run dev
