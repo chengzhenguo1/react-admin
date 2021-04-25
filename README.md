@@ -6,6 +6,17 @@ React Admin——一个基于React、TypeScript、Vite的编写的管理系统�
 
 http://icloudmusic.top/reactAdmin
 
+
+
+## 使用
+
+```
+$ git https://github.com/chengzhenguo1/react-admin.git
+$ cd react-admin
+$ yarn install
+$ yarn run dev
+```
+
 ## 功能列表
 
 - 登录/注册
