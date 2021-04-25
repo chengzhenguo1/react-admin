@@ -3,7 +3,7 @@ import type { IJobDeatil, IJob } from '../api/types/job'
 import { IGetParam, IList } from './types'
 
 type JobAddOrEditFn = (data: IJob & {content: string, parentId?: string})=> Promise<{message: string}>
-type GetJobListFn = (data?: IGetParam)=> Promise<IList<IJob>>
+type GetJobListFn = (data: IGetParam)=> Promise<IList<IJob>>
 type JobListAllFn = ()=> Promise<IJob[]>
 type JobDetailFn = (id: number | string)=> Promise<IJobDeatil>
 type SetJobStatusFn = (id: number, status: boolean)=> Promise<{message: string}>

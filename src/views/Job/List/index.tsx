@@ -112,7 +112,7 @@ const JobList: React.FC = memo(() => {
                 <SearchItem.SearchName form={form} />
                 <SearchItem.SearchStatus form={form} />
                 <Form.Item>
-                    <Button type='primary' htmlType='submit'>搜索</Button>
+                    <Button type='primary' htmlType='submit' loading={jobList.loading}>搜索</Button>
                 </Form.Item>
             </Form>
             <BasisTable<IJob> 

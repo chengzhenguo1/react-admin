@@ -1,0 +1,44 @@
+.dashboard-header {
+    .header-title {
+        font-weight: 600;
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0;
+    @media (max-width: 768px) {
+        display: block;
+    }
+    .content-left {
+        display: flex;
+        align-items: center;
+
+        @media (max-width: 768px) {
+            display: block;
+        }
+
+        & > div + div{
+            margin-left: 10px;
+        }
+        .content-info {
+            color: rgba(0,0,0,.85);
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        .content-id {
+            color: rgba(0,0,0,.45);
+        }
+    }
+    .content-count {
+        // display: flex;
+        @media (max-width: 768px) {
+            margin-top: 10px;
+        }
+    }
+
+}

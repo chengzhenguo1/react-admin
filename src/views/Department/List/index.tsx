@@ -112,7 +112,7 @@ const DepartList: React.FC = memo(() => {
                 <SearchItem.SearchName form={form} label='部门名称' />
                 <SearchItem.SearchStatus form={form} />
                 <Form.Item>
-                    <Button type='primary' htmlType='submit'>搜索</Button>
+                    <Button type='primary' htmlType='submit' loading={departmentList.loading}>搜索</Button>
                 </Form.Item>
             </Form>
             <BasisTable<IDepartment> 

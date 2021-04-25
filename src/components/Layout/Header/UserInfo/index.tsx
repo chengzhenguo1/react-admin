@@ -1,13 +1,13 @@
 import React, { memo, useCallback } from 'react'
 import { connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { Avatar, Popconfirm } from 'antd'
-import { UserOutlined } from '@ant-design/icons'
+import { Popconfirm, Avatar } from 'antd'
 import { Player } from '@lottiefiles/react-lottie-player'
 import { ClosePath } from '@src/constants/lottiePath'
 import { logout, UserState } from '@src/store/module/user'
 import { clearSideBarRoutes } from '@src/store/module/app'
 import { IStoreState } from '@src/store/type'
+import avatarImg from '@src/assets/images/avatar.png'
 import './index.less'
 
 interface IProps {
@@ -27,7 +27,7 @@ const UserInfo: React.FC<IProps> = memo((props) => {
     
     return (
         <div className='userinfo'>
-            <Avatar size={36} icon={<UserOutlined />} />
+            <Avatar src={avatarImg} size={24} />
             <h3 className='name'>{props.username}</h3>
             <Popconfirm 
               placement='bottomRight'
