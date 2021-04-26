@@ -91,21 +91,31 @@ function getSystemRouteList(): IRoute[] {
     return []
 }
 
+function getMenuRouteList(): IRoute[] {
+  const routeList = routes.filter((route) => route.path === '/');
+  if (routeList.length > 0) {
+     return routeList[0].children || []
+  }
+  return []
+}
+
 /**
  * 这里会将 config 中所有路由解析成三个数组
  * 第一个: 最外层的路由，例如  Layout UserLayout ...
  * 第二个: 系统路由, 例如 Login Register RegisterResult
  * 第三个: 业务路由，为 /system 路由下的业务路由
+ * 第四个: 菜单列表，为 / 路由下的路由
  */
 
 export const layoutRouteList = getLayoutRouteList()
 export const businessRouteList = getBusinessRouteList()
 export const systemRouteList = getSystemRouteList()
+export const menuRouteList = getMenuRouteList()
 
 /* 页面标题 */
 export function getPageTitle(routeList: IRoute[]): string {
   const route = routeList.find((child) => child.path === window.location.pathname)
-  return route ? route.meta.title : ''
+  return route ? (route.meta?.title || 'React Admin') : ''
 }
 
 /* 面包屑 */

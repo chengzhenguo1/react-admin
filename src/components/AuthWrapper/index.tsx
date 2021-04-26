@@ -11,7 +11,7 @@ interface IProps {
 }
 
 export const checkAuth = (roles?: Roles[], auth?: Roles) => {
-    if (!roles) {
+    if (!roles || auth === 'admin') {
         return true
     }
     /* 判断用户是否在校验表中，条件渲染组件 */

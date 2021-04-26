@@ -61,7 +61,7 @@ request.interceptors.response.use((res:any):any => {
                   store.dispatch(logout())
                   window.location.href = `${
                     window.location.origin
-                  }/system/login?redirectURL=${encodeURIComponent(window.location.href)}`
+                  }/reactAdmin/#/system/login?redirectURL=${encodeURIComponent(window.location.href)}`
                 },
             })
         }

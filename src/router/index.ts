@@ -17,120 +17,6 @@ const JobAdd = lazy(() => import('../views/Job/Add'))
 const StaffList = lazy(() => import('../views/Staff/List'))
 const StaffAdd = lazy(() => import('../views/Staff/Add'))
 
-/* 需要校验的路由 */
-export const authRoutes: IRoute[] = [
-    {
-        path: '/dashboard',
-        exact: true,
-        component: Dashboard,
-        meta: {
-            title: '控制台',
-            icon: 'AppstoreOutlined',
-        },
-    },
-    {
-        path: '/user',
-        redirect: '/user/add',
-        roles: ['user', 'admin'],
-        meta: {
-            title: '用户管理',
-            icon: 'UserOutlined',
-        },
-        children: [
-/*             {
-                path: '/user/add',
-                component: UserAdd,
-                meta: {
-                    title: '用户添加',
-                },
-                roles: ['admin'],
-            }, */
-            {
-                path: '/user/list',
-                component: UserList,
-                meta: {
-                    title: '用户列表',
-                },
-            },
-        ],
-    },
-    {
-        path: '/department',
-        redirect: '/department/list',
-        roles: ['product', 'information'],
-        meta: {
-            title: '部门管理',
-            icon: 'WechatOutlined',
-        },
-        children: [
-            {
-                path: '/department/list',
-                component: DepartmentList,
-                roles: ['product'],
-                meta: {
-                    title: '部门列表',
-                },
-            },
-            {
-                path: '/department/add',
-                roles: ['information'],
-                component: DepartmentAdd,
-                meta: {
-                    title: '添加部门',
-                },
-            },
-        ],
-    },
-    {
-        path: '/job',
-        redirect: '/job/list',
-        meta: {
-            title: '职位管理',
-            icon: 'AuditOutlined',
-        },
-        children: [
-            {
-                path: '/job/list',
-                component: JobList,
-                meta: {
-                    title: '职位列表',
-                },
-            },
-            {
-                path: '/job/add',
-                component: JobAdd,
-                meta: {
-                    title: '添加职位',
-                },
-            },
-        ],
-    },
-     {
-        path: '/staff',
-        redirect: '/staff/list',
-        meta: {
-            title: '职员管理',
-            icon: 'UsergroupAddOutlined',
-        },
-        children: [
-            {
-                path: '/staff/list',
-                component: StaffList,
-                meta: {
-                    title: '职员列表',
-                },
-            },
-            {
-                path: '/staff/add',
-                component: StaffAdd,
-                meta: {
-                    title: '职员添加',
-                },
-            },
-        ],
-    },
-]
-
 export const routes: IRoute[] = [
     {
         path: '/system',
@@ -158,7 +44,116 @@ export const routes: IRoute[] = [
             title: '系统',
         },
         children: [
-            ...authRoutes,
+            {
+                path: '/dashboard',
+                exact: true,
+                component: Dashboard,
+                meta: {
+                    title: '控制台',
+                    icon: 'AppstoreOutlined',
+                },
+            },
+            {
+                path: '/user',
+                redirect: '/user/add',
+                roles: ['user', 'admin'],
+                meta: {
+                    title: '用户管理',
+                    icon: 'UserOutlined',
+                },
+                children: [
+        /*             {
+                        path: '/user/add',
+                        component: UserAdd,
+                        meta: {
+                            title: '用户添加',
+                        },
+                        roles: ['admin'],
+                    }, */
+                    {
+                        path: '/user/list',
+                        component: UserList,
+                        meta: {
+                            title: '用户列表',
+                        },
+                    },
+                ],
+            },
+            {
+                path: '/department',
+                redirect: '/department/list',
+                roles: ['product', 'information'],
+                meta: {
+                    title: '部门管理',
+                    icon: 'WechatOutlined',
+                },
+                children: [
+                    {
+                        path: '/department/list',
+                        component: DepartmentList,
+                        roles: ['product'],
+                        meta: {
+                            title: '部门列表',
+                        },
+                    },
+                    {
+                        path: '/department/add',
+                        roles: ['information'],
+                        component: DepartmentAdd,
+                        meta: {
+                            title: '添加部门',
+                        },
+                    },
+                ],
+            },
+            {
+                path: '/job',
+                redirect: '/job/list',
+                meta: {
+                    title: '职位管理',
+                    icon: 'AuditOutlined',
+                },
+                children: [
+                    {
+                        path: '/job/list',
+                        component: JobList,
+                        meta: {
+                            title: '职位列表',
+                        },
+                    },
+                    {
+                        path: '/job/add',
+                        component: JobAdd,
+                        meta: {
+                            title: '添加职位',
+                        },
+                    },
+                ],
+            },
+             {
+                path: '/staff',
+                redirect: '/staff/list',
+                meta: {
+                    title: '职员管理',
+                    icon: 'UsergroupAddOutlined',
+                },
+                children: [
+                    {
+                        path: '/staff/list',
+                        component: StaffList,
+                        meta: {
+                            title: '职员列表',
+                        },
+                    },
+                    {
+                        path: '/staff/add',
+                        component: StaffAdd,
+                        meta: {
+                            title: '职员添加',
+                        },
+                    },
+                ],
+            },
             /*
             {
                 path: '/a',
@@ -223,6 +218,7 @@ export const routes: IRoute[] = [
             /* 错误页面 */
     {
         path: '/success',
+        hidden: true,
         component: lazy(() => import('../views/Success')),
     },
     {
@@ -230,6 +226,7 @@ export const routes: IRoute[] = [
         meta: {
           title: '错误页面',
         },
+        hidden: true,
         redirect: '/error/404',
         children: [
           {
@@ -250,6 +247,7 @@ export const routes: IRoute[] = [
     },
     {
         path: '/*',
+        hidden: true,
         meta: {
           title: '错误页面',
         },

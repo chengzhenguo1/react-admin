@@ -6,8 +6,7 @@ import { IStoreState } from '@src/store/type'
 import { setSideBarRoutes } from '@src/store/module/app'
 import TransitionMain from '@src/components/TransitionMain'
 import { checkAuth } from '@src/components/AuthWrapper'
-import { authRoutes } from '@src/router'
-import { getToken } from '@src/utils/auth'
+import { menuRouteList } from '@src/router/utils'
 
 interface AsyncRoutesProps {
   children: React.ReactNode
@@ -19,8 +18,8 @@ interface AsyncRoutesProps {
 function formatMenuToRoute(menus: IRoute[], role: Roles): IRoute[] {
   const result: IRoute[] = []
   menus.forEach((menu) => {
-    /* 查看当前路由表是否有权限, admin不用校验 */
-    if (((menu?.path && checkAuth(menu.roles, role)) || role === 'admin')) {
+    /* 查看当前路由表是否有权限 */
+    if (((menu?.path && checkAuth(menu.roles, role)) && !menu.hidden)) {
       const route: IRoute = {
         path: menu.path,
         meta: { 
@@ -51,7 +50,7 @@ const AsyncRoutes: React.FC<AsyncRoutesProps> = (props) => {
         })
         .catch(() => {})
     */
-   props.setSideBarRoutes(formatMenuToRoute(authRoutes, props.role))
+   props.setSideBarRoutes(formatMenuToRoute(menuRouteList, props.role))
 
    return <Spin />
   }
