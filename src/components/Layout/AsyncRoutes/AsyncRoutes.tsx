@@ -7,6 +7,7 @@ import { setSideBarRoutes } from '@src/store/module/app'
 import TransitionMain from '@src/components/TransitionMain'
 import { checkAuth } from '@src/components/AuthWrapper'
 import { authRoutes } from '@src/router'
+import { getToken } from '@src/utils/auth'
 
 interface AsyncRoutesProps {
   children: React.ReactNode
@@ -37,7 +38,8 @@ function formatMenuToRoute(menus: IRoute[], role: Roles): IRoute[] {
 }
 
 const AsyncRoutes: React.FC<AsyncRoutesProps> = (props) => {
-  if (!props.init) {
+  /* 需要登录后再初始化路由, 如果后端返回的路由表则不需要校验是否登录 */
+  if (!props.init && props.role) {
     /* 
        进行侧边栏筛选渲染，查看当前路由是否有该权限
        可以进行异步请求后端路由表，根据后端存储的路由进行渲染，
