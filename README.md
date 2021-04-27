@@ -91,3 +91,9 @@ $ yarn run dev
 ## API接口
 
 [api (web-jshtml.cn)](http://www.web-jshtml.cn/file/reactApi.html)
+
+## 感谢
+
+感谢**A总**老师的教学视频[手把手撸码前端 React 企业人事后台管理系统开发，由0到1自主搭建管理后台，学习React全家桶知识、Ant Design组件UI_哔哩哔哩 (゜-゜)つロ 干杯~-bilibili](https://www.bilibili.com/video/BV1Hg4y167v6?from=search&seid=14801539303278423807)
+
+另附上官网手把手撸码前端 (web-jshtml.cn)](http://school.web-jshtml.cn/#/)，欢迎来一起学习
