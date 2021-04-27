@@ -7,6 +7,10 @@ React Admin——一个基于React、TypeScript、Vite的编写的管理系统�
 http://icloudmusic.top/reactAdmin
 
 
+## 视频教学地址
+
+https://www.bilibili.com/video/BV1Hg4y167v6?from=search&seid=14801539303278423807
+
 
 ## 使用
 
