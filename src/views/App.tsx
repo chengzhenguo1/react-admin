@@ -4,7 +4,7 @@ import { layoutRouteList } from '@src/router/utils'
 import { Spin } from 'antd'
 import { IRoute } from '@src/router/type'
 import 'antd/dist/antd.css'
-import '@src/styles/global.less'
+/* import '@src/styles/global.less' */
 
 const App = function () {
   return (
