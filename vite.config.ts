@@ -34,7 +34,6 @@ export default defineConfig({
   plugins: [
     reactRefresh(),
     styleImport({
-      // 按需引入, 有bug 引不全
       libs: [
         {
           libraryName: 'antd',
