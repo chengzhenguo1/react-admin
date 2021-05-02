@@ -91,11 +91,10 @@ const UserList: React.FC = memo(() => {
 
     /* 删除 */
     const onDeleteModal = useCallback(
-        (id:string) => {
-            deleteDepartmentFn(id).then((res) => {
-                message.success(res.message)
-                getUserData()
-            })
+        async (id:string) => {
+           const data = await deleteDepartmentFn(id)
+           message.success(data.message)
+           getUserData()
         },
         [],
     )
