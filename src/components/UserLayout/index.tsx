@@ -42,11 +42,11 @@ class UserLayout extends React.PureComponent<any, UserLayoutState> {
     return (
         <>
             <div className='container'>
+                <ul className='bubble-bgwall'>
+                    {/* eslint-disable-next-line react/no-array-index-key */}
+                    {new Array(10).fill(0).map((item, index) => <li key={index}>Admin</li>)}
+                </ul>
                 <div className='content'>
-                    <ul className='bubble-bgwall'>
-                        {/* eslint-disable-next-line react/no-array-index-key */}
-                        {new Array(10).fill(0).map((item, index) => <li key={index}>Admin</li>)}
-                    </ul>
                     <div className='top'>
                         <Typography.Title className='base-header'>
                             <Link to='/'>

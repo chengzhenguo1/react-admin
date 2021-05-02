@@ -52,7 +52,7 @@ const AsyncRoutes: React.FC<AsyncRoutesProps> = (props) => {
     */
    props.setSideBarRoutes(formatMenuToRoute(menuRouteList, props.role))
 
-   return <Spin />
+   return <Spin className='lazy_loading' />
   }
   return <TransitionMain>{props.children}</TransitionMain>
 }
