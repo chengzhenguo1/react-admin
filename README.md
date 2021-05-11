@@ -2,6 +2,8 @@
 
 React Admin——一个基于React、TypeScript、Vite的编写的管理系统。
 
+新建用户权限默认为admin,需要在用户管理中添加不同权限的用户。同时新建的用户也没有数据，需要自行添加。
+
 ## 项目体验地址
 
 http://icloudmusic.top/reactAdmin
