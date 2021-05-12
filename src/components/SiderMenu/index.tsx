@@ -58,7 +58,7 @@ const SiderMenu: React.FC<IProps> = memo((props) => {
           selectedKeys={[pathname]}
           defaultOpenKeys={width > Min_Width ? pathToList(pathname) : []}>
             {props?.routes?.map((route) => (
-            route.children && route.children.length > 0 ? renderSubMenu(route) : renderMenu(route)
+              route.children && route.children.length > 0 ? renderSubMenu(route) : renderMenu(route)
           ))}
         </Menu>
 )

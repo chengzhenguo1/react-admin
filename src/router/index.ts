@@ -56,7 +56,7 @@ export const routes: IRoute[] = [
             {
                 path: '/user',
                 redirect: '/user/add',
-                roles: ['user', 'admin'],
+                roles: ['admin'],
                 meta: {
                     title: '用户管理',
                     icon: 'UserOutlined',

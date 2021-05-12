@@ -4,7 +4,7 @@ import React, { memo } from 'react'
 import { connect } from 'react-redux'
 
 interface IProps {
-    roles?: Roles[]
+    roles: Roles[]
     role?: Roles
     component: any
     noMatch?: React.ReactNode | null // 不匹配后的结果
@@ -21,7 +21,7 @@ export const checkAuth = (roles?: Roles[], auth?: Roles) => {
 const AuthWrapper: React.FC<IProps> = memo(({
  roles, role, component: Component, noMatch = null, 
 }) => (
-         checkAuth(roles, role) ? Component : noMatch
+        checkAuth(roles, role) ? Component : noMatch
 ))
 
 export default connect(({ user: { role } }: IStoreState) => ({ role }), null)(AuthWrapper)

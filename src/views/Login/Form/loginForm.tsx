@@ -54,7 +54,8 @@ const LoginForm: React.FC<IProps> = memo((props) => {
     return (
         <Form
           form={form}
-          onFinish={onLogin}>
+          onFinish={onLogin}
+          initialValues={{ username: 'aadmin@163.com', password: 'aadmin' }}>
             <LoginItem.UserName form={form} />
             <LoginItem.PassWord form={form} />
             <LoginItem.Code form={form} module='login' />

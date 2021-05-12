@@ -194,7 +194,7 @@ const UserList: React.FC = memo(() => {
               visible={addVisible}
               id={id}
               onClose={() => { closeAddModal() }}
-              onConfirm={() => { closeAddModal() }} />
+              onConfirm={() => { closeAddModal(); getUserData() }} />
         </div>
 )
 })

@@ -55,7 +55,7 @@ const Login: React.FC = memo(() => {
              loop
              hover
              src={LoginPath}
-             style={{ height: '300px', width: '300px' }} />
+             style={{ height: '200px', width: '200px' }} />
            <div className='login-card'>
                <div className='login-header'>
                    <div className='login-title'>

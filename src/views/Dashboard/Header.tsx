@@ -8,9 +8,10 @@ import { UserState } from '@src/store/module/user'
 
 interface IProps {
     username?: UserState['username']
+    role?: UserState['role']
 }
 
-const DashboardHeader: React.FC<IProps> = memo(({ username }) => (
+const DashboardHeader: React.FC<IProps> = memo(({ username, role }) => (
     <div className='dashboard-header'>
         <div className='header-title'>
             控制台
@@ -30,7 +31,12 @@ const DashboardHeader: React.FC<IProps> = memo(({ username }) => (
                         ,祝你快乐一整天!
                     </div>
                     <div className='content-id'>
-                        前端萌新 | 邯郸学院 — 软件工程专业 — 某某年级
+                        新建用户默认角色为admin,您当前的角色为 
+                        {role}
+                        。
+                        测试数据需要自行添加; 
+                        <p>admin角色账号aadmin@163.com, aadmin</p>
+                        <p>user角色账号user@163.com, ausers</p>
                     </div>
                 </div>
             </div>
@@ -43,4 +49,4 @@ const DashboardHeader: React.FC<IProps> = memo(({ username }) => (
     </div>
 ))
 
-export default connect(({ user: { username } }: IStoreState) => ({ username }), null)(DashboardHeader)
+export default connect(({ user: { username, role } }: IStoreState) => ({ username, role }), null)(DashboardHeader)
