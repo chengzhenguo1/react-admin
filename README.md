@@ -96,7 +96,8 @@ $ yarn run dev
 
 ## API接口
 
-[api (web-jshtml.cn)](http://www.web-jshtml.cn/file/reactApi.html)
+[api (web-jshtml.cn)](http://apidoc.web-jshtml.cn/#/home)
+` 请求该地址即可http://old.web-jshtml.cn/api/react`
 
 ## 感谢
 
